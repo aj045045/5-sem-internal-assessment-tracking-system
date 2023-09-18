@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+:root{
+  /* primary: "#f97316", */
+  --primary:'#FF7F50',
+  /* --secondary: "#d6d3d1", */
+  --warning: "#fde047",
+  --info: "#67e8f9",
+  --danger: "#dc2626",
+  --assent: "#14b8a6",
+}
 body {
-  @apply bg-primary
+  @apply bg-orange-100;
 }
