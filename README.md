@@ -1,6 +1,6 @@
 # Internal-assessment-tracking-system
 
-Internal assessment tracking system for Department of Computer Science to Track the department assessment tracking 
+Internal assessment tracking system for Department of Computer Science to Track the department assessment tracking
 
 ## Installed Tools are :
 
@@ -8,12 +8,16 @@ Internal assessment tracking system for Department of Computer Science to Track 
 
 ```
 pip install flask
+pip install Flask-PyMongo
 ```
 
 ### For **Client** :
 
 ```
-
+npm i @nextui-org/react framer-motion
+npm i react-scroll
+npm i @types/react-scroll
+npm i @heroicons/react
 ```
 
 ## Language used
@@ -24,8 +28,7 @@ pip install flask
     Next.js
     Tailwindcss
     Typescript
-    Next UI
-    Extend UI
+
 ```
 
 **SERVER**:
