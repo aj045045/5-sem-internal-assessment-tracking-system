@@ -1,0 +1,4 @@
+CREATE A CLASS:
+    HAVE __init__
+    HAVE GETTER AND SETTER METHODS
+    

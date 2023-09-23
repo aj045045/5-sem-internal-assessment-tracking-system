@@ -1,97 +1,27 @@
 "use client";
-import React from "react";
-// import Image from "next/image";
 
-import {
-    Navbar,
-    NavbarBrand,
-    NavbarContent,
-    NavbarItem,
-    Link,
-    Button,
-    NavbarMenu,
-    NavbarMenuItem,
-    NavbarMenuToggle,
-} from "@nextui-org/react";
-
-function NavbarFun() {
-    const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-
-    const menuItems = [
-        "Profile",
-        "Dashboard",
-        "Team Settings",
-        "Help & Feedback",
-        "Log Out",
-    ];
-
+function FormFun() {
+    const type: string[] = ["userName", "emailId", "password", "userType"];
     return (
-        <Navbar onMenuOpenChange={setIsMenuOpen} className="bg-orange-100">
-            <NavbarContent>
-                <NavbarBrand>
-                    {/* <Image src={'/icons/dcs-logo.webp alt="image-cons" width={1} height={1}/> */}
-                    <p className="font-bold text-inherit">ACME</p>
-                </NavbarBrand>
-            </NavbarContent>
-            <NavbarContent className="hidden sm:flex gap-4" justify="center">
-                {menuItems.map((item, index) => (
-                    <NavbarItem key={`${item}-${index}`}>
-                        <Link
-                            color={
-                                index === 2
-                                    ? "primary"
-                                    : index === menuItems.length - 1
-                                    ? "danger"
-                                    : "foreground"
-                            }
-                            className="w-full"
-                            href="#"
-                            size="md"
-                        >
-                            {item}
-                        </Link>
-                    </NavbarItem>
+        <div className=" flex items-center justify-center flex-col gap-y-10">
+            <form
+                action="/api/sign-in"
+                className="bg-orange-200 flex flex-col w-40 "
+                method="POST"
+            >
+                {type.map((t, index) => (
+                    <input key={index} type="text" name={t} placeholder={t} />
                 ))}
-            </NavbarContent>
-            <NavbarContent justify="end">
-                <NavbarItem>
-                    <Button as={Link} color="primary" href="#" variant="flat">
-                        Sign Up
-                    </Button>
-                </NavbarItem>
-                <NavbarMenuToggle
-                    aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-                    className="sm:hidden"
-                />
-            </NavbarContent>
-            <NavbarMenu>
-                {menuItems.map((item, index) => (
-                    <NavbarMenuItem key={`${item}-${index}`}>
-                        <Link
-                            color={
-                                index === 2
-                                    ? "primary"
-                                    : index === menuItems.length - 1
-                                    ? "danger"
-                                    : "foreground"
-                            }
-                            className="w-full"
-                            href="#"
-                            size="md"
-                        >
-                            {item}
-                        </Link>
-                    </NavbarMenuItem>
-                ))}
-            </NavbarMenu>
-        </Navbar>
+                <input type="submit" value="Submit" />
+            </form>
+        </div>
     );
 }
 
 export default function TempApp() {
     return (
-        <>
-            <NavbarFun />
-        </>
+        <div className="py-56">
+            <FormFun />
+        </div>
     );
 }

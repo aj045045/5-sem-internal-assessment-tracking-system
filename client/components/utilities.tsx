@@ -2,7 +2,7 @@ export function Pill({ data, id = "none" }: { data: string; id: string }) {
     return (
         <div
             id={id}
-            className="px-3 py-1 mx-3 my-5 font-semibold text-orange-700 uppercase bg-orange-200 rounded-full shadow-md md:shadow-lg text-md md:text-xl  md:mx-6 md:my-10 w-fit"
+            className="px-3  py-1 mx-3 my-5 font-semibold text-orange-700 uppercase bg-orange-200 rounded-full shadow-md md:shadow-lg text-md md:text-xl  md:mx-6 md:my-10 w-fit mt-20 md:mt-28"
         >
             {data}
         </div>

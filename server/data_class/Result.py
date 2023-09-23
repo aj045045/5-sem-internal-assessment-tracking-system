@@ -1,4 +1,5 @@
-class Paper:
+import data_class.Database as Database
+class Result(Database):
     def add():
         return
 

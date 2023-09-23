@@ -1,4 +1,5 @@
-class User:
+import data_class.Database as Database
+class Paper(Database):
     def add():
         return
 

@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, animateScroll as scroll } from "react-scroll";
 
 import {
@@ -15,13 +15,13 @@ import {
     NavbarBrand,
     NavbarContent,
     NavbarItem,
-    // Link,
     NavbarMenu,
     NavbarMenuItem,
     NavbarMenuToggle,
 } from "@nextui-org/react";
 
 import { Input } from "./utilities";
+
 //REVIEW - Data card for Pages container
 export function DataCard({ data, type }: { data: string; type: string }) {
     return (
@@ -101,7 +101,12 @@ export function WelcomeTag() {
                     </Button>
                 </div>
             </div>
-            <Modal backdrop="blur" isOpen={isOpen} onClose={onClose} className="flex self-center">
+            <Modal
+                backdrop="blur"
+                isOpen={isOpen}
+                onClose={onClose}
+                className="flex self-center"
+            >
                 <ModalContent>
                     {(onClose) => (
                         <>
@@ -169,37 +174,38 @@ export function Aims({
 
 export function NavbarSignIn() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-    const menuItems = ["services", "amis", "video"];
-
+    const [activeSection, setActiveSection] = useState("");
+    const menuItems = ["services", "family", "aims", "faculty"];
     return (
         <Navbar
             onMenuOpenChange={setIsMenuOpen}
-            className="bg-orange-50 shadow-md shadow-stone-300"
+            className="bg-orange-100 shadow-md py-1 shadow-stone-300"
         >
             <NavbarContent>
                 <NavbarBrand>
-                    <p className="font-bold text-inherit">Department</p>
+                    <img
+                        src="/icons/dcs-logo-remove-bg.png"
+                        className="w-16 rounded-full"
+                        alt="brand-icons"
+                    />
                 </NavbarBrand>
             </NavbarContent>
             <NavbarContent className="hidden sm:flex gap-4" justify="start">
                 {menuItems.map((item, index) => (
                     <NavbarItem key={`${item}-${index}`}>
                         <Link
+                            onClick={() => setActiveSection(item)}
                             activeClass="active"
                             to={item}
                             spy={true}
                             smooth={true}
-                            offset={-70}
+                            offset={-100}
                             duration={500}
-                            color={
-                                index === 2
-                                    ? "primary"
-                                    : index === menuItems.length - 1
-                                    ? "danger"
-                                    : "foreground"
-                            }
-                            className="w-full capitalize"
+                            className={`w-full px-4 py-2.5 font-semibold capitalize tracking-widest font-sans ${
+                                item === activeSection
+                                    ? " text-teal-700  border-b-2 border-b-teal-500  underline-offset-4   "
+                                    : "hover:bg-orange-200 rounded-full text-stone-600"
+                            }`}
                             size={2}
                         >
                             {item}
@@ -221,15 +227,13 @@ export function NavbarSignIn() {
                             to={item}
                             spy={true}
                             smooth={true}
-                            offset={-70}
+                            offset={-100}
                             duration={500}
-                            color={
-                                index === 2
-                                    ? "primary"
-                                    : index === menuItems.length - 1
-                                    ? "danger"
-                                    : "foreground"
-                            }
+                            className={`w-full px-4 py-2.5 font-semibold capitalize tracking-widest font-sans ${
+                                item === activeSection
+                                    ? " text-teal-700  border-b-2 border-b-teal-500  underline-offset-4   "
+                                    : "hover:bg-orange-200 rounded-full text-stone-600"
+                            }`}
                             className=" capitalize w-full"
                             size={2}
                         >
@@ -239,5 +243,39 @@ export function NavbarSignIn() {
                 ))}
             </NavbarMenu>
         </Navbar>
+    );
+}
+
+//REVIEW - Faculty data
+export function DataFaculty({
+    image,
+    name,
+    designation,
+    specialization,
+}: {
+    image: string;
+    name: string;
+    designation: string;
+    specialization: string;
+}) {
+    return (
+        <>
+            <div className="flex border-t-2 border-t-stone-200 flex-row justify-evenly w-80 py-4 items-center mx-auto bg-white rounded-md shadow-md">
+                <img
+                    src={`/icons/${image}`}
+                    className="w-20 rounded-full border-2 shadow-inner border-stone-200"
+                    alt="Image temp"
+                />
+                <div className="flex w-40 flex-col gap-y-1 max-h-28">
+                    <div className="capitalize text-lg font-semibold">
+                        {name}
+                    </div>
+                    <div className="capitalize text-sm  ">{designation}</div>
+                    <div className="first-letter:uppercase overflow-hidden  text-sm text-stone-500">
+                        {specialization}
+                    </div>
+                </div>
+            </div>
+        </>
     );
 }

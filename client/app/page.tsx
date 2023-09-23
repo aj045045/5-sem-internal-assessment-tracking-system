@@ -4,11 +4,11 @@ import {
     Aims,
     NavbarSignIn,
 } from "@/components/1_layout";
-import { DataCardContainer } from "@/components/2_layout";
+import { DataCardContainer, DataFacultyContainer } from "@/components/2_layout";
 import { Pill } from "@/components/utilities";
 
 function SignIn() {
-    const featuredArrayData = [
+    const dataCard = [
         {
             value: "6",
             type: "Programs",
@@ -31,6 +31,37 @@ function SignIn() {
         },
     ];
 
+    const dataFaculty = [
+        {
+            image: "user.png",
+            name: "dr. hardik joshi",
+            designation: "assistant professor",
+            specialization: "phd in networking",
+        },
+        {
+            image: "user.png",
+            name: "mr. erik shah",
+            designation: "assistant professor",
+            specialization: "phd in machine learning",
+        },
+        {
+            image: "user.png",
+            name: "dr. jay patel",
+            designation: "assistant professor",
+            specialization: "phd in crime investigation",
+        },
+        {
+            image: "user.png",
+            name: "dr. bhumika shah",
+            designation: "professor",
+            specialization: "phd in data base management system and computer science specialist",
+        },{
+            image: "user.png",
+            name: "dr. maytri javeri",
+            designation: "professor",
+            specialization: "phd in machine learning",
+        },
+    ];
     const AimsList = [
         {
             id: 1,
@@ -59,10 +90,12 @@ function SignIn() {
             <HeroHeader />
             <hr className=" invisible md:mt-[80vh]  mt-[55vh]" />
             <Pill id="services" data="Services" />
-            <DataCardContainer dataList={featuredArrayData} />
+            <DataCardContainer dataList={dataCard} />
             <WelcomeTag />
+            <Pill id="family" data="family" />
             <div className="bg-orange-100 md:py-20 md:mx-10 rounded-md border-2 border-orange-300 mb-6 md:mb-20">
-                <video id="video"
+                <video
+                    id="family"
                     className=" aspect-video shadow-lg rounded-xl p-0.5 brightness-75 mx-auto"
                     autoPlay
                     muted
@@ -75,7 +108,9 @@ function SignIn() {
                     Your browser does not support the video tag.
                 </video>
             </div>
-            <Aims id="amis" lists={AimsList} />
+            <Aims id="aims" lists={AimsList} />
+            <Pill id="faculty" data="faculty" />
+            <DataFacultyContainer data={dataFaculty} />
         </>
     );
 }

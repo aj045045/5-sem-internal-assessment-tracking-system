@@ -1,4 +1,5 @@
-class Faculty:
+import data_class.Database as Database
+class Subject(Database):
     def add():
         return
 

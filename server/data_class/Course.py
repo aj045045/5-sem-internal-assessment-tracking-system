@@ -1,4 +1,6 @@
-class Course:
+import data_class.Database as Database
+
+class Course(Database):
 
     def add_course():
         return
