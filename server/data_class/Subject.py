@@ -1,4 +1,4 @@
-import data_class.Database as Database
+from .Database import Database
 class Subject(Database):
     def add():
         return

@@ -1,13 +1,14 @@
 from .Database import Database
 from datetime import datetime
 from hashlib import sha256
+from flask import redirect
 
 class User(Database):
 
-    def __init__(self):
+    def __init__(self,emailId,Password):
         self.__user_name = ""  # 50
-        self.__password = ""  # 64
-        self.__email_id = ""  # 150
+        self.__password = Password # 64
+        self.__email_id = emailId  # 150
         self.__last_logged_in = ""  # Date
         self.__user_type_id = ""
         self.logged_in = False
@@ -65,17 +66,13 @@ class User(Database):
     def set_logged_in(self, value):
         self.logged_in = value
 
-
-        """#REVIEW - Insert Data into user"""
-
-    def create(self, user_name, password, email_id, user_type):
-        time = datetime.now()
-        last_logged = time.strftime("%d-%m-%Y")
-        self._user_name = user_name
-        self._password = password
-        self._email_id = email_id
-        self._user_type_id = user_type
-        self._last_logged_in = last_logged
+    def encryptPassword(self,data):
+        sha256_hash = sha256()
+        sha256_hash.update(data.encode())
+        encryptPassword = sha256_hash.hexdigest()
+        return encryptPassword
+    
+    def convert_data(self):
         data = {
             "user_name": self._user_name,
             "password": self._password,
@@ -83,13 +80,40 @@ class User(Database):
             "last_logged_id": self._last_logged_in,
             "user_type_id": self._user_type_id
         }
+        return data
+        
+
+    """#REVIEW - Insert Data into user"""
+
+    def sign_up(self, user_name, password, email_id, user_type):
+        time = datetime.now()
+        last_logged = time.strftime("%d-%m-%Y")
+        self._user_name = user_name
+        self._password = self.encryptPassword(password)
+        self._email_id = email_id
+        self._user_type_id = user_type
+        self._last_logged_in = last_logged
+        data = self.convert_data()
         super().insert(data)
 
-    def logout():
-        return
+    def logout(self):
+        self.set_logged_in(False)
+        return redirect('/')
 
-    def displayUserAccess():
+    def display_user_Access():
         return
     
-    def validate_child_user(self, name, size):
-        return super().validate(name, size)
+    def forget_password():
+        return
+    
+    def update_user_detail():
+        return
+    
+    def login(self,emailId,password):
+        data = {
+            "email_id":emailId,
+            "password":password
+        }
+        loginUserData = super().view_one(data)
+        return loginUserData
+    

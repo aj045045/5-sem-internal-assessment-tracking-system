@@ -17,7 +17,7 @@ pip install Flask-PyMongo
 npm i @nextui-org/react framer-motion
 npm i react-scroll
 npm i @types/react-scroll
-npm i @heroicons/react
+npm install react-icons --save
 ```
 
 ## Language used

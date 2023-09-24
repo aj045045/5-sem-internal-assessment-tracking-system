@@ -83,19 +83,19 @@ export function WelcomeTag() {
     }, 2000);
     return (
         <>
-            <div className="bg-teal-50 justify-center mx-5 rounded-md md:w-auto md:mx-28 p-4 my-6 border-2 border-teal-400 flex w-fit flex-col sm:mx-auto md:my-20">
-                <div className="text-xl text-stone-500 md:text-2xl uppercase font-sans text-center font-extrabold tracking-wider">
+            <div className="flex flex-col justify-center p-4 mx-5 my-6 border-2 border-teal-400 rounded-md bg-teal-50 md:w-auto md:mx-28 w-fit sm:mx-auto md:my-20">
+                <div className="font-sans text-xl font-extrabold tracking-wider text-center uppercase text-stone-500 md:text-2xl">
                     Welcome to Internal Assessment System
                 </div>
                 <div className="flex flex-col my-4 md:flex-row md:mx-auto md:space-x-10">
-                    <div className="bg-stone-100 text-justify text-md px-4 py-2 rounded-md border-stone-300 border-2">
+                    <div className="px-4 py-2 text-justify border-2 rounded-md bg-stone-100 text-md border-stone-300">
                         Explore our Programs, Research, and Resources.
                     </div>
                     <Button
                         onPress={() => {
                             onOpen();
                         }}
-                        className="mt-4 mx-auto rounded-full px-4 md:focus:ring-4 md:text-lg md:my-auto py-1 font-semibold bg-orange-600 hover:bg-orange-500 focus:ring-2 focus:ring-orange-300  text-white w-fit"
+                        className="px-4 py-2 mx-auto mt-4 font-semibold text-white bg-orange-600 rounded-full md:focus:ring-4 md:text-lg md:my-auto hover:bg-orange-500 focus:ring-2 focus:ring-orange-300 w-fit"
                     >
                         SIGN&nbsp;IN
                     </Button>
@@ -110,7 +110,7 @@ export function WelcomeTag() {
                 <ModalContent>
                     {(onClose) => (
                         <>
-                            <ModalHeader className="flex flex-col gap-1 bg-teal-100 font-sans">
+                            <ModalHeader className="flex flex-col gap-1 font-sans bg-teal-100">
                                 Sign in to your account
                             </ModalHeader>
                             <ModalBody>
@@ -136,7 +136,7 @@ export function WelcomeTag() {
                                     Close
                                 </Button>
                                 <Button
-                                    className="bg-orange-600 text-lg hover:bg-orange-500 text-white"
+                                    className="text-lg text-white bg-orange-600 hover:bg-orange-500"
                                     onPress={onClose}
                                 >
                                     Action
@@ -179,7 +179,7 @@ export function NavbarSignIn() {
     return (
         <Navbar
             onMenuOpenChange={setIsMenuOpen}
-            className="bg-orange-100 shadow-md py-1 shadow-stone-300"
+            className="py-1 bg-orange-100 shadow-md shadow-stone-300"
         >
             <NavbarContent>
                 <NavbarBrand>
@@ -190,7 +190,7 @@ export function NavbarSignIn() {
                     />
                 </NavbarBrand>
             </NavbarContent>
-            <NavbarContent className="hidden sm:flex gap-4" justify="start">
+            <NavbarContent className="hidden gap-4 sm:flex" justify="start">
                 {menuItems.map((item, index) => (
                     <NavbarItem key={`${item}-${index}`}>
                         <Link
@@ -229,12 +229,11 @@ export function NavbarSignIn() {
                             smooth={true}
                             offset={-100}
                             duration={500}
-                            className={`w-full px-4 py-2.5 font-semibold capitalize tracking-widest font-sans ${
+                            className={`w-full capitalize px-4 py-2.5 font-semibold capitalize tracking-widest font-sans ${
                                 item === activeSection
                                     ? " text-teal-700  border-b-2 border-b-teal-500  underline-offset-4   "
                                     : "hover:bg-orange-200 rounded-full text-stone-600"
                             }`}
-                            className=" capitalize w-full"
                             size={2}
                         >
                             {item}
@@ -260,18 +259,18 @@ export function DataFaculty({
 }) {
     return (
         <>
-            <div className="flex border-t-2 border-t-stone-200 flex-row justify-evenly w-80 py-4 items-center mx-auto bg-white rounded-md shadow-md">
+            <div className="flex flex-row items-center py-4 mx-auto bg-white border-t-2 rounded-md shadow-md border-t-stone-200 justify-evenly w-80">
                 <img
                     src={`/icons/${image}`}
-                    className="w-20 rounded-full border-2 shadow-inner border-stone-200"
+                    className="w-20 border-2 rounded-full shadow-inner border-stone-200"
                     alt="Image temp"
                 />
-                <div className="flex w-40 flex-col gap-y-1 max-h-28">
-                    <div className="capitalize text-lg font-semibold">
+                <div className="flex flex-col w-40 gap-y-1 max-h-28">
+                    <div className="text-lg font-semibold capitalize">
                         {name}
                     </div>
-                    <div className="capitalize text-sm  ">{designation}</div>
-                    <div className="first-letter:uppercase overflow-hidden  text-sm text-stone-500">
+                    <div className="text-sm capitalize ">{designation}</div>
+                    <div className="overflow-hidden text-sm first-letter:uppercase text-stone-500">
                         {specialization}
                     </div>
                 </div>

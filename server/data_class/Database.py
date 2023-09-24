@@ -16,28 +16,61 @@ class Database():
         self._collection = value
 
     def insert(self, data):
-        self.collection.insert_many(data)
+        result = self.collection.insert_many(data)
+        if result.acknowledged:
+            return True
+        else:
+            return False
 
     def insert_one(self,data):
-        self.collection.insert_one(data)
+        result = self.collection.insert_one(data)
+        if result.acknowledged:
+            return True
+        else:
+            return False
 
     def delete(self, data):
-        self.collection.delete_many(data)
+        result = self.collection.delete_many(data)
+        if result.deleted_count > 0:
+            return True
+        else:
+            return False
+
 
     def delete_one(self, data):
-        self.collection.delete_one(data)
+        result = self.collection.delete_one(data)
+        if result.deleted_count == 1:
+            return True
+        else:
+            return False
 
     def update(self, update):
-        self.collection.update_many({}, update)
+        result = self.collection.update_many({}, update)
+        if result.modified_count > 0:
+            return True
+        else:
+            return False
 
     def update_one(self, find, update):
-        self.collection.update_one(find, update)
+        result = self.collection.update_one(find, update)
+        if result.modified_count == 1:
+            return True
+        else:
+            return False
 
     def view(self):
-        return self.collection.find()
+        result =  self.collection.find()
+        if result is None:
+            return False
+        else:
+            return result
 
     def view_one(self, data):
-        return self.collection.find({}, data)
+        result =  self.collection.find({}, data)
+        if result is None:
+            return False
+        else:
+            return result
     
     def aggregate(self,data):
         return self.collection.aggregate([data])

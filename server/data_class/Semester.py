@@ -1,4 +1,5 @@
-import data_class.Database as Database
+from .Database import Database
+
 class Semester(Database):
     def add():
         return
