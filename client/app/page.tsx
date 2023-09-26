@@ -33,30 +33,30 @@ function SignIn() {
 
     const dataFaculty = [
         {
-            image: "user.png",
+            image: "user.svg",
             name: "dr. hardik joshi",
             designation: "assistant professor",
             specialization: "phd in networking",
         },
         {
-            image: "user.png",
+            image: "user.svg",
             name: "mr. erik shah",
             designation: "assistant professor",
             specialization: "phd in machine learning",
         },
         {
-            image: "user.png",
+            image: "user.svg",
             name: "dr. jay patel",
             designation: "assistant professor",
             specialization: "phd in crime investigation",
         },
         {
-            image: "user.png",
+            image: "female.svg",
             name: "dr. bhumika shah",
             designation: "professor",
             specialization: "phd in data base management system and computer science specialist",
         },{
-            image: "user.png",
+            image: "female.svg",
             name: "dr. maytri javeri",
             designation: "professor",
             specialization: "phd in machine learning",

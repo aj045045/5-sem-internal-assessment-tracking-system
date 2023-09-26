@@ -18,29 +18,29 @@ class Database():
     def insert(self, data):
         result = self.collection.insert_many(data)
         if result.acknowledged:
-            return True
+            return result.inserted_ids
         else:
             return False
 
     def insert_one(self,data):
         result = self.collection.insert_one(data)
         if result.acknowledged:
-            return True
+            return result.inserted_id
         else:
             return False
 
     def delete(self, data):
         result = self.collection.delete_many(data)
-        if result.deleted_count > 0:
+        if result > 0:
             return True
         else:
             return False
 
 
     def delete_one(self, data):
-        result = self.collection.delete_one(data)
-        if result.deleted_count == 1:
-            return True
+        result = self.collection.find_one_and_delete(data)
+        if result:
+            return result['_id']
         else:
             return False
 
@@ -52,9 +52,9 @@ class Database():
             return False
 
     def update_one(self, find, update):
-        result = self.collection.update_one(find, update)
-        if result.modified_count == 1:
-            return True
+        result = self.collection.find_one_and_update(find, update)
+        if result:
+            return result['_id']
         else:
             return False
 

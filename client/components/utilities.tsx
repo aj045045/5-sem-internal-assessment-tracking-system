@@ -1,5 +1,14 @@
 "use client";
-import { Button } from "@nextui-org/react";
+import {
+    Modal,
+    ModalContent,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
+    Button,
+    useDisclosure,
+} from "@nextui-org/react";
+import { useState } from "react";
 export function Pill({ data, id = "none" }: { data: string; id: string }) {
     return (
         <div
@@ -39,5 +48,51 @@ export function Input({
 }
 
 export function ButtonTag({ data }: { data: string }) {
-    return <Button className="mx-auto my-4 font-semibold bg-orange-600 rounded-full text-stone-100 w-fit focus:ring-4 text-md focus:ring-offset-0 focus:ring-orange-400 px-unit-2 h-unit-8">{data}</Button>;
+    return (
+        <Button className="mx-auto my-4 font-semibold bg-orange-600 rounded-full text-stone-100 w-fit focus:ring-4 text-md focus:ring-offset-0 focus:ring-orange-400 px-unit-2 h-unit-8">
+            {data}
+        </Button>
+    );
+}
+
+//REVIEW - Welcome tag for sign in
+export function ErrorTag({ type, data }: { type: string; data: string }) {
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const [runModal, setRunModal] = useState(true);
+    
+    setTimeout(() => {
+        if (runModal) {
+            onOpen();
+            setRunModal(false);
+        }
+    }, 1000);
+    return (
+        <>
+            <Modal
+                backdrop="blur"
+                isOpen={isOpen}
+                onClose={onClose}
+                className="flex self-start mt-10"
+            >
+                <ModalContent>
+                    {(onClose) => (
+                        <>
+                            <ModalHeader className="flex flex-col gap-1 font-sans bg-teal-100 capitalize text-xl tracking-wider">{type}</ModalHeader>
+                            <ModalBody>
+                                {data}
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button
+                                    className="text-xl font-semibold text-white px-20 bg-orange-600 hover:bg-orange-500 mx-auto"
+                                    onPress={onClose}
+                                >
+                                    Close
+                                </Button>
+                            </ModalFooter>
+                        </>
+                    )}
+                </ModalContent>
+            </Modal>
+        </>
+    );
 }

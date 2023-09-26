@@ -1,60 +1,82 @@
 "use client";
-// import { LuPanelLeftClose, LuLayoutDashboard,LuPanelLeftOpen } from "react-icons/lu";
-// import { ButtonTag } from "@/components/utilities";
-// import { useState } from "react";
-// // function FormFun() {
-// //     const type: string[] = ["userName", "emailId", "password", "userType"];
-// //     return (
-// //         <div className="flex flex-col items-center justify-center gap-y-10">
-// //             <form
-// //                 action="/api/sign-in"
-// //                 className="flex flex-col w-40 bg-orange-200 "
-// //                 method="POST"
-// //             >
-// //                 {type.map((t, index) => (
+import React from "react";
+import { useState } from "react";
+import { ErrorTag } from "@/components/utilities";
+type FormData = {
+    userName: string;
+    Password: string;
+    emailId: string;
+    userType: string;
+};
+const FormFun: React.FC = () => {
+    const [formData, setFormData] = useState<FormData>({
+        userName: "",
+        Password: "",
+        emailId: "",
+        userType: "",
+    });
 
-// //                     <input key={index} type="text" name={t} placeholder={t} />
-// //                 ))}
-// //                 <input type="submit" value="Submit" />
-// //             </form>
-// //         </div>
-// //     );
-// // }
-// function SideNav({children}:{children:React.ReactNode}) {
-//     const [openTab, setOpenTab] = useState(false);
-//     const handlePanel = () => {
-//         openTab === true ? setOpenTab(false) : setOpenTab(true);
-//     }
-//     return (
-//         <div className="flex flex-row">
-//             <div className={`flex flex-col h-full py-2  mr-2 bg-orange-200  overflow-x-hidden z-10 transition-width duration-500 delay-75 ease-linear  fixed ${openTab === true ?`w-48 md:w-64 pl-2 border-r-2 border-stone-300 ` : `w-0` }`}>
-//                 <div className="p-1 mt-2 ml-auto mr-4 text-lg bg-orange-300 rounded md:text-2xl " onClick={() => { handlePanel() }}>
-//                     <LuPanelLeftClose />
-//                 </div>
-//                 <div className="flex flex-row mt-4 space-x-3 "><img className="w-6 rounded-full md:w-12" src="/icons/user.png"/>
-//                     <span className="self-center text-md md:text-xl">Ansh Yadav</span>
-//                     <span className="content-start px-1 mt-1 text-xs md:text-sm font-semibold text-teal-700 capitalize bg-teal-300 rounded-full shadow-md h-min md:px-2">admin</span>
-//                 </div>
-//                 <div className="flex flex-row justify-center h-8 mt-4 space-x-4 rounded-md hover:bg-orange-300">
-//                     <span className="self-center text-lg md:text-xl"><LuLayoutDashboard /></span>
-//                     <span className="self-center text-sm capitalize md:text-lg">dashboard</span>
-//                 </div>
-//                 <ButtonTag data="Sign out" />
-//             </div>
-//             <div>
-//                 <div className="p-1 bg-orange-300 m-3 w-7 h-auto text-xl rounded-lg justify-center flex " onClick={() => { handlePanel() }}><LuPanelLeftOpen/></div>
-//                 {children}
-//             </div>
-//         </div>
-//     );
-// }
+    const type: string[] = ["userName", "emailId", "Password", "userType"];
+
+    const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleFormSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        try {
+            console.log("TRY TO SUBMIT");
+            const response = await fetch("/api/user/submit-form", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+                console.log("SUCCESS");
+                const responseData = await response.json();
+                // Handle success, e.g., redirect or show a success message
+                console.log("SUCCESS FULL", responseData.redirect);
+            } else {
+                console.log("ERROR FOUND");
+                // Handle errors
+            }
+        } catch (error) {
+            console.error("Error", error);
+        }
+    };
+
+    return (
+        <div className="flex flex-col items-center justify-center gap-y-10">
+            <form
+                onSubmit={handleFormSubmit}
+                className="flex flex-col w-39 bg-orange-200"
+            >
+                {type.map((t, index) => (
+                    <input
+                        key={index}
+                        onChange={handleFormChange}
+                        value={formData[t]}
+                        type="text"
+                        name={t}
+                        placeholder={t}
+                    />
+                ))}
+                <input type="submit" value="Submit" />
+            </form>
+        </div>
+    );
+};
 
 export default function TempApp() {
     return (
         <>
-            <div className="h-96">
-                {/* <SideNav /> */}
-                {/* <FormFun /> */}
+            <div className="hs-95">
+                {/* <ErrorTag type="error" data="Invalid password or userName"/> */}
+                <FormFun />
             </div>
         </>
     );

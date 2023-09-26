@@ -66,13 +66,22 @@ class User(Database):
     def set_logged_in(self, value):
         self.logged_in = value
 
-    def encryptPassword(self,data):
+    def encryptPassword(self):
+        data = self.__password
         sha256_hash = sha256()
         sha256_hash.update(data.encode())
         encryptPassword = sha256_hash.hexdigest()
         return encryptPassword
     
-    def convert_data(self):
+        
+    """#REVIEW - START THE CODING"""
+    def sign_up(self, user_name, user_type):
+        time = datetime.now()
+        last_logged = time.strftime("%d-%m-%Y")
+        self._user_name = user_name
+        self._password = self.encryptPassword()
+        self._user_type_id = user_type
+        self._last_logged_in = last_logged
         data = {
             "user_name": self._user_name,
             "password": self._password,
@@ -80,22 +89,8 @@ class User(Database):
             "last_logged_id": self._last_logged_in,
             "user_type_id": self._user_type_id
         }
-        return data
+        return super().insert_one(data)
         
-
-    """#REVIEW - Insert Data into user"""
-
-    def sign_up(self, user_name, password, email_id, user_type):
-        time = datetime.now()
-        last_logged = time.strftime("%d-%m-%Y")
-        self._user_name = user_name
-        self._password = self.encryptPassword(password)
-        self._email_id = email_id
-        self._user_type_id = user_type
-        self._last_logged_in = last_logged
-        data = self.convert_data()
-        super().insert(data)
-
     def logout(self):
         self.set_logged_in(False)
         return redirect('/')
@@ -116,4 +111,3 @@ class User(Database):
         }
         loginUserData = super().view_one(data)
         return loginUserData
-    
