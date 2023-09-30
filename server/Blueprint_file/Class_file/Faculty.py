@@ -1,20 +1,23 @@
-import User
-
+from .User import User
+from .Database import Database
 
 class Faculty(User):
-    def __init__(self,emailId,password):
+
+    def __init__(self, emailId, password):
         self.__designation = ""  # 100
         self.__phone_no = 0000000000  # 11
         self.__specialization = ""  # 100
-        super().__init__(emailId,password)
-
+        super().__init__(emailId, password)
+        self.db = Database('faculty')        
+        # super(Database,self).__init__('faculty')
+        
     @property
     def _designation(self):
         return self.__designation
 
     @_designation.setter
     def _designation(self, value):
-        if value > 100:
+        if len(value) > 100:
             value = value[:100]
         self.__designation = value
 
@@ -24,7 +27,7 @@ class Faculty(User):
 
     @_phone_no.setter
     def _phone_no(self, value):
-        if value > 10:
+        if len(value) > 10:
             value = value[:10]
         self.__phone_no = value
 
@@ -34,12 +37,23 @@ class Faculty(User):
 
     @_specialization.setter
     def _specialization(self, value):
-        if value > 100:
+        if len(value) > 100:
             value = value[:100]
         self.__specialization = value
-    
-    def add_faculty(self,):
-        return
+
+    def add_faculty(self,profile,userName,designation,phoneNo,specialization):
+        self._designation = designation
+        self._phone_no = phoneNo
+        self._specialization = specialization
+        userId = super().sign_up(profile,userName,"faculty")
+        data = {
+            "designation":self._designation,
+            "phone_no":self._phone_no,
+            "specialization":self._specialization,
+            "userId":userId,
+        }
+        return self.db.insert_one(data)
+        
 
     def update_faculty(self,):
         return

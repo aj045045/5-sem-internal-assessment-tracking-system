@@ -8,6 +8,7 @@ type FormData = {
     emailId: string;
     userType: string;
 };
+
 const FormFun: React.FC = () => {
     const [formData, setFormData] = useState<FormData>({
         userName: "",
@@ -16,37 +17,43 @@ const FormFun: React.FC = () => {
         userType: "",
     });
 
-    const type: string[] = ["userName", "emailId", "Password", "userType"];
+    const type: string[] = ["userName", "emailId", "password", "userType"];
 
     const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleFormSubmit = async (e: React.FormEvent) => {
+    const handleFormSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-
-        try {
-            console.log("TRY TO SUBMIT");
-            const response = await fetch("/api/user/submit-form", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formData),
+        console.log("TRY TO SUBMIT");
+        fetch("/api/user/submit-form", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+        })
+            .then((response: Response) => {
+                if (!response.ok) {
+                    console.log("ERROR", response);
+                }
+                console.log("json data");
+                return response.json();
+            })
+            .then((dataValue: any) => {
+                console.log("data", dataValue);
+                console.log("redirect", dataValue.redirect);
+                if (dataValue.redirect == "true") {
+                    console.log("redirect is /");
+                }
+                if (dataValue.redirect == "false") {
+                    console.log("redirect is not /", dataValue);
+                }
+            })
+            .catch((error: Error) => {
+                console.error("Error:", error);
             });
-
-            if (response.ok) {
-                console.log("SUCCESS");
-                const responseData = await response.json();
-                // Handle success, e.g., redirect or show a success message
-                console.log("SUCCESS FULL", responseData.redirect);
-            } else {
-                console.log("ERROR FOUND");
-                // Handle errors
-            }
-        } catch (error) {
-            console.error("Error", error);
-        }
+        console.log("finish");
     };
 
     return (
@@ -75,7 +82,7 @@ export default function TempApp() {
     return (
         <>
             <div className="hs-95">
-                {/* <ErrorTag type="error" data="Invalid password or userName"/> */}
+                <ErrorTag type="question" data="Invalid password or userName" />
                 <FormFun />
             </div>
         </>

@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { Link, animateScroll as scroll } from "react-scroll";
-
+import { ErrorTag, InputClass } from "./utilities";
 import {
     Modal,
     ModalContent,
@@ -19,8 +19,6 @@ import {
     NavbarMenuItem,
     NavbarMenuToggle,
 } from "@nextui-org/react";
-
-import { Input } from "./utilities";
 
 //REVIEW - Data card for Pages container
 export function DataCard({ data, type }: { data: string; type: string }) {
@@ -72,9 +70,45 @@ export function HeroHeader() {
 
 //REVIEW - Welcome tag for sign in
 export function WelcomeTag() {
+    type FormData = {
+        emailId: string;
+        password: string;
+    };
+    const [showPassword, setShowPassword] = useState(false);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [runModal, setRunModal] = useState(true);
-
+    const [formData, setFormData] = useState<FormData>({
+        emailId: "",
+        password: "",
+    });
+    const handleFormSubmit = (e: React.FocusEvent) => {
+        e.preventDefault();
+        fetch("/api/user/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(formData),
+        })
+            .then((response: Response) => {
+                if (!response.ok) {
+                    <ErrorTag
+                        type="warning"
+                        data="Connection error try after sometime"
+                    />;
+                }
+                return response.json();
+            })
+            .then((dataValue: any) => {
+                if (dataValue.redirect == "false") {
+                    <ErrorTag
+                        type="alert"
+                        data="Invalid User Name or Password try Again"
+                    />;
+                }
+            });
+    };
+    const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
     setTimeout(() => {
         if (runModal) {
             onOpen();
@@ -110,22 +144,59 @@ export function WelcomeTag() {
                 <ModalContent>
                     {(onClose) => (
                         <>
-                            <ModalHeader className="flex flex-col gap-1 font-sans bg-teal-100">
+                            <ModalHeader className="flex flex-col gap-1 font-sans bg-teal-100 text-teal-600">
                                 Sign in to your account
                             </ModalHeader>
                             <ModalBody>
-                                <form action="" method="post">
-                                    <Input
+                                <div className="relative mt-6">
+                                    <input
                                         type="email"
-                                        placeholder=" User name"
-                                        name="email-id"
+                                        name="emailId"
+                                        placeholder="emailId"
+                                        className={InputClass.input}
+                                        onChange={handleFormChange}
                                     />
-                                    <Input
-                                        type="password"
-                                        placeholder="Password"
-                                        name="Password"
+                                    <label
+                                        htmlFor="emailId"
+                                        className={InputClass.label}
+                                    >
+                                        Email Id
+                                    </label>
+                                </div>
+                                <div className="relative mt-5">
+                                    <input
+                                        type={
+                                            showPassword === true
+                                                ? "text"
+                                                : "password"
+                                        }
+                                        onChange={handleFormChange}
+                                        name="password"
+                                        placeholder="password"
+                                        className={InputClass.input}
                                     />
-                                </form>
+                                    <label
+                                        htmlFor="password"
+                                        className={InputClass.label}
+                                    >
+                                        Password
+                                    </label>
+                                </div>
+                                <div className="flex flex-row text-xl gap-x-4 mt-3">
+                                    <input
+                                        type="checkbox"
+                                        className="w-5"
+                                        name="togglePassword"
+                                        onChange={() => {
+                                            showPassword === true
+                                                ? setShowPassword(false)
+                                                : setShowPassword(true);
+                                        }}
+                                    />
+                                    <label htmlFor="togglePassword">
+                                        Show password
+                                    </label>
+                                </div>
                             </ModalBody>
                             <ModalFooter>
                                 <Button
@@ -138,8 +209,9 @@ export function WelcomeTag() {
                                 <Button
                                     className="text-lg text-white bg-orange-600 hover:bg-orange-500"
                                     onPress={onClose}
+                                    onClick={() => handleFormSubmit}
                                 >
-                                    Action
+                                    Submit
                                 </Button>
                             </ModalFooter>
                         </>
@@ -151,18 +223,9 @@ export function WelcomeTag() {
 }
 
 //REVIEW - Aims Data to configure
-export function Aims({
-    lists,
-    id = "none",
-}: {
-    lists: { id: number; data: string }[];
-    id: string;
-}) {
+export function Aims({ lists }: { lists: { id: number; data: string }[] }) {
     return (
-        <ul
-            id={id}
-            className="grid gap-y-4 marker:text-teal-600 marker:font-bold md:mx-20 mx-10 text-sm md:text-md lg:text-lg items-center text-justify list-[upper-roman] tracking-wider md:[word-spacing:10px] [word-spacing:5px] font-sans text-neutral-600 list-outside hyphens-auto"
-        >
+        <ul className="grid gap-y-4 marker:text-teal-600 marker:font-bold md:mx-20 mx-10 text-sm md:text-md lg:text-lg items-center text-justify list-[upper-roman] tracking-wider md:[word-spacing:10px] [word-spacing:5px] font-sans text-neutral-600 list-outside hyphens-auto">
             {lists.map((list) => (
                 <li key={list.id}>{list.data}</li>
             ))}
@@ -199,7 +262,7 @@ export function NavbarSignIn() {
                             to={item}
                             spy={true}
                             smooth={true}
-                            offset={-100}
+                            offset={-50}
                             duration={500}
                             className={`w-full px-4 py-2.5 font-semibold capitalize tracking-widest font-sans ${
                                 item === activeSection
@@ -259,7 +322,7 @@ export function DataFaculty({
 }) {
     return (
         <>
-            <div className="flex flex-row items-center py-4 mx-auto bg-white border-t-2 rounded-md shadow-md border-t-stone-200 justify-evenly w-80">
+            <div className="flex border-l-4 border-l-teal-500 flex-row items-center py-4 mx-auto bg-white border-t-2 rounded-md shadow-md border-t-stone-200 justify-evenly w-80">
                 <img
                     src={`/icons/${image}`}
                     className="w-20 border-2 rounded-full shadow-inner border-stone-200"

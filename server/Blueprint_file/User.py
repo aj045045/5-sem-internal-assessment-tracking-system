@@ -1,19 +1,51 @@
-from flask import request
+from flask import request, jsonify,redirect
 from . import user_bp
-from Class_file import User 
-import sys
-sys.path.append('./Class_file')
+from . import Class_file
+from werkzeug.utils import secure_filename
+
 @user_bp.route('/submit-form', methods=['POST'])
 def SingIn():
-    name = request.form.get('userName')
-    password = request.form.get('password')
-    emailId = request.form.get('emailId')
-    userType = request.form.get('userType')
     data = request.get_json()
     name = data.get('userName')
     password = data.get('password')
     emailId = data.get('emailId')
-    userType = request.get('userType')
-    user_obj = User()
-    user_obj.create(name, password, emailId, userType)
-    return {"redirect":"Data Submitted"},200
+    userType = data.get('userType')
+    user_obj = Class_file.User(emailId, password)
+    response = user_obj.sign_up(name, userType)
+    if response is False:
+        return jsonify({"redirect": 'false'})
+    else:
+        return jsonify({"redirect": 'true'})
+
+
+@user_bp.route('/login', methods=['POST'])
+def Login():
+    data = request.get_json()
+    emailId = data.get('emailId')
+    password = data.get('password')
+    user_obj = Class_file.User(emailId, password)
+    response = user_obj.login()
+    if response is False:
+        return jsonify({'redirect': 'Invalid userName or Password'})
+    else:
+        return jsonify({'redirect': 'true'})
+
+
+@user_bp.route('/faculty-sign-up', methods=['POST'])
+def add_faculty():
+    userName = request.form.get('userName')
+    emailId = request.form.get('emailId')
+    password = request.form.get('password')
+    image = request.files['profile']
+    file_extension = image.filename.rsplit('.', 1)[1].lower()
+    profileName = secure_filename(userName)
+    #REVIEW - Save file image
+    image.save('../client/public/faculty/'+profileName+'.'+file_extension)
+    profile = 'faculty/'+profileName+"."+file_extension
+    designation = request.form.get('designation')
+    phoneNo = request.form.get('phoneNo')
+    specialization = request.form.get('specialization')
+    faculty_obj = Class_file.Faculty(emailId,password)
+    faculty_obj.add_faculty(profile,userName,designation,phoneNo,specialization)
+    return redirect('/admin/faculty')
+    

@@ -1,12 +1,11 @@
-__all__ = ["Assessment", "Course", "Paper", "User","Faculty","Database","Result","Semester","Student","Subject"]
+from .Assessment import Assessment
+from .Course  import Course
+from .Database import Database
+from .Faculty import Faculty
+from .Paper import Paper
+from .Semester import Semester
+from .Student import Student
+from .Subject import Subject
+from .User import User
 
-from . import Assessment
-from . import Course
-from . import Database
-from . import Faculty
-from . import Paper
-from . import Result
-from . import Semester
-from . import Student
-from . import Subject
-from . import User
+__all__ = ['Assessment', 'Course','Database','Faculty','Paper','Semester','Student','Subject','User']

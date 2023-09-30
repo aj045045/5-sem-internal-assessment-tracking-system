@@ -54,8 +54,10 @@ function SignIn() {
             image: "female.svg",
             name: "dr. bhumika shah",
             designation: "professor",
-            specialization: "phd in data base management system and computer science specialist",
-        },{
+            specialization:
+                "phd in data base management system and computer science specialist",
+        },
+        {
             image: "female.svg",
             name: "dr. maytri javeri",
             designation: "professor",
@@ -89,13 +91,14 @@ function SignIn() {
             <NavbarSignIn />
             <HeroHeader />
             <hr className=" invisible md:mt-[80vh]  mt-[55vh]" />
-            <Pill id="services" data="Services" />
+            <hr className="invisible" id="services" />
+            <Pill data="Services" />
             <DataCardContainer dataList={dataCard} />
             <WelcomeTag />
-            <Pill id="family" data="family" />
+            <hr className="invisible" id="family" />
+            <Pill data="family" />
             <div className="bg-orange-100 md:py-20 md:mx-10 rounded-md border-2 border-orange-300 mb-6 md:mb-20">
                 <video
-                    id="family"
                     className=" aspect-video shadow-lg rounded-xl p-0.5 brightness-75 mx-auto"
                     autoPlay
                     muted
@@ -107,9 +110,11 @@ function SignIn() {
                     />
                     Your browser does not support the video tag.
                 </video>
+                <hr className="invisible"  id="aims"/>
             </div>
-            <Aims id="aims" lists={AimsList} />
-            <Pill id="faculty" data="faculty" />
+            <Aims lists={AimsList} />
+            <hr className="invisible" id="faculty" />
+            <Pill data="faculty" />
             <DataFacultyContainer data={dataFaculty} />
         </>
     );
