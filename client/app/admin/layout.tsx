@@ -16,13 +16,15 @@ import {
 import { Accordion, AccordionItem } from "@nextui-org/accordion";
 import { ImBooks } from "react-icons/im";
 import { useState } from "react";
-import Link from "next/link";
+import { useRouter,usePathname } from "next/navigation";
 import { ButtonClass } from "@/components/utilities";
 export default function SideNav({ children }: { children: React.ReactNode }) {
     const [openTab, setOpenTab] = useState(false);
     const handlePanel = () => {
         openTab === true ? setOpenTab(false) : setOpenTab(true);
     };
+    const router = useRouter();
+    const pathName = usePathname();
     return (
         <>
             <div className="flex flex-row">
@@ -58,64 +60,67 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
                             <span className="self-center text-lg md:text-xl">
                                 <LuLayoutDashboard />
                             </span>
-                            <Link
-                                href={"/admin"}
+                            <div onClick={() => { pathName === '/admin/dashboard' ? router.replace('/admin/dashboard') : router.push('/admin/dashboard') }}
                                 className="self-center text-sm capitalize md:text-lg"
                             >
                                 dashboard
-                            </Link>
+                            </div>
                         </div>
                         <div className="flex flex-row justify-center h-8 mt-4 space-x-4 rounded-md hover:bg-orange-300">
                             <span className="self-center text-lg md:text-xl">
                                 <FaTasks />
                             </span>
-                            <Link
-                                href={"admin/assessment"}
+                            <div
+                                onClick={() => { pathName === '/admin/assessment' ? router.replace('/admin/assessment') : router.push('/admin/assessment') }}
                                 className="self-center text-sm capitalize md:text-lg"
                             >
                                 Assessment
-                            </Link>
-                        </div>{" "}
+                            </div>
+                        </div>
                         <div className="flex flex-row justify-center h-8 mt-4 space-x-4 rounded-md hover:bg-orange-300">
                             <span className="self-center text-lg md:text-xl">
                                 <ImBooks />
                             </span>
-                            <Link
-                                href={"admin/course"}
+                            <div
+                               onClick={() => { pathName === '/admin/course' ? router.replace('/admin/course') : router.push('/admin/course') }}
                                 className="self-center text-sm capitalize md:text-lg"
                             >
                                 Course
-                            </Link>
+                            </div>
                         </div>
                         <Accordion>
                             <AccordionItem
                                 key="1"
                                 aria-label="users"
                                 title="Users"
-                                startContent={<span className="self-center text-lg md:text-xl"><FaUsers /></span>}
+                                startContent={
+                                    <span className="self-center text-lg md:text-xl">
+                                        <FaUsers />
+                                    </span>
+                                }
                                 className="mx-auto w-fit"
                             >
                                 <div className="flex flex-row justify-center h-8 space-x-4 rounded-md hover:bg-orange-300">
                                     <span className="self-center text-lg md:text-xl">
                                         <FaUserTie />
                                     </span>
-                                    <Link
-                                        href={"admin/faculty"}
+                                    <div
+                                        onClick={() => { pathName === '/admin/faculty' ? router.replace('/admin/faculty') : router.push('/admin/faculty') }}
                                         className="self-center text-sm capitalize md:text-lg"
                                     >
                                         Faculty
-                                    </Link>
+                                    </div>
                                 </div>
                                 <div className="flex flex-row justify-center h-8 mt-4 space-x-4 rounded-md hover:bg-orange-300">
                                     <span className="self-center text-lg md:text-xl">
                                         <FaUserGraduate />
                                     </span>
-                                    <Link
-                                        href={"admin/student"}
+                                    <div
                                         className="self-center text-sm capitalize md:text-lg"
+                                        onClick={() => { pathName === '/admin/student' ? router.replace('/admin/student') : router.push('/admin/student') }}
                                     >
                                         Student
-                                    </Link>
+                                    </div>
                                 </div>
                             </AccordionItem>
                         </Accordion>
@@ -123,39 +128,39 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
                             <span className="self-center text-lg md:text-xl">
                                 <FaPaperclip />
                             </span>
-                            <Link
-                                href={"admin/paper"}
+                            <div
+                                onClick={() => { pathName === '/admin/paper' ? router.replace('/admin/paper') : router.push('/admin/paper') }}
                                 className="self-center text-sm capitalize md:text-lg"
                             >
                                 Papers
-                            </Link>
+                            </div>
                         </div>{" "}
                         <div className="flex flex-row justify-center h-8 mt-4 space-x-4 rounded-md hover:bg-orange-300">
                             <span className="self-center text-lg md:text-xl">
                                 <FaFilePdf />
                             </span>
-                            <Link
-                                href={"admin/assignment"}
+                            <div
+                                onClick={() => { pathName === '/admin/assignment' ? router.replace('/admin/assignment') : router.push('/admin/assignment') }}
                                 className="self-center text-sm capitalize md:text-lg"
                             >
                                 Assignment
-                            </Link>
+                            </div>
                         </div>
                         <div className="flex flex-row justify-center h-8 mt-4 space-x-4 rounded-md hover:bg-orange-300">
                             <span className="self-center text-lg md:text-xl">
                                 <CgDatabase />
                             </span>
-                            <Link
-                                href={"/admin/decrypt-paper"}
+                            <div
+                               onClick={() => { pathName === '/admin/decrypt-paper' ? router.replace('/admin/decrypt-paper') : router.push('/admin/decrypt-paper') }}
                                 className="self-center text-sm capitalize md:text-lg"
                             >
                                 Decrypt Papers
-                            </Link>
+                            </div>
                         </div>
                     </div>
-                    <Link className={ButtonClass} href={"/"}>
+                    <div className={ButtonClass} onClick={()=>router.push('/')}>
                         Logout
-                    </Link>
+                    </div>
                 </div>
                 <div
                     className="p-1 bg-orange-300 m-3 w-7 h-auto text-xl rounded-lg justify-center flex "

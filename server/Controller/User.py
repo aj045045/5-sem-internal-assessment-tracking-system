@@ -1,7 +1,7 @@
 from .Database import Database
 from datetime import datetime
 from hashlib import sha256
-from flask import redirect
+from flask import session
 
 
 class User(Database):
@@ -12,10 +12,10 @@ class User(Database):
         self.__email_id = emailId  # 150
         self.__last_logged_in = ""  # Date
         self.__user_type = ""
-        self.logged_in = False
         self.__profile = ""
         super().__init__('user')
-
+        session['user_sign_in'] = False
+        
     @property
     def _profile(self):
         return self.__profile
@@ -72,10 +72,12 @@ class User(Database):
         self.__user_type = value
 
     def get_logged_in(self):
-        return self.logged_in
+        value = session.get('user_sign_in')
+        return value
 
     def set_logged_in(self, value):
-        self.logged_in = value
+        session['user_sign_in'] = value
+            
 
     def encryptPassword(self):
         data = self.__password

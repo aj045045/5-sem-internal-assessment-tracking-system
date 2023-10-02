@@ -9,7 +9,6 @@ class Faculty(User):
         self.__specialization = ""  # 100
         super().__init__(emailId, password)
         self.db = Database('faculty')        
-        # super(Database,self).__init__('faculty')
         
     @property
     def _designation(self):
