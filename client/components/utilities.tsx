@@ -16,7 +16,7 @@ export function Pill({ data }: { data: string }) {
         </div>
     );
 }
-
+import Image from "next/image";
 export const InputClass = {
     input: "w-full p-2 border-b-2 rounded-md peer focus:border-orange-400 focus:border-2 border-b-orange-200 focus:ring-4 focus:ring-orange-300 focus:ring-offset-1 focus:px-3 placeholder:text-transparent focus:outline-none focus:rounded-md",
     label: "absolute left-0 px-1 ml-1 text-sm duration-150 ease-linear -translate-y-3 bg-white rounded-md peer-placeholder-shown:translate-y-0 peer-placeholder-shown:text-base peer-placeholder-shown:text-stone-600 peer-focus:ml-3 peer-focus:-translate-y-3 peer-focus:px-1 peer-focus:text-sm",
@@ -94,10 +94,13 @@ export function ErrorTag({ type, data }: { type: string; data: string }) {
                                 </div>
                             </ModalHeader>
                             <ModalBody>
-                                <img
+                                <Image
                                     src={`/icons/${dataToggle.image}`}
                                     alt="denied"
                                     className="w-40 mx-auto mt-5 h-40"
+                                    width={1}
+                                    height={1}
+                                    unoptimized={true}
                                 />
                                 <div
                                     className={`font-bold text-xl my-3 md:text-2xl text-center ${dataToggle.textColor}`}

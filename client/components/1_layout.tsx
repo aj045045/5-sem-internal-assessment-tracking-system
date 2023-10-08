@@ -19,7 +19,6 @@ import {
     NavbarMenuItem,
     NavbarMenuToggle,
 } from "@nextui-org/react";
-
 //REVIEW - Data card for Pages container
 export function DataCard({ data, type }: { data: string; type: string }) {
     return (
@@ -246,10 +245,13 @@ export function NavbarSignIn() {
         >
             <NavbarContent>
                 <NavbarBrand>
-                    <img
+                    <Image
                         src="/icons/dcs-logo-remove-bg.png"
                         className="w-16 rounded-full"
                         alt="brand-icons"
+                        width={2}
+                        height={2}
+                        unoptimized={true}
                     />
                 </NavbarBrand>
             </NavbarContent>
@@ -323,10 +325,13 @@ export function DataFaculty({
     return (
         <>
             <div className="flex border-l-4 border-l-teal-500 flex-row items-center py-4 mx-auto bg-white border-t-2 rounded-md shadow-md border-t-stone-200 justify-evenly w-80">
-                <img
+                <Image
                     src={`/icons/${image}`}
                     className="w-20 border-2 rounded-full shadow-inner border-stone-200"
                     alt="Image temp"
+                    unoptimized={true}
+                    width={1}
+                    height={1}
                 />
                 <div className="flex flex-col w-40 gap-y-1 max-h-28">
                     <div className="text-lg font-semibold capitalize">

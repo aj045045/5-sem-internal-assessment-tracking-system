@@ -1,17 +1,10 @@
 "use client";
 import { DataFacultyContainer } from "@/components/2_layout";
 import { InputClass, Pill } from "@/components/utilities";
-import {
-    Modal,
-    ModalContent,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    Button,
-    useDisclosure,
-} from "@nextui-org/react";
+import {Dropdown,DropdownTrigger,DropdownMenu,DropdownItem,Button,Modal,ModalContent,ModalHeader,ModalBody,ModalFooter,useDisclosure,} from "@nextui-org/react";
 import { useState } from "react";
-
+import Image from "next/image";
+import Link from "next/link";
 function AddFaculty() {
     type FormData = {
         userName: string;
@@ -22,7 +15,12 @@ function AddFaculty() {
         specialization: string;
     };
     const [formData, setFormData] = useState<FormData>({
-        userName: "", password: "", emailId: "", designation: "", specialization: "",phoneNo:""
+        userName: "",
+        password: "",
+        emailId: "",
+        designation: "",
+        specialization: "",
+        phoneNo: "",
     });
 
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -30,22 +28,24 @@ function AddFaculty() {
         onOpen();
     };
     const handleFormSubmit = (e: React.FormEvent) => {
-        console.log('SUBMIT FORM');
+        console.log("SUBMIT FORM");
         e.preventDefault();
         fetch("api/user/faculty-sign-up", {
             method: "POST",
-            headers: { "Content-Type": "application/json", },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(formData),
-        }).then((response: Response) => {
-            if (response.ok) {
-                return response.json();
-            }
-        }).then((dataValue: any) => {
-            if (dataValue.redirect == "true") {
-                console.log(dataValue.redirect)
-            }
         })
-         console.log("finish");
+            .then((response: Response) => {
+                if (response.ok) {
+                    return response.json();
+                }
+            })
+            .then((dataValue: any) => {
+                if (dataValue.redirect == "true") {
+                    console.log(dataValue.redirect);
+                }
+            });
+        console.log("finish");
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,10 +59,13 @@ function AddFaculty() {
                 onPress={() => handleOpen()}
             >
                 <div className="flex border-l-4 border-l-teal-500 flex-row items-center py-4 my-16 bg-white border-t-2 rounded-md shadow-md border-t-stone-200 justify-center space-x-10 w-4/6 mx-auto h-28 ">
-                    <img
+                    <Image
                         src={`/icons/user.svg`}
                         className="w-20 border-2 rounded-full shadow-inner border-stone-200"
                         alt="Image temp"
+                        width={1}
+                        height={1}
+                        unoptimized={true}
                     />
                     <div className="flex flex-col w-40 gap-y-1 max-h-28">
                         <div className="text-lg font-semibold capitalize">
@@ -245,7 +248,10 @@ function AddFaculty() {
                                     >
                                         Submit
                                     </Button>
-                                    <input type="submit" onClick={()=>handleFormSubmit} />
+                                    <input
+                                        type="submit"
+                                        onClick={() => handleFormSubmit}
+                                    />
                                 </ModalFooter>
                             </>
                         )}
@@ -255,8 +261,24 @@ function AddFaculty() {
         </>
     );
 }
+ function CourseDropDown() {
+    return (
+        <div className="flex flex-wrap gap-4 z-0">
+            <Dropdown>
+                <DropdownTrigger>
+                    <div
+                    className="bg-orange-200 px-3 py-1 rounded-md border-2 border-orange-300"
+                    >Course</div>
+                </DropdownTrigger>
+                <DropdownMenu aria-label="Course Dropdown">
+                    <DropdownItem key="copy">Course Name</DropdownItem>
+                </DropdownMenu>
+            </Dropdown>
+        </div>
+    );
+}
 
-function FacultyUser() {
+function StudentUser() {
     const dataFaculty = [
         {
             image: "user.svg",
@@ -294,12 +316,12 @@ function FacultyUser() {
     return (
         <>
             <div className=" flex flex-col">
+                <CourseDropDown />
                 <AddFaculty />
-                <Pill data="Faculty Details" />
+                <Pill data="Student Details" />
                 <DataFacultyContainer data={dataFaculty} />
             </div>
         </>
     );
 }
-export default FacultyUser;
-
+export default StudentUser;

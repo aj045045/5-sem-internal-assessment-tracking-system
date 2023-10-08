@@ -26,40 +26,97 @@
 
 # if __name__ == "__main__":
 #     app.run(debug=True)
-class MethodChainer:
-    data = None
 
-    @classmethod
-    def method1(cls):
-        # Implement your first method logic here
-        cls.data = "Result from method1"
-        return cls
 
-    @classmethod
-    def method2(cls):
-        # Implement your second method logic here, using cls.data as input
-        if cls.data is not None:
-            cls.data = f"{cls.data} -> Result from method2"
-        else:
-            cls.data = "Result from method2 (no prior data)"
-        return cls
+# from pymongo import MongoClient
 
-    @classmethod
-    def method3(cls):
-        # Implement your third method logic here, using cls.data as input
-        if cls.data is not None:
-            cls.data = f"{cls.data} -> Result from method3"
-        else:
-            cls.data = "Result from method3 (no prior data)"
-        return cls
+# class Database():
 
-    @classmethod
-    def get_result(cls):
-        # Get the final result after calling all methods
-        return cls.data
+#     def __init__(self):
+#         url = MongoClient('mongodb://localhost:27017/')
+#         self.client = url["assessment_system"]
 
-# Call class methods in a chained manner
-result = MethodChainer.method1().method2().method3().get_result()
+#     @classmethod
+#     def collection(self,collection):
+#         self.collection = self.client[collection]
+#         return self
+    
+#     @classmethod
+#     def insert(self, data):
+#         result = self.collection.insert_many(data)
+#         if result.acknowledged:
+#             return result.inserted_ids
+#         else:
+#             return False
+    
+#     @classmethod
+#     def insert_one(self,data):
+#         result = self.collection.insert_one(data)
+#         if result.acknowledged:
+#             return result.inserted_id
+#         else:
+#             return False
+    
+#     @classmethod
+#     def delete(self, data):
+#         result = self.collection.delete_many(data)
+#         if result > 0:
+#             return True
+#         else:
+#             return False
 
-# Print the final result
-print(result)
+#     @classmethod
+#     def delete_one(self, data):
+#         result = self.collection.find_one_and_delete(data)
+#         if result:
+#             return result['_id']
+#         else:
+#             return False
+        
+#     @classmethod
+#     def update(self, update):
+#         result = self.collection.update_many({}, update)
+#         if result.modified_count > 0:
+#             return True
+#         else:
+#             return False
+    
+#     @classmethod
+#     def update_one(self, find, update):
+#         result = self.collection.find_one_and_update(find, update)
+#         if result:
+#             return result['_id']
+#         else:
+#             return False
+
+#     @classmethod
+#     def view(self):
+#         result =  self.collection.find()
+#         if result is None:
+#             return False
+#         else:
+#             return result
+
+#     @classmethod
+#     def view_one(self, data):
+#         result =  self.collection.find({}, data)
+#         if result is None:
+#             return False
+#         else:
+#             return result
+    
+#     @classmethod
+#     def aggregate(self,data):
+#         return self.collection.aggregate([data])
+json_sem_data = []
+for sem in range(5):
+
+    data_sem = {
+        "semester_number":sem,
+        "syllabus_document":"",
+        "number_of_subject":"0",
+        "faculty_id":"",
+        "course_id":sem
+    }
+    json_sem_data.append(data_sem)
+print(json_sem_data)

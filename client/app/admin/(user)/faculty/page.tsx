@@ -11,7 +11,7 @@ import {
     useDisclosure,
 } from "@nextui-org/react";
 import { useState } from "react";
-
+import Image from "next/image";
 function AddFaculty() {
     type FormData = {
         userName: string;
@@ -59,10 +59,13 @@ function AddFaculty() {
                 onPress={() => handleOpen()}
             >
                 <div className="flex border-l-4 border-l-teal-500 flex-row items-center py-4 my-16 bg-white border-t-2 rounded-md shadow-md border-t-stone-200 justify-center space-x-10 w-4/6 mx-auto h-28 ">
-                    <img
+                    <Image
                         src={`/icons/user.svg`}
                         className="w-20 border-2 rounded-full shadow-inner border-stone-200"
                         alt="Image temp"
+                        width={1}
+                        height={1}
+                        unoptimized={true}
                     />
                     <div className="flex flex-col w-40 gap-y-1 max-h-28">
                         <div className="text-lg font-semibold capitalize">

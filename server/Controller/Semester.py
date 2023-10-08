@@ -5,7 +5,9 @@ class Semester(Database):
         self.__semester_number = ""
         self.__syllabus_document = ""
         self.__number_of_subject = ""
-
+        self.__faculty = ""
+        super().__init__('semester')
+        
     @property
     def _semester_number(self):
         return self.__semester_number
@@ -20,7 +22,7 @@ class Semester(Database):
 
     @_syllabus_document.setter
     def _syllabus_document(self, value):
-        if value > 50:
+        if len(value) > 50:
             value = value[:50]
         self.__syllabus_document = value
 
@@ -32,11 +34,22 @@ class Semester(Database):
     def _number_of_subject(self, value):
         self.__number_of_subject = value
 
-        super().__init__('semester')
     
-    def add():
-        return
-
+    def add_course_sem(self,no_of_sem,course_id):
+        json_sem_data = [] 
+        for sem in range(no_of_sem):
+            data_sem = {
+                "semester_number":sem+1,
+                "syllabus_document":"",
+                "number_of_subject":0,
+                "faculty_id":"",
+                "course_id":course_id
+            }
+            json_sem_data.append(data_sem)
+        if len(json_sem_data) > 0 :
+            super().insert(json_sem_data)
+            return True
+    
     def update():
         return
 

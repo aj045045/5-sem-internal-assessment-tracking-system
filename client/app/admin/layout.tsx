@@ -13,6 +13,7 @@ import {
     FaFilePdf,
     FaUsers,
 } from "react-icons/fa";
+import Image from "next/image";
 import { Accordion, AccordionItem } from "@nextui-org/accordion";
 import { ImBooks } from "react-icons/im";
 import { useState } from "react";
@@ -44,9 +45,13 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
                         <LuPanelLeftClose />
                     </div>
                     <div className="flex flex-row mt-4 space-x-3 ">
-                        <img
+                        <Image
                             className="w-6 rounded-full md:w-12"
                             src="/icons/user.png"
+                            alt="User Image"
+                            unoptimized={true}
+                            width={1}
+                            height={1}
                         />
                         <span className="self-center text-md md:text-xl">
                             Ansh Yadav
@@ -60,7 +65,7 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
                             <span className="self-center text-lg md:text-xl">
                                 <LuLayoutDashboard />
                             </span>
-                            <div onClick={() => { pathName === '/admin/dashboard' ? router.replace('/admin/dashboard') : router.push('/admin/dashboard') }}
+                            <div onClick={() => { pathName === '/admin' ? router.replace('/admin') : router.push('/admin') }}
                                 className="self-center text-sm capitalize md:text-lg"
                             >
                                 dashboard

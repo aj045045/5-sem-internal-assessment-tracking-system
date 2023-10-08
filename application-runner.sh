@@ -17,7 +17,7 @@ start_servers() {
     python run.py &
     server_pid="$!"
 
-    xdg-open http://localhost:3000/ &
+    xdg-open http://localhost:3000/admin/course&
     xdg_pid="$!"
 }
 
