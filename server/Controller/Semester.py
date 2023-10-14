@@ -1,4 +1,5 @@
 from .Database import Database
+from bson import ObjectId
 
 class Semester(Database):
     def __init__(self):
@@ -7,7 +8,7 @@ class Semester(Database):
         self.__number_of_subject = ""
         self.__faculty = ""
         super().__init__('semester')
-        
+
     @property
     def _semester_number(self):
         return self.__semester_number
@@ -34,27 +35,28 @@ class Semester(Database):
     def _number_of_subject(self, value):
         self.__number_of_subject = value
 
-    
-    def add_course_sem(self,no_of_sem,course_id):
-        json_sem_data = [] 
+    def add_course_sem(self, no_of_sem, course_id):
+        json_sem_data = []
         for sem in range(no_of_sem):
             data_sem = {
-                "semester_number":sem+1,
-                "syllabus_document":"",
-                "number_of_subject":0,
-                "faculty_id":"",
-                "course_id":course_id
+                "semester_number": sem+1,
+                "syllabus_document": "",
+                "number_of_subject": 0,
+                "faculty_id": "",
+                "course_id": course_id
             }
             json_sem_data.append(data_sem)
-        if len(json_sem_data) > 0 :
+        if len(json_sem_data) > 0:
             super().insert(json_sem_data)
             return True
-    
+
     def update():
         return
 
     def delete():
         return
 
-    def view():
-        return
+    def view_semester(self, semester_number):
+        course_id = ObjectId(f'{semester_number}')
+        semester = {"course_id":course_id}
+        return list(super().view_one(semester))

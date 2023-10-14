@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 
+
 class Database():
 
     def __init__(self, collection):
@@ -22,7 +23,7 @@ class Database():
         else:
             return False
 
-    def insert_one(self,data):
+    def insert_one(self, data):
         result = self.collection.insert_one(data)
         if result.acknowledged:
             return result.inserted_id
@@ -35,7 +36,6 @@ class Database():
             return True
         else:
             return False
-
 
     def delete_one(self, data):
         result = self.collection.find_one_and_delete(data)
@@ -59,18 +59,18 @@ class Database():
             return False
 
     def view(self):
-        result =  self.collection.find()
+        result = self.collection.find({})
         if result is None:
             return False
         else:
             return result
 
     def view_one(self, data):
-        result =  self.collection.find({}, data)
+        result = self.collection.find(data)
         if result is None:
             return False
         else:
             return result
-    
-    def aggregate(self,data):
+
+    def aggregate(self, data):
         return self.collection.aggregate([data])

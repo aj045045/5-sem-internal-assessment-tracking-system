@@ -13,6 +13,9 @@ import {
     Button,
     useDisclosure,
 } from "@nextui-org/react";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+
 function AddCourse() {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const handleOpen = () => {
@@ -115,6 +118,7 @@ function AddCourse() {
                                     </div>
                                     <div className="flex w-full flex-wrap gap-4">
                                         <Select
+                                            name="type"
                                             label="Select Course Type"
                                             placeholder="Select a type "
                                             className="w-full border-b-2  border-b-orange-200 rounded-md"
@@ -150,8 +154,80 @@ function AddCourse() {
     );
 }
 
+function CourseDetail({
+    data,
+}: {
+    data: {
+        _id: string;
+        course_name: string;
+        duration: number;
+        capacity: number;
+        code: string;
+        type: string;
+    }[];
+}) {
+    return (
+        <>
+            {data.map((value, index) => (
+                <Link href={`course/${value._id}`} key={index}>
+                    <div
+                        className="flex my-10 text-center flex-col bg-white border-l-4 border-l-teal-500 rounded-md shadow-md py-2 mx-5 md:w-fit md:mx-auto md:px-10 shadow-stone-400"
+                    >
+                        <div className="flex space-y-2 md:space-x-5 justify-center items-center flex-col py-2 md:flex-row">
+                            <span className="text-xl md:text-2xl">
+                                {value.course_name}
+                            </span>
+                            <span className="flex flex-row justify-evenly space-x-4">
+                                <span>
+                                    <span className="font-semibold text-lg md:text-xl">
+                                        {value.duration}
+                                    </span>
+                                    &nbsp;Years
+                                </span>
+                                <span>
+                                    <span className="font-semibold text-lg md:text-lg">
+                                        {value.capacity}
+                                    </span>
+                                    &nbsp;Max
+                                </span>
+                                <span className="font-semibold text-lg uppercase md:text-xl font-mono">
+                                    {value.code}
+                                </span>
+                            </span>
+                        </div>
+                        <div className="uppercase font-mono bg-orange-200 border-1.5 border-orange-300 w-fit mx-auto px-3 rounded-full">
+                            {value.type}
+                        </div>
+                    </div>
+                </Link>
+            ))}
+        </>
+    );
+}
+
 function Course() {
-    return <AddCourse />;
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        fetch("/api/course/display-course")
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                setData(data);
+                console.log(data);
+            });
+    }, []);
+    return (
+        <>
+            <AddCourse />
+            <Pill data="Course Details" />
+            <CourseDetail data={data} />
+        </>
+    );
 }
 
 export default Course;

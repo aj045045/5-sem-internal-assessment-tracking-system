@@ -1,5 +1,4 @@
 from .Database import Database
-from .Semester import Semester
 class Course(Database):
 
     def __init__(self,course_name):
@@ -66,7 +65,7 @@ class Course(Database):
         self._duration = duration
         self._capacity = capacity
         self._course_code = code
-        self.__type = type_course
+        self._type = type_course
         data = {
             "course_name":self._course_name,
             "duration":self._duration,
@@ -83,7 +82,5 @@ class Course(Database):
     def delete_course():
         return
 
-    def view_course():
-        return
-    
-    
+    def view_course(self):
+        return list(super().view())
