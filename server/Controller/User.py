@@ -6,7 +6,7 @@ from flask import session
 
 class User(Database):
 
-    def __init__(self, emailId, Password):
+    def __init__(self, emailId="user", Password="user"):
         self.__user_name = ""  # 50
         self.__password = Password  # 64
         self.__email_id = emailId  # 150
@@ -15,7 +15,7 @@ class User(Database):
         self.__profile = ""
         super().__init__('user')
         session['user_sign_in'] = False
-        
+    
     @property
     def _profile(self):
         return self.__profile
@@ -23,7 +23,6 @@ class User(Database):
     @_profile.setter
     def _profile(self, value):
         self.__profile = value
-
 
     @property
     def _user_name(self):
@@ -77,7 +76,6 @@ class User(Database):
 
     def set_logged_in(self, value):
         session['user_sign_in'] = value
-            
 
     def encryptPassword(self):
         data = self.__password
@@ -91,7 +89,7 @@ class User(Database):
 
     """#REVIEW - START THE CODING"""
 
-    def sign_up(self,profile, user_name, user_type):
+    def sign_up(self, profile, user_name, user_type):
         time = datetime.now()
         last_logged = time.strftime("%d-%m-%Y")
         self._profile = profile
@@ -100,7 +98,7 @@ class User(Database):
         self._user_type = user_type
         self._last_logged_in = last_logged
         data = {
-            "profile":self._profile,
+            "profile": self._profile,
             "user_name": self._user_name,
             "password": self._password,
             "email_id": self._email_id,
@@ -131,3 +129,43 @@ class User(Database):
         if response is not False:
             self.set_logged_in(True)
         return response
+
+    def display_faculty_details(self):
+        pipeline = [
+            {
+                "$match": {
+                    "user_type": "faculty"
+                }
+            },
+            {
+                "$lookup": {
+                    "from": "faculty",
+                    "localField": "_id",
+                    "foreignField": "userId",
+                    "as": "faculty_data"
+                }
+            },
+            {
+                "$addFields": {
+                    "faculty_data": {
+                        "$map": {
+                            "input": "$faculty_data",
+                            "in": {
+                                "designation": "$$this.designation",
+                                "specialization": "$$this.specialization"
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "$project": {
+                    "_id": 0,
+                    "user_type": 1,
+                    "user_name": 1,
+                    "profile": 1,
+                    "faculty_data": 1
+                }
+            }
+        ]
+        return list(super().aggregate(pipeline))

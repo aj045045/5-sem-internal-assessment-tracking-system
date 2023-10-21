@@ -279,47 +279,13 @@ function AddFaculty() {
 }
 
 function StudentUser() {
-    const dataFaculty = [
-        {
-            image: "user.svg",
-            name: "dr. hardik joshi",
-            designation: "assistant professor",
-            specialization: "phd in networking",
-        },
-        {
-            image: "user.svg",
-            name: "mr. erik shah",
-            designation: "assistant professor",
-            specialization: "phd in machine learning",
-        },
-        {
-            image: "user.svg",
-            name: "dr. jay patel",
-            designation: "assistant professor",
-            specialization: "phd in crime investigation",
-        },
-        {
-            image: "female.svg",
-            name: "dr. bhumika shah",
-            designation: "professor",
-            specialization:
-                "phd in data base management system and computer science specialist",
-        },
-        {
-            image: "female.svg",
-            name: "dr. maytri javeri",
-            designation: "professor",
-            specialization: "phd in machine learning",
-        },
-    ];
-
     return (
         <>
             <div className=" flex flex-col">
                 <CourseDropDown />
                 <AddFaculty />
                 <Pill data="Student Details" />
-                <DataFacultyContainer data={dataFaculty} />
+                <DataFacultyContainer />
             </div>
         </>
     );

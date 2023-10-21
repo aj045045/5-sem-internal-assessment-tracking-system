@@ -26,12 +26,7 @@ def add_course():
 def display_course():
     course = Controller.Course('mcs')
     data = course.view_course()
-    formatted_data = []
-    for document in data:
-        object_id_str = str(document['_id'])
-        document['_id'] = object_id_str
-        formatted_data.append(document)
-    return jsonify(formatted_data)
+    return Controller.convert_id(data)
 
 
 @course_bp.route('/semester-details/<course_data_id>', methods=['GET'])

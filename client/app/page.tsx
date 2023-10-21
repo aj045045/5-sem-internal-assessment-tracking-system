@@ -30,40 +30,6 @@ function SignIn() {
             type: "Student",
         },
     ];
-
-    const dataFaculty = [
-        {
-            image: "user.svg",
-            name: "dr. hardik joshi",
-            designation: "assistant professor",
-            specialization: "phd in networking",
-        },
-        {
-            image: "user.svg",
-            name: "mr. erik shah",
-            designation: "assistant professor",
-            specialization: "phd in machine learning",
-        },
-        {
-            image: "user.svg",
-            name: "dr. jay patel",
-            designation: "assistant professor",
-            specialization: "phd in crime investigation",
-        },
-        {
-            image: "female.svg",
-            name: "dr. bhumika shah",
-            designation: "professor",
-            specialization:
-                "phd in data base management system and computer science specialist",
-        },
-        {
-            image: "female.svg",
-            name: "dr. maytri javeri",
-            designation: "professor",
-            specialization: "phd in machine learning",
-        },
-    ];
     const AimsList = [
         {
             id: 1,
@@ -115,7 +81,7 @@ function SignIn() {
             <Aims lists={AimsList} />
             <hr className="invisible" id="faculty" />
             <Pill data="faculty" />
-            <DataFacultyContainer data={dataFaculty} />
+            <DataFacultyContainer />
         </>
     );
 }

@@ -1,4 +1,8 @@
 "use client";
+
+import { DataFacultyContainer } from "@/components/2_layout";
+import { ErrorTag } from "@/components/utilities";
+
 // import React from "react";
 // import { useState } from "react";
 // import { ErrorTag } from "@/components/utilities";
@@ -81,6 +85,11 @@
 export default function Temp() {
     return (
         <>
+            <ErrorTag type="alert" data="alter"/>
+            <ErrorTag type="success" data="alter"/>
+            <ErrorTag type="question" data="alter"/>
+            <ErrorTag type="warning" data="alter"/>
+            <DataFacultyContainer/>
             <div className="box">
                 <div className="cube"></div>
                 <div className="cube"></div>

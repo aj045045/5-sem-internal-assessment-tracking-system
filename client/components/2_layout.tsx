@@ -1,4 +1,6 @@
+"use client";
 import { DataCard, DataFaculty } from "@/components/1_layout";
+import { useState, useEffect } from "react";
 
 //REVIEW - Cards for data display container
 export function DataCardContainer({
@@ -16,20 +18,39 @@ export function DataCardContainer({
 }
 
 //REVIEW - Faculty for data display container
-export function DataFacultyContainer({
-    data,
-}: {
-    data: {
-        image: string;
-        name: string;
-        designation: string;
-        specialization: string;
-    }[];
-}) {
+export function DataFacultyContainer() {
+    type FacultyType = {
+        profile: string;
+        user_name: string;
+        faculty_data: {
+            designation: string;
+            specialization: string;
+        }[];
+    };
+    const [facultyData, setFacultyData] = useState<FacultyType[]>([]);
+    useEffect(() => {
+        fetch("/api/user/faculty-display-all")
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                setFacultyData(data);
+                console.log(data);
+            });
+    }, []);
     return (
         <div className="gap-y-5 grid-cols-1 py-5 place-items-center sm:grid-cols-2 grid  md:gap-x-5 md:justify-around lg:grid-cols-3">
-            {data.map((value, index) => (
-                <DataFaculty image={value.image} name={value.name} designation={value.designation} specialization={value.specialization} key={index} />
+            {facultyData.map((value, index) => (
+                <DataFaculty
+                    image={value.profile}
+                    name={value.user_name}
+                    designation={value.faculty_data[0].designation}
+                    specialization={value.faculty_data[0].specialization}
+                    key={index}
+                />
             ))}
         </div>
     );

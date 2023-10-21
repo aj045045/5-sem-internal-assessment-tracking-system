@@ -29,28 +29,28 @@ function AddFaculty() {
     const handleOpen = () => {
         onOpen();
     };
-    const handleFormSubmit = (e: React.FormEvent) => {
-        console.log('SUBMIT FORM');
-        e.preventDefault();
-        fetch("api/user/faculty-sign-up", {
-            method: "POST",
-            headers: { "Content-Type": "application/json", },
-            body: JSON.stringify(formData),
-        }).then((response: Response) => {
-            if (response.ok) {
-                return response.json();
-            }
-        }).then((dataValue: any) => {
-            if (dataValue.redirect == "true") {
-                console.log(dataValue.redirect)
-            }
-        })
-         console.log("finish");
-    };
+    // const handleFormSubmit = (e: React.FormEvent) => {
+    //     console.log('SUBMIT FORM');
+    //     e.preventDefault();
+    //     fetch("api/user/faculty-sign-up", {
+    //         method: "POST",
+    //         headers: { "Content-Type": "application/json", },
+    //         body: JSON.stringify(formData),
+    //     }).then((response: Response) => {
+    //         if (response.ok) {
+    //             return response.json();
+    //         }
+    //     }).then((dataValue: any) => {
+    //         if (dataValue.redirect == "true") {
+    //             console.log(dataValue.redirect)
+    //         }
+    //     })
+    //      console.log("finish");
+    // };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
+    // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        // setFormData({ ...formData, [e.target.name]: e.target.value });
+    // };
 
     return (
         <>
@@ -102,8 +102,6 @@ function AddFaculty() {
                                             name="userName"
                                             className={InputClass.input}
                                             placeholder="User name"
-                                            onChange={handleChange}
-                                            value={formData.userName}
                                         />
                                         <label
                                             htmlFor="userName"
@@ -114,8 +112,6 @@ function AddFaculty() {
                                     </div>
                                     <div className="relative">
                                         <input
-                                            onChange={handleChange}
-                                            value={formData.emailId}
                                             type="email"
                                             name="emailId"
                                             className={InputClass.input}
@@ -130,10 +126,8 @@ function AddFaculty() {
                                     </div>
                                     <div className="relative">
                                         <input
-                                            onChange={handleChange}
                                             type="password"
                                             name="password"
-                                            value={formData.password}
                                             placeholder="password"
                                             className={InputClass.input}
                                         />
@@ -179,7 +173,6 @@ function AddFaculty() {
                                                 id="dropzone-file"
                                                 type="file"
                                                 name="profile"
-                                                onChange={handleChange}
                                                 className="hidden"
                                             />
                                         </label>
@@ -190,9 +183,8 @@ function AddFaculty() {
                                             name="designation"
                                             placeholder="designation"
                                             className={InputClass.input}
-                                            value={formData.designation}
-                                            onChange={handleChange}
                                         />
+
                                         <label
                                             htmlFor="designation"
                                             className={InputClass.label}
@@ -206,8 +198,6 @@ function AddFaculty() {
                                             name="phoneNo"
                                             placeholder="phone number"
                                             className={InputClass.input}
-                                            value={formData.phoneNo}
-                                            onChange={handleChange}
                                         />
                                         <label
                                             htmlFor="phoneNo"
@@ -218,8 +208,6 @@ function AddFaculty() {
                                     </div>
                                     <div className="relative">
                                         <input
-                                            value={formData.specialization}
-                                            onChange={handleChange}
                                             type="text"
                                             name="specialization"
                                             placeholder="specialization"
@@ -241,14 +229,11 @@ function AddFaculty() {
                                     >
                                         Close
                                     </Button>
-                                    <Button
-                                        className="bg-orange-500 shadow-lg shadow-orange-300 text-white font-semibold"
-                                        onPress={onClose}
-                                        onClick={() => handleFormSubmit}
-                                    >
-                                        Submit
-                                    </Button>
-                                    <input type="submit" onClick={()=>handleFormSubmit} />
+                                    <input
+                                        value="Submit"
+                                        onClick={onClose}
+                                        className="bg-orange-500 px-5 py-2 rounded-lg shadow-lg shadow-orange-300 text-white font-semibold"
+                                        type="submit"/>
                                 </ModalFooter>
                             </>
                         )}
@@ -260,46 +245,12 @@ function AddFaculty() {
 }
 
 function FacultyUser() {
-    const dataFaculty = [
-        {
-            image: "user.svg",
-            name: "dr. hardik joshi",
-            designation: "assistant professor",
-            specialization: "phd in networking",
-        },
-        {
-            image: "user.svg",
-            name: "mr. erik shah",
-            designation: "assistant professor",
-            specialization: "phd in machine learning",
-        },
-        {
-            image: "user.svg",
-            name: "dr. jay patel",
-            designation: "assistant professor",
-            specialization: "phd in crime investigation",
-        },
-        {
-            image: "female.svg",
-            name: "dr. bhumika shah",
-            designation: "professor",
-            specialization:
-                "phd in data base management system and computer science specialist",
-        },
-        {
-            image: "female.svg",
-            name: "dr. maytri javeri",
-            designation: "professor",
-            specialization: "phd in machine learning",
-        },
-    ];
-
     return (
         <>
             <div className=" flex flex-col">
                 <AddFaculty />
                 <Pill data="Faculty Details" />
-                <DataFacultyContainer data={dataFaculty} />
+                <DataFacultyContainer/>
             </div>
         </>
     );

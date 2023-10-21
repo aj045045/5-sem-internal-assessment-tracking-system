@@ -15,8 +15,14 @@ import {
 } from "@nextui-org/react";
 import { InputClass } from "@/components/utilities";
 import { useParams } from "next/navigation";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
+import { MdLibraryAdd } from "react-icons/md";
 function SemesterDetails() {
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const handleAddSubjectModel = () => {
+        onOpen();
+    };
+    ``;
     return (
         <>
             <Dropdown>
@@ -28,6 +34,15 @@ function SemesterDetails() {
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Static Actions">
                     <DropdownItem key="edit">
+                        <div
+                            onClick={handleAddSubjectModel}
+                            className="bg-stone-500 font-semibold text-white py-1.5 mb-2 rounded-md center items-center space-x-3 justify-center text-lg flex flex-row"
+                        >
+                            <span className="text-lg">
+                                <MdLibraryAdd />
+                            </span>
+                            <div>ADD SUBJECT</div>
+                        </div>
                         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -83,6 +98,164 @@ function SemesterDetails() {
                     </DropdownItem>
                 </DropdownMenu>
             </Dropdown>
+            <Modal
+                className="self-start mt-10"
+                size="md"
+                isOpen={isOpen}
+                onClose={onClose}
+            >
+                <form
+                    encType="multipart/form-data"
+                    action="/api/user/faculty-sign-up"
+                    method="POST"
+                    onSubmit={() => console.log("SUBMIT FORM")}
+                >
+                    <ModalContent>
+                        {(onClose) => (
+                            <>
+                                <ModalHeader className="flex flex-col gap-1 bg-orange-200 text-orange-600">
+                                    Semester Name
+                                </ModalHeader>
+                                <ModalBody className="flex space-y-4 mt-5">
+                                    <input
+                                        type="hidden"
+                                        name="semester id"
+                                        value="semester_id"
+                                    />
+                                    <div className="relative">
+                                        <input
+                                            type="text"
+                                            name="subject_name"
+                                            className={InputClass.input}
+                                            placeholder=""
+                                        />
+                                        <label
+                                            htmlFor="subject_name"
+                                            className={InputClass.label}
+                                        >
+                                            Subject Name
+                                        </label>
+                                    </div>
+                                    <div className="relative">
+                                        <input
+                                            type="text"
+                                            name="subject_code"
+                                            className={InputClass.input}
+                                            placeholder=""
+                                        />
+                                        <label
+                                            htmlFor="subject_code"
+                                            className={InputClass.label}
+                                        >
+                                            Subject Code
+                                        </label>
+                                    </div>
+                                    <div className="relative">
+                                        <input
+                                            type="text"
+                                            name="credit"
+                                            className={InputClass.input}
+                                            placeholder=""
+                                        />
+                                        <label
+                                            htmlFor="credit"
+                                            className={InputClass.label}
+                                        >
+                                            Credit
+                                        </label>
+                                    </div>
+                                    <div className="relative">
+                                        <select
+                                            name="type"
+                                            className={InputClass.input}
+                                        >
+                                            <option selected value="theory">
+                                                Theory
+                                            </option>
+                                            <option value="practical">
+                                                Practical
+                                            </option>
+                                        </select>
+                                        <label
+                                            htmlFor="type"
+                                            className={InputClass.label}
+                                        >
+                                            Choose Subject Type
+                                        </label>
+                                    </div>
+                                   <div className="relative">
+                                        <select
+                                            name="faculty"
+                                            className={InputClass.input}
+                                        >
+                                            <option value="">jay sir</option>
+                                            <option value="">janvi</option>
+                                            <option value="">ansh</option>
+                                        </select>
+                                        <label
+                                            htmlFor="faculty"
+                                            className={InputClass.label}
+                                        >
+                                            Choose Faculty
+                                        </label>
+                                    </div>
+                                    <div className="flex items-center justify-center w-full">
+                                        <label
+                                            htmlFor="dropzone-file"
+                                            className="flex flex-col items-center justify-center w-full h-40 border-2 border-orange-300 border-dashed rounded-lg cursor-pointer bg-orange-50 hover:bg-orange-100"
+                                        >
+                                            <div className="flex flex-col items-center justify-center pt-5 pb-6 ">
+                                                <svg
+                                                    className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                                                    aria-hidden="true"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    fill="none"
+                                                    viewBox="0 0 20 16"
+                                                >
+                                                    <path
+                                                        stroke="currentColor"
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                                                    />
+                                                </svg>
+                                                <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                                    <span className="font-semibold">
+                                                        Click to upload Subject Plan
+                                                    </span>
+                                                </p>
+                                                <p className="text-xs text-gray-500 dark:text-gray-400">
+                                                    PNG or JPG
+                                                </p>
+                                            </div>
+                                            <input
+                                                id="dropzone-file"
+                                                type="file"
+                                                name="subject_plan"
+                                                className="hidden"
+                                            />
+                                        </label>
+                                    </div>
+                                </ModalBody>
+                                <ModalFooter>
+                                    <Button
+                                        color="danger"
+                                        variant="light"
+                                        onPress={onClose}
+                                    >
+                                        Close
+                                    </Button>
+                                    <input
+                                        type="submit"
+                                        className="bg-orange-500 shadow-lg px-3 rounded-lg shadow-orange-300 text-white font-semibold"
+                                    />
+                                </ModalFooter>
+                            </>
+                        )}
+                    </ModalContent>
+                </form>
+            </Modal>
         </>
     );
 }
@@ -180,7 +353,7 @@ function CourseSemester() {
                                             <input
                                                 id="dropzone-file"
                                                 type="file"
-                                                name="profile"
+                                                name="syllabus"
                                                 className="hidden"
                                             />
                                         </label>
@@ -212,20 +385,19 @@ export default function CourseDetails() {
     const pathName = useParams();
     console.log(pathName["course_details"]);
     const [data, setData] = useState([]);
-    // http://127.0.0.1:5000/assessment-system/course/semester-details/6526a14836266c6413419d31
-    useEffect(() => {
-        fetch(`/api/course/semester-details/${pathName}`)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                return response.json();
-            })
-            .then((data) => {
-                setData(data);
-                console.log(data);
-            });
-    }, [pathName]);
+    // useEffect(() => {
+    //     fetch(`/api/course/semester-details/${pathName}`)
+    //         .then((response) => {
+    //             if (!response.ok) {
+    //                 throw new Error("Network response was not ok");
+    //             }
+    //             return response.json();
+    //         })
+    //         .then((data) => {
+    //             setData(data);
+    //             console.log(data);
+    //         });
+    // }, [pathName]);
     return (
         <>
             <div className="text-center w-full text-3xl my-5">Course Name</div>

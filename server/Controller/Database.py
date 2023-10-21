@@ -71,6 +71,6 @@ class Database():
             return False
         else:
             return result
-
+        
     def aggregate(self, data):
-        return self.collection.aggregate([data])
+        return self.collection.aggregate(data)

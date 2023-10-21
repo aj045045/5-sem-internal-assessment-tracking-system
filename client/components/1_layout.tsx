@@ -19,6 +19,7 @@ import {
     NavbarMenuItem,
     NavbarMenuToggle,
 } from "@nextui-org/react";
+
 //REVIEW - Data card for Pages container
 export function DataCard({ data, type }: { data: string; type: string }) {
     return (
@@ -289,12 +290,13 @@ export function NavbarSignIn() {
                     <NavbarMenuItem key={`${item}-${index}`}>
                         <Link
                             activeClass="active"
+                            onClick={() => setActiveSection(item)}
                             to={item}
                             spy={true}
                             smooth={true}
                             offset={-100}
                             duration={500}
-                            className={`w-full capitalize px-4 py-2.5 font-semibold capitalize tracking-widest font-sans ${
+                            className={`w-full capitalize px-4 py-2.5 font-semibold tracking-widest font-sans ${
                                 item === activeSection
                                     ? " text-teal-700  border-b-2 border-b-teal-500  underline-offset-4   "
                                     : "hover:bg-orange-200 rounded-full text-stone-600"
@@ -326,8 +328,8 @@ export function DataFaculty({
         <>
             <div className="flex border-l-4 border-l-teal-500 flex-row items-center py-4 mx-auto bg-white border-t-2 rounded-md shadow-md border-t-stone-200 justify-evenly w-80">
                 <Image
-                    src={`/icons/${image}`}
-                    className="w-20 border-2 rounded-full shadow-inner border-stone-200"
+                    src={`/${image}`}
+                    className="w-20 h-20 border-2 rounded-full border-stone-300 "
                     alt="Image temp"
                     unoptimized={true}
                     width={1}

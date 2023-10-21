@@ -29,12 +29,11 @@ def Login():
         return jsonify({'redirect': 'Invalid userName or Password'})
     else:
         return jsonify({'redirect': 'true'})
-
-    """Faculty Sign In 
-
+    
+"""Faculty Sign In 
     Returns:
         Json: True
-    """
+"""
 
 @user_bp.route('/faculty-sign-up', methods=['POST'])
 def add_faculty():
@@ -54,3 +53,8 @@ def add_faculty():
     faculty_obj.add_faculty(profile,userName,designation,phoneNo,specialization)
     return redirect('/admin/faculty')
     
+@user_bp.route('/faculty-display-all',methods=['GET'])
+def view_faculty():
+    user = Controller.User()    
+    data = user.display_faculty_details()
+    return jsonify(data)
