@@ -1,5 +1,5 @@
 from .Database import Database
-class Course(Database):
+class Course():
 
     def __init__(self,course_name):
         self.__course_name = course_name
@@ -7,7 +7,6 @@ class Course(Database):
         self.__capacity = 0
         self.__course_code = ""
         self.__type = ""
-        super().__init__('course')
         
     @property
     def _course_name(self):
@@ -73,7 +72,7 @@ class Course(Database):
             "code":self._course_code,
             "type":self._type
         }
-        course_id = super().insert_one(data)
+        course_id = Database.collection('course').insert_one(data)
         return course_id
 
     def update_course():
@@ -83,4 +82,4 @@ class Course(Database):
         return
 
     def view_course(self):
-        return list(super().view())
+        return list(Database.collection('course').view())

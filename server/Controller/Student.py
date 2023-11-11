@@ -2,10 +2,9 @@ from .User import User
 
 class Student(User):
 
-    def __init__(self,emailId,password):
+    def __init__(self):
         self.__allotment_year = 0000  # year
         self.__semester_id = ""  # Id data of semester
-        super().__init__(emailId,password)
 
     @property
     def _allotment_year(self):

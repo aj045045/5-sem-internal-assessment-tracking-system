@@ -329,7 +329,7 @@ export function DataFaculty({
             <div className="flex border-l-4 border-l-teal-500 flex-row items-center py-4 mx-auto bg-white border-t-2 rounded-md shadow-md border-t-stone-200 justify-evenly w-80">
                 <Image
                     src={`/${image}`}
-                    className="w-20 h-20 border-2 rounded-full border-stone-300 "
+                    className="w-20 h-20 border-2 border-orange-200 rounded-full p-0.5"
                     alt="Image temp"
                     unoptimized={true}
                     width={1}
@@ -340,7 +340,7 @@ export function DataFaculty({
                         {name}
                     </div>
                     <div className="text-sm capitalize ">{designation}</div>
-                    <div className="overflow-hidden text-sm first-letter:uppercase text-stone-500">
+                    <div className="overflow-hidden text-sm first-letter:uppercase text-stone-500 max-h-unit-2xl">
                         {specialization}
                     </div>
                 </div>

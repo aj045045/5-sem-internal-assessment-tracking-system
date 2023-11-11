@@ -1,10 +1,6 @@
 "use client";
 import { FaDownload, FaEdit } from "react-icons/fa";
 import {
-    Dropdown,
-    DropdownTrigger,
-    DropdownMenu,
-    DropdownItem,
     Modal,
     ModalContent,
     ModalHeader,
@@ -16,89 +12,24 @@ import {
 import { InputClass } from "@/components/utilities";
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 import { MdLibraryAdd } from "react-icons/md";
-function SemesterDetails() {
+
+function AddSemester() {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const handleAddSubjectModel = () => {
-        onOpen();
-    };
-    ``;
     return (
         <>
-            <Dropdown>
-                <DropdownTrigger>
-                    <div className="flex flex-row space-x-6 justify-center md:mt-6 bg-teal-100 border-2 border-teal-200 rounded-full w-fit mx-auto my-2 px-3 ">
-                        <span className="font-semibold mx-3">6</span>
-                        subjects
-                    </div>
-                </DropdownTrigger>
-                <DropdownMenu aria-label="Static Actions">
-                    <DropdownItem key="edit">
-                        <div
-                            onClick={handleAddSubjectModel}
-                            className="bg-stone-500 font-semibold text-white py-1.5 mb-2 rounded-md center items-center space-x-3 justify-center text-lg flex flex-row"
-                        >
-                            <span className="text-lg">
-                                <MdLibraryAdd />
-                            </span>
-                            <div>ADD SUBJECT</div>
-                        </div>
-                        <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-                            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                    <tr>
-                                        <th scope="col" className="px-6 py-3">
-                                            Subject
-                                        </th>
-                                        <th scope="col" className="px-6 py-3">
-                                            Code
-                                        </th>
-                                        <th scope="col" className="px-6 py-3">
-                                            Credit
-                                        </th>
-                                        <th scope="col" className="px-6 py-3">
-                                            Type
-                                        </th>
-                                        <th scope="col" className="px-6 py-3">
-                                            Plan
-                                        </th>
-                                        <th scope="col" className="px-6 py-3">
-                                            Faculty
-                                        </th>
-                                        <th className="px-6 py-3">EDIT</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                        <th
-                                            scope="row"
-                                            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                        >
-                                            Operating system
-                                        </th>
-                                        <td className="px-6 py-4">MCS-MMG</td>
-                                        <td className="px-6 py-4">5</td>
-                                        <td className="px-6 py-4">Theory</td>
-                                        <td className="px-6 py-4 text-right">
-                                            <a
-                                                href="#"
-                                                className="font-medium text-stone-500"
-                                            >
-                                                <FaDownload />
-                                            </a>
-                                        </td>
-                                        <td className="px-6 py-4">Jay Patel</td>
-                                        <td className="px-6 py-4 text-md">
-                                            <FaEdit />
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </DropdownItem>
-                </DropdownMenu>
-            </Dropdown>
-            <Modal
+            <div
+                className="bg-stone-500 w-56 mx-auto my-6 shadow-md shadow-stone-400 font-semibold text-white py-1.5 rounded-md center items-center space-x-3 justify-center text-lg flex flex-row"
+                onClick={() => onOpen()}
+            >
+                <span className="text-lg">
+                    <MdLibraryAdd />
+                </span>
+                <div>ADD SEMESTER</div>
+            </div>
+                <Modal
                 className="self-start mt-10"
                 size="md"
                 isOpen={isOpen}
@@ -106,84 +37,17 @@ function SemesterDetails() {
             >
                 <form
                     encType="multipart/form-data"
-                    action="/api/user/faculty-sign-up"
+                    action="/api/course/add-semester"
                     method="POST"
-                    onSubmit={() => console.log("SUBMIT FORM")}
                 >
                     <ModalContent>
                         {(onClose) => (
                             <>
                                 <ModalHeader className="flex flex-col gap-1 bg-orange-200 text-orange-600">
-                                    Semester Name
+                                    Add semester
                                 </ModalHeader>
                                 <ModalBody className="flex space-y-4 mt-5">
-                                    <input
-                                        type="hidden"
-                                        name="semester id"
-                                        value="semester_id"
-                                    />
                                     <div className="relative">
-                                        <input
-                                            type="text"
-                                            name="subject_name"
-                                            className={InputClass.input}
-                                            placeholder=""
-                                        />
-                                        <label
-                                            htmlFor="subject_name"
-                                            className={InputClass.label}
-                                        >
-                                            Subject Name
-                                        </label>
-                                    </div>
-                                    <div className="relative">
-                                        <input
-                                            type="text"
-                                            name="subject_code"
-                                            className={InputClass.input}
-                                            placeholder=""
-                                        />
-                                        <label
-                                            htmlFor="subject_code"
-                                            className={InputClass.label}
-                                        >
-                                            Subject Code
-                                        </label>
-                                    </div>
-                                    <div className="relative">
-                                        <input
-                                            type="text"
-                                            name="credit"
-                                            className={InputClass.input}
-                                            placeholder=""
-                                        />
-                                        <label
-                                            htmlFor="credit"
-                                            className={InputClass.label}
-                                        >
-                                            Credit
-                                        </label>
-                                    </div>
-                                    <div className="relative">
-                                        <select
-                                            name="type"
-                                            className={InputClass.input}
-                                        >
-                                            <option selected value="theory">
-                                                Theory
-                                            </option>
-                                            <option value="practical">
-                                                Practical
-                                            </option>
-                                        </select>
-                                        <label
-                                            htmlFor="type"
-                                            className={InputClass.label}
-                                        >
-                                            Choose Subject Type
-                                        </label>
-                                    </div>
-                                   <div className="relative">
                                         <select
                                             name="faculty"
                                             className={InputClass.input}
@@ -222,7 +86,8 @@ function SemesterDetails() {
                                                 </svg>
                                                 <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
                                                     <span className="font-semibold">
-                                                        Click to upload Subject Plan
+                                                        Click to upload Syllabus
+                                                        Image
                                                     </span>
                                                 </p>
                                                 <p className="text-xs text-gray-500 dark:text-gray-400">
@@ -232,7 +97,7 @@ function SemesterDetails() {
                                             <input
                                                 id="dropzone-file"
                                                 type="file"
-                                                name="subject_plan"
+                                                name="syllabus"
                                                 className="hidden"
                                             />
                                         </label>
@@ -259,13 +124,16 @@ function SemesterDetails() {
         </>
     );
 }
+
 function CourseSemester() {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const handleOpen = () => {
         onOpen();
     };
+    const path = usePathname();
     return (
         <>
+            <AddSemester/>
             <div className="flex flex-col bg-white md:px-10  shadow-md w-fit mx-auto px-5 py-3 shadow-stone-400 rounded-lg">
                 <span
                     className="self-end text-stone-500 text-lg mb-5 mt-2"
@@ -282,7 +150,13 @@ function CourseSemester() {
                     </span>
                     <span className=""></span>
                 </div>
-                <SemesterDetails />
+                <Link
+                    href={`${path}/sfda`}
+                    className="flex flex-row bg-teal-200 border-teal-400 border-2 w-fit rounded-full self-center my-3 px-4 space-x-3"
+                >
+                    <span>Subject</span>
+                    <span>6</span>
+                </Link>
             </div>
             <Modal
                 className="self-start mt-10"
@@ -383,7 +257,6 @@ function CourseSemester() {
 
 export default function CourseDetails() {
     const pathName = useParams();
-    console.log(pathName["course_details"]);
     const [data, setData] = useState([]);
     // useEffect(() => {
     //     fetch(`/api/course/semester-details/${pathName}`)

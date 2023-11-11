@@ -1,20 +1,16 @@
 from pymongo import MongoClient
 
-
-class Database():
-
-    def __init__(self, collection):
+class Database:
+    def __init__(self):
         url = MongoClient('mongodb://localhost:27017/')
-        self.__client = url["assessment_system"]
-        self._collection = self.__client[collection]
+        self.client = url['assessment_system']
+        self.collection = None
 
-    @property
-    def collection(self):
-        return self._collection
-
-    @collection.setter
-    def collection(self, value):
-        self._collection = value
+    @classmethod
+    def collection(cls, collection_name):
+        instance = cls()
+        instance.collection = instance.client[collection_name]
+        return instance
 
     def insert(self, data):
         result = self.collection.insert_many(data)

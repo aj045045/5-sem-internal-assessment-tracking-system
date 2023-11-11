@@ -218,7 +218,6 @@ function Course() {
             })
             .then((data) => {
                 setData(data);
-                console.log(data);
             });
     }, []);
     return (

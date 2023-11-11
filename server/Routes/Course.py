@@ -1,7 +1,6 @@
 from . import course_bp
 from flask import request, redirect, jsonify
 import Controller
-from bson import json_util
 
 
 @course_bp.route('/add-course', methods=['POST'])

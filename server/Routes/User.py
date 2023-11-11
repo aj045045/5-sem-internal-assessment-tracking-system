@@ -1,7 +1,8 @@
-from flask import request, jsonify,redirect
+from flask import request, jsonify, redirect
 from . import user_bp
 import Controller
 from werkzeug.utils import secure_filename
+
 
 @user_bp.route('/submit-form', methods=['POST'])
 def SingIn():
@@ -29,11 +30,13 @@ def Login():
         return jsonify({'redirect': 'Invalid userName or Password'})
     else:
         return jsonify({'redirect': 'true'})
-    
+
+
 """Faculty Sign In 
     Returns:
         Json: True
 """
+
 
 @user_bp.route('/faculty-sign-up', methods=['POST'])
 def add_faculty():
@@ -43,18 +46,20 @@ def add_faculty():
     image = request.files['profile']
     file_extension = image.filename.rsplit('.', 1)[1].lower()
     profileName = secure_filename(userName)
-    #REVIEW - Save file image
+    # REVIEW - Save file image
     image.save('../client/public/faculty/'+profileName+'.'+file_extension)
     profile = 'faculty/'+profileName+"."+file_extension
     designation = request.form.get('designation')
     phoneNo = request.form.get('phoneNo')
     specialization = request.form.get('specialization')
-    faculty_obj = Controller.Faculty(emailId,password)
-    faculty_obj.add_faculty(profile,userName,designation,phoneNo,specialization)
+    faculty_obj = Controller.Faculty(emailId, password)
+    faculty_obj.add_faculty(
+        profile, userName, designation, phoneNo, specialization)
     return redirect('/admin/faculty')
-    
-@user_bp.route('/faculty-display-all',methods=['GET'])
+
+
+@user_bp.route('/faculty-display-all', methods=['GET'])
 def view_faculty():
-    user = Controller.User()    
+    user = Controller.User()
     data = user.display_faculty_details()
     return jsonify(data)

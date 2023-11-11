@@ -8,7 +8,6 @@ class Faculty(User):
         self.__phone_no = 0000000000  # 11
         self.__specialization = ""  # 100
         super().__init__(emailId, password)
-        self.db = Database('faculty')        
         
     @property
     def _designation(self):
@@ -51,7 +50,7 @@ class Faculty(User):
             "specialization":self._specialization,
             "userId":userId,
         }
-        return self.db.insert_one(data)
+        return Database.collection('faculty').insert_one(data)
         
 
     def update_faculty(self,):

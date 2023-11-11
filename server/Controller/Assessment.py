@@ -1,7 +1,7 @@
 from .Database import Database
 
 
-class Assessment(Database):
+class Assessment():
 
     def __init__(self,assessment_title=""):
         self.__assessment_title = assessment_title
@@ -9,8 +9,7 @@ class Assessment(Database):
         self.__student_id = ""
         self.__subject_id = ""
         self.__assessment_type_id = ""
-        super().__init__("assessment")
-
+        
     @property
     def _assessment_title(self):
         return self.__assessment_title

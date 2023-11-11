@@ -1,13 +1,11 @@
 from .Database import Database
 from bson import ObjectId
 
-class Semester(Database):
+class Semester():
     def __init__(self):
         self.__semester_number = ""
         self.__syllabus_document = ""
         self.__number_of_subject = ""
-        self.__faculty = ""
-        super().__init__('semester')
 
     @property
     def _semester_number(self):
@@ -42,14 +40,22 @@ class Semester(Database):
                 "semester_number": sem+1,
                 "syllabus_document": "",
                 "number_of_subject": 0,
-                "faculty_id": "",
+                "faculty_id": ObjectId(),
                 "course_id": course_id
             }
             json_sem_data.append(data_sem)
         if len(json_sem_data) > 0:
-            super().insert(json_sem_data)
-            return True
-
+            return Database.collection('semester').insert(json_sem_data)
+        
+    def semester():
+         data_sem = {
+                "semester_number": "",
+                "syllabus_document": "",
+                "number_of_subject": 0,
+                "faculty_id": ObjectId(),
+                "course_id": ""
+            }
+         return Database.collection('semester').insert_one(data_sem)
     def update():
         return
 
@@ -57,6 +63,40 @@ class Semester(Database):
         return
 
     def view_semester(self, semester_number):
-        course_id = ObjectId(f'{semester_number}')
-        semester = {"course_id":course_id}
-        return list(super().view_one(semester))
+        pipeline = [
+            {
+                "$match":{"course_id":ObjectId(semester_number)}
+            },
+            {
+            "$lookup":{
+                "from":"faculty",
+                "localField":"faculty_id",
+                "foreignField":"_id",
+                "as":"faculty_details"
+                },
+            },
+            {
+                "$addFields": {
+                    "faculty_details": {
+                        "$map": {
+                            "input": "$faculty_details",
+                            "in": {
+                                "name": "$$this.faculty_name",
+                            }
+                        }
+                    }
+                }
+            },
+            {
+            "$project":{
+                "_id":1,
+                "course_name":1,
+                "semester_details":1
+                }
+            }
+        ]
+        # course_id = ObjectId(f'{semester_number}')
+        # 
+        # semester = {"course_id":course_id}
+        # return list(Database.collection('semester').view_one(semester))
+        return list(Database.collection('course').aggregate(pipeline))

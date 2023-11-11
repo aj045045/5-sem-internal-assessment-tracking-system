@@ -1,6 +1,6 @@
 from .Database import Database
 
-class Paper(Database):
+class Paper():
     def __init__(self,paper_title=None):
         super().__init__('paper')
         self.__paper_title = paper_title

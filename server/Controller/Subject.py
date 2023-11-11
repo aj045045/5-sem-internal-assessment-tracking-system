@@ -1,6 +1,6 @@
 from .Database import Database
 
-class Subject(Database,):
+class Subject():
     def add():
         return
 

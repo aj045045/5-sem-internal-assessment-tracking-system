@@ -4,7 +4,7 @@ from hashlib import sha256
 from flask import session
 
 
-class User(Database):
+class User():
 
     def __init__(self, emailId="user", Password="user"):
         self.__user_name = ""  # 50
@@ -13,7 +13,6 @@ class User(Database):
         self.__last_logged_in = ""  # Date
         self.__user_type = ""
         self.__profile = ""
-        super().__init__('user')
         session['user_sign_in'] = False
     
     @property
@@ -105,7 +104,7 @@ class User(Database):
             "last_logged": self._last_logged_in,
             "user_type": self._user_type
         }
-        return super().insert_one(data)
+        return Database.collection('user').insert_one(data)
 
     def logout(self):
         self.set_logged_in(False)
@@ -125,7 +124,7 @@ class User(Database):
             "email_id": self._email_id,
             "password": self.encryptPassword()
         }
-        response = super().view_one(data)
+        response = Database.collection('user').view_one(data)
         if response is not False:
             self.set_logged_in(True)
         return response
@@ -168,4 +167,4 @@ class User(Database):
                 }
             }
         ]
-        return list(super().aggregate(pipeline))
+        return list(Database.collection('user').aggregate(pipeline))
