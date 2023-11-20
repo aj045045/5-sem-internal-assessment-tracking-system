@@ -17,7 +17,8 @@ import Image from "next/image";
 import { Accordion, AccordionItem } from "@nextui-org/accordion";
 import { ImBooks } from "react-icons/im";
 import { useState } from "react";
-import { useRouter,usePathname } from "next/navigation";
+import Router from "next/router";
+import { useRouter, usePathname } from "next/navigation";
 import { ButtonClass } from "@/components/utilities";
 export default function SideNav({ children }: { children: React.ReactNode }) {
     const [openTab, setOpenTab] = useState(false);
@@ -65,7 +66,12 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
                             <span className="self-center text-lg md:text-xl">
                                 <LuLayoutDashboard />
                             </span>
-                            <div onClick={() => { pathName === '/admin' ? router.replace('/admin') : router.push('/admin') }}
+                            <div
+                                onClick={() => {
+                                    pathName === "/admin"
+                                        ? router.replace("/admin")
+                                        : router.push("/admin");
+                                }}
                                 className="self-center text-sm capitalize md:text-lg"
                             >
                                 dashboard
@@ -76,7 +82,11 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
                                 <FaTasks />
                             </span>
                             <div
-                                onClick={() => { pathName === '/admin/assessment' ? router.replace('/admin/assessment') : router.push('/admin/assessment') }}
+                                onClick={() => {
+                                    pathName === "/admin/assessment"
+                                        ? router.replace("/admin/assessment")
+                                        : router.push("/admin/assessment");
+                                }}
                                 className="self-center text-sm capitalize md:text-lg"
                             >
                                 Assessment
@@ -87,7 +97,11 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
                                 <ImBooks />
                             </span>
                             <div
-                               onClick={() => { pathName === '/admin/course' ? router.replace('/admin/course') : router.push('/admin/course') }}
+                                onClick={() => {
+                                    pathName === "/admin/course"
+                                        ? router.replace("/admin/course")
+                                        : router.push("/admin/course");
+                                }}
                                 className="self-center text-sm capitalize md:text-lg"
                             >
                                 Course
@@ -110,7 +124,13 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
                                         <FaUserTie />
                                     </span>
                                     <div
-                                        onClick={() => { pathName === '/admin/faculty' ? router.replace('/admin/faculty') : router.push('/admin/faculty') }}
+                                        onClick={() => {
+                                            pathName === "/admin/faculty"
+                                                ? router.replace(
+                                                      "/admin/faculty"
+                                                  )
+                                                : router.push("/admin/faculty");
+                                        }}
                                         className="self-center text-sm capitalize md:text-lg"
                                     >
                                         Faculty
@@ -122,7 +142,13 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
                                     </span>
                                     <div
                                         className="self-center text-sm capitalize md:text-lg"
-                                        onClick={() => { pathName === '/admin/student' ? router.replace('/admin/student') : router.push('/admin/student') }}
+                                        onClick={() => {
+                                            pathName === "/admin/student"
+                                                ? router.replace(
+                                                      "/admin/student"
+                                                  )
+                                                : router.push("/admin/student");
+                                        }}
                                     >
                                         Student
                                     </div>
@@ -134,7 +160,11 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
                                 <FaPaperclip />
                             </span>
                             <div
-                                onClick={() => { pathName === '/admin/paper' ? router.replace('/admin/paper') : router.push('/admin/paper') }}
+                                onClick={() => {
+                                    pathName === "/admin/paper"
+                                        ? router.replace("/admin/paper")
+                                        : router.push("/admin/paper");
+                                }}
                                 className="self-center text-sm capitalize md:text-lg"
                             >
                                 Papers
@@ -145,7 +175,11 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
                                 <FaFilePdf />
                             </span>
                             <div
-                                onClick={() => { pathName === '/admin/assignment' ? router.replace('/admin/assignment') : router.push('/admin/assignment') }}
+                                onClick={() => {
+                                    pathName === "/admin/assignment"
+                                        ? router.replace("/admin/assignment")
+                                        : router.push("/admin/assignment");
+                                }}
                                 className="self-center text-sm capitalize md:text-lg"
                             >
                                 Assignment
@@ -156,14 +190,21 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
                                 <CgDatabase />
                             </span>
                             <div
-                               onClick={() => { pathName === '/admin/decrypt-paper' ? router.replace('/admin/decrypt-paper') : router.push('/admin/decrypt-paper') }}
+                                onClick={() => {
+                                    pathName === "/admin/decrypt-paper"
+                                        ? router.replace("/admin/decrypt-paper")
+                                        : router.push("/admin/decrypt-paper");
+                                }}
                                 className="self-center text-sm capitalize md:text-lg"
                             >
                                 Decrypt Papers
                             </div>
                         </div>
                     </div>
-                    <div className={ButtonClass} onClick={()=>router.push('/')}>
+                    <div
+                        className={ButtonClass}
+                        onClick={() => router.push("/")}
+                    >
                         Logout
                     </div>
                 </div>
@@ -176,7 +217,15 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
                     <LuPanelLeftOpen />
                 </div>
             </div>
-            {children}
+            <div
+                className={`${ 
+                    openTab === true
+                        ? `md:w-4/5 w-3/4 bg-orange-50 float-right pl-3 overflow-hidden transition-width duration-700 delay-75 flex flex-col ease-linear`
+                        : `w-full`
+                }`}
+            >
+                {children}
+            </div>
         </>
     );
 }

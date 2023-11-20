@@ -11,12 +11,14 @@ import {
     useDisclosure,
 } from "@nextui-org/react";
 import { InputClass } from "@/components/utilities";
+import { FacultyDropDown } from "@/components/1_layout";
+import { useParams } from "next/navigation";
 function AddSubject() {
     const { isOpen, onOpen, onClose } = useDisclosure();
     return (
         <>
             <div
-                className="bg-stone-500 mx-10 my-6 shadow-md shadow-stone-400 font-semibold text-white py-1.5 rounded-md center items-center space-x-3 justify-center text-lg flex flex-row"
+                className="bg-stone-400 mx-10 my-6 shadow-md shadow-stone-500 font-semibold text-white py-1.5 rounded-md center items-center space-x-3 justify-center text-lg flex flex-row"
                 onClick={() => onOpen()}
             >
                 <span className="text-lg">
@@ -39,7 +41,7 @@ function AddSubject() {
                         {(onClose) => (
                             <>
                                 <ModalHeader className="flex flex-col gap-1 bg-orange-200 text-orange-600">
-                                    Add semester
+                                    Add Subject
                                 </ModalHeader>
                                 <ModalBody className="flex space-y-4 mt-5">
                                     <input
@@ -136,32 +138,18 @@ function AddSubject() {
                                                 </span>
                                             </p>
                                             <p className="text-xs text-gray-500 dark:text-gray-400">
-                                                PNG or JPG
+                                                PDF
                                             </p>
                                         </div>
                                         <input
                                             id="dropzone-file"
                                             type="file"
+                                            accept="application/pdf"
                                             name="plan"
                                             className="hidden"
                                         />
                                     </label>
-                                    <div className="relative">
-                                        <select
-                                            name="faculty"
-                                            className={InputClass.input}
-                                        >
-                                            <option value="">jay sir</option>
-                                            <option value="">janvi</option>
-                                            <option value="">ansh</option>
-                                        </select>
-                                        <label
-                                            htmlFor="faculty"
-                                            className={InputClass.label}
-                                        >
-                                            Choose Faculty
-                                        </label>
-                                    </div>
+                                    <FacultyDropDown />
                                 </ModalBody>
                                 <ModalFooter>
                                     <Button
@@ -190,22 +178,22 @@ function Subject_row() {
     return (
         <>
             <tbody>
-                <tr className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <tr className="bg-white dark:bg-gray-800 hover:bg-neutral-100  dark:hover:bg-gray-600">
                     <th
                         scope="row"
-                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        className="px-6 py-4 uppercase text-stone-600 tracking-wide whitespace-nowrap dark:text-white"
                     >
                         Operating system
                     </th>
                     <td className="px-6 py-4">MCS-MMG</td>
-                    <td className="px-6 py-4">5</td>
+                    <td className="px-6 py-4 ">5</td>
                     <td className="px-6 py-4">Theory</td>
                     <td className="px-6 py-4 text-right">
                         <a href="#" className="font-medium text-stone-500">
                             <FaDownload />
                         </a>
                     </td>
-                    <td className="px-6 py-4">Jay Patel</td>
+                    <td className="px-6 py-4 text-black">Jay Patel</td>
                     <td className="px-6 py-4 text-md" onClick={() => onOpen()}>
                         <FaEdit />
                     </td>
@@ -327,32 +315,18 @@ function Subject_row() {
                                                 </span>
                                             </p>
                                             <p className="text-xs text-gray-500 dark:text-gray-400">
-                                                PNG or JPG
+                                                PDF
                                             </p>
                                         </div>
                                         <input
                                             id="dropzone-file"
                                             type="file"
                                             name="plan"
+                                            accept="application/pdf"
                                             className="hidden"
                                         />
                                     </label>
-                                    <div className="relative">
-                                        <select
-                                            name="faculty"
-                                            className={InputClass.input}
-                                        >
-                                            <option value="">jay sir</option>
-                                            <option value="">janvi</option>
-                                            <option value="">ansh</option>
-                                        </select>
-                                        <label
-                                            htmlFor="faculty"
-                                            className={InputClass.label}
-                                        >
-                                            Choose Faculty
-                                        </label>
-                                    </div>
+                                    <FacultyDropDown />
                                 </ModalBody>
                                 <ModalFooter>
                                     <Button
@@ -377,14 +351,26 @@ function Subject_row() {
 }
 
 export default function Subject_details() {
+    
+    const path = useParams();
+    console.log(path.course_details, " and ", path.subject_details);
+    const pattern = typeof path.course_details === "string"? path.course_details.split("-"): [];
+    const semester = typeof path.subject_details === "string"? path.subject_details.split("-"): [];
+    const courseName = pattern[0];
+    const semesterNumber = semester[0];
+    const semesterId = semester[1];
     return (
         <>
-            <div className="md:mx-20 pb-96 ">
+            <div className="md:mx-20 pb-96 space-y-16">
+                <div className="flex space-y-3 items-center mt-10 flex-col">
+                    <div className="text-xl md:text-3xl">{courseName.replaceAll("%20", " ")}</div>
+                    <div className="text-lg md:text-2xl underline underline-offset-4 text-stone-600">Semester - {semesterNumber}</div>
+                </div>
+                <AddSubject />
                 <div>
-                    <AddSubject />
                     <div className="relative overflow-x-auto shadow-md sm:rounded-lg shadow-stone-400">
                         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                            <thead className="text-sm tracking-wide text-gray-700 uppercase bg-stone-100 border-l-4 border-l-teal-500  dark:bg-gray-700 dark:text-gray-400">
+                            <thead className="text-sm tracking-wide text-gray-700 uppercase bg-stone-200 border-l-4 border-l-teal-500 border-b-2 border-b-stone-300  dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
                                     <th scope="col" className="px-6 py-3">
                                         Subject

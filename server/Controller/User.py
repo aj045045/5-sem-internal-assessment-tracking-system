@@ -129,6 +129,12 @@ class User():
             self.set_logged_in(True)
         return response
 
+    def faculty_dropdown(self):
+         pipeline = [
+        {'$match': {'user_type': 'faculty'}},
+        {'$project': {'_id': 1, 'user_name': 1,}}
+    ]
+         return list(Database.collection('user').aggregate(pipeline))
     def display_faculty_details(self):
         pipeline = [
             {

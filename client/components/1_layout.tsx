@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import { Link, animateScroll as scroll } from "react-scroll";
 import { ErrorTag, InputClass } from "./utilities";
 import {
@@ -23,7 +23,7 @@ import {
 //REVIEW - Data card for Pages container
 export function DataCard({ data, type }: { data: string; type: string }) {
     return (
-        <div className="flex flex-row items-center justify-center w-40 h-12 space-x-3 bg-white border-t-2 border-l-4 rounded-md shadow-md md:w-44 border-l-teal-500 border-t-stone-200 md:h-14">
+        <div className="flex  flex-row items-center justify-center w-40 h-12 space-x-3 bg-white border-t-2 border-l-4 rounded-md shadow-md md:w-44 border-l-teal-500 border-t-stone-200 md:h-14">
             <div className="text-3xl font-semibold md:text-4xl">{data}</div>
             <div className="mt-3 font-sans uppercase text-md md:text-lg">
                 {type}
@@ -326,7 +326,7 @@ export function DataFaculty({
 }) {
     return (
         <>
-            <div className="flex border-l-4 border-l-teal-500 flex-row items-center py-4 mx-auto bg-white border-t-2 rounded-md shadow-md border-t-stone-200 justify-evenly w-80">
+            <div className="flex   border-l-4 border-l-teal-500 flex-row items-center py-4 mx-auto bg-white border-t-2 rounded-md shadow-md border-t-stone-200 justify-evenly w-80">
                 <Image
                     src={`/${image}`}
                     className="w-20 h-20 border-2 border-orange-200 rounded-full p-0.5"
@@ -346,5 +346,44 @@ export function DataFaculty({
                 </div>
             </div>
         </>
+    );
+}
+
+//REVIEW - Faculty Drop down from backend
+
+export function FacultyDropDown() {
+    interface FacultyData {
+        _id: string;
+        user_name: string;
+    }
+    const [dataFaculty, setData] = useState<FacultyData[]>([]);
+    useEffect(() => {
+        fetch("/api/user/faculty-dropdown")
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                setData(data);
+            })
+            .catch((error) => {
+                console.error("Error fetching faculty data:", error);
+            });
+    }, []);
+    return (
+        <div className="relative">
+            <select name="faculty_dropdown" className={InputClass.input}>
+                {dataFaculty.map((data, index) => (
+                    <option value={data._id} key={index}>
+                        {data.user_name}
+                    </option>
+                ))}
+            </select>
+            <label htmlFor="faculty" className={InputClass.label}>
+                Choose Faculty
+            </label>
+        </div>
     );
 }

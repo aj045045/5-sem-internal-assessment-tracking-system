@@ -37,7 +37,6 @@ def Login():
         Json: True
 """
 
-
 @user_bp.route('/faculty-sign-up', methods=['POST'])
 def add_faculty():
     userName = request.form.get('userName')
@@ -63,3 +62,9 @@ def view_faculty():
     user = Controller.User()
     data = user.display_faculty_details()
     return jsonify(data)
+
+@user_bp.route('/faculty-dropdown',methods=['GET'])
+def faculty_dropdown():
+    user = Controller.User()
+    data = user.faculty_dropdown()
+    return Controller.convert_id(data)

@@ -169,10 +169,14 @@ function CourseDetail({
     return (
         <>
             {data.map((value, index) => (
-                <Link href={`course/${value._id}`} key={index}>
-                    <div
-                        className="flex my-10 text-center flex-col bg-white border-l-4 border-l-teal-500 rounded-md shadow-md py-2 mx-5 md:w-fit md:mx-auto md:px-10 shadow-stone-400"
-                    >
+                <Link
+                    href={`course/${value.course_name.replace(
+                        /\s+/g,
+                        '%20'
+                    )}-${value._id}`}
+                    key={index}
+                >
+                    <div className="flex my-10 text-center flex-col bg-white border-l-4 border-l-teal-500 rounded-md shadow-md py-2 mx-5 md:w-fit md:mx-auto md:px-10 shadow-stone-400">
                         <div className="flex space-y-2 md:space-x-5 justify-center items-center flex-col py-2 md:flex-row">
                             <span className="text-xl md:text-2xl">
                                 {value.course_name}
@@ -221,11 +225,11 @@ function Course() {
             });
     }, []);
     return (
-        <>
+        <div className="pb-10">
             <AddCourse />
             <Pill data="Course Details" />
             <CourseDetail data={data} />
-        </>
+        </div>
     );
 }
 

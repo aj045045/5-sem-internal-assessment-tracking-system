@@ -1,5 +1,5 @@
 from . import course_bp
-from flask import request, redirect, jsonify
+from flask import request, redirect
 import Controller
 
 
@@ -32,11 +32,29 @@ def display_course():
 def semester_details(course_data_id):
     semester = Controller.Semester()
     data = semester.view_semester(course_data_id)
-    formatted_data = []
-    for document in data:
-        object_id_str = str(document['_id'])
-        document['_id'] = object_id_str
-        course_id = str(document['course_id'])
-        document['course_id'] = course_id
-        formatted_data.append(document)
-    return jsonify(formatted_data)
+    return Controller.convert_id(data)
+
+@course_bp.route('/add-semester/<course_id>',methods=['POST'])
+def add_semester(course_id):
+    url = request.url();
+    faculty = request.form.get('faculty_dropdown')
+    file = request.files['syllabus']
+    sem = Controller.Semester()
+    semester = sem.last_semester_id(course_id)
+    semesterNumber = int(semester[0])+1
+    fileName = f"{course_id}_sem_{semesterNumber}.pdf"
+    file.save('../client/public/syllabus/'+fileName)
+    sem.add_semester_record(semesterNumber,fileName,faculty,course_id)
+    return redirect(url)
+
+@course_bp.route('/update-semester/<semester_id>',methods=['POST'])
+def update_semester(semester_id):
+    return
+
+@course_bp.route('/add-subject/<semester_id>',methods=['POST'])
+def add_subject(semester_id):
+    return
+
+@course_bp.route('/update-subject/<subject_id>',methods=['POST'])
+def update_subject(subject_id):
+    return

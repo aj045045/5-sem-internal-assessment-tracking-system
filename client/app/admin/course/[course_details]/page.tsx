@@ -9,12 +9,12 @@ import {
     Button,
     useDisclosure,
 } from "@nextui-org/react";
-import { InputClass } from "@/components/utilities";
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { MdLibraryAdd } from "react-icons/md";
+import { FacultyDropDown } from "@/components/1_layout";
 
 function AddSemester() {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -29,7 +29,7 @@ function AddSemester() {
                 </span>
                 <div>ADD SEMESTER</div>
             </div>
-                <Modal
+            <Modal
                 className="self-start mt-10"
                 size="md"
                 isOpen={isOpen}
@@ -47,22 +47,7 @@ function AddSemester() {
                                     Add semester
                                 </ModalHeader>
                                 <ModalBody className="flex space-y-4 mt-5">
-                                    <div className="relative">
-                                        <select
-                                            name="faculty"
-                                            className={InputClass.input}
-                                        >
-                                            <option value="">jay sir</option>
-                                            <option value="">janvi</option>
-                                            <option value="">ansh</option>
-                                        </select>
-                                        <label
-                                            htmlFor="faculty"
-                                            className={InputClass.label}
-                                        >
-                                            Choose Faculty
-                                        </label>
-                                    </div>
+                                    <FacultyDropDown/>
                                     <div className="flex items-center justify-center w-full">
                                         <label
                                             htmlFor="dropzone-file"
@@ -91,13 +76,14 @@ function AddSemester() {
                                                     </span>
                                                 </p>
                                                 <p className="text-xs text-gray-500 dark:text-gray-400">
-                                                    PNG or JPG
+                                                    PDF
                                                 </p>
                                             </div>
                                             <input
                                                 id="dropzone-file"
                                                 type="file"
                                                 name="syllabus"
+                                                accept="application/pdf"
                                                 className="hidden"
                                             />
                                         </label>
@@ -125,7 +111,19 @@ function AddSemester() {
     );
 }
 
-function CourseSemester() {
+function CourseSemesterDetail({
+    semester_number,
+    subject,
+    faculty_name,
+    syllabus,
+    semester_id,
+}: {
+    semester_number: number;
+    subject: number;
+    faculty_name: string;
+    syllabus: string;
+    semester_id: string;
+}) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const handleOpen = () => {
         onOpen();
@@ -133,29 +131,35 @@ function CourseSemester() {
     const path = usePathname();
     return (
         <>
-            <AddSemester/>
-            <div className="flex flex-col bg-white md:px-10  shadow-md w-fit mx-auto px-5 py-3 shadow-stone-400 rounded-lg">
+            <div className="flex flex-col bg-white md:px-10 my-10 shadow-md w-fit mx-auto px-5 py-3 shadow-stone-400 rounded-lg">
                 <span
-                    className="self-end text-stone-500 text-lg mb-5 mt-2"
+                    className="self-end text-stone-500 md:text-lg text-base mb-5 mt-2"
                     onClick={handleOpen}
                 >
                     <FaEdit />
                 </span>
-                <div className="flex flex-row space-x-5 justify-center text-lg items-center">
-                    Semester -<span className="font-bold">5</span>
-                    <span className="">by</span>
-                    <span className="capitalize font-semibold">Jay Patel</span>
-                    <span className="text-stone-600 border-2 border-orange-200 bg-orange-100 rounded px-3 py-2">
-                        <FaDownload />
+                <div className="flex flex-row space-x-5 justify-center md:text-lg text-base  items-center">
+                    Semester -
+                    <span className="font-bold">&nbsp;{semester_number}</span>
+                    <span>by</span>
+                    <span className="capitalize font-semibold md:text-base text-sm">
+                        {faculty_name}
                     </span>
-                    <span className=""></span>
+                    <a
+                        href={syllabus}
+                        className="text-stone-600  md:text-base text-sm border-2 border-orange-200 bg-orange-100 rounded px-3 py-2"
+                    >
+                        <FaDownload />
+                    </a>
                 </div>
                 <Link
-                    href={`${path}/sfda`}
+                    href={`${path}/${semester_number}-${semester_id}`}
                     className="flex flex-row bg-teal-200 border-teal-400 border-2 w-fit rounded-full self-center my-3 px-4 space-x-3"
                 >
-                    <span>Subject</span>
-                    <span>6</span>
+                    <span className="md:text-base text-sm self-center">
+                        Subject
+                    </span>
+                    <span className="md:text-base text-sm self-center">{subject}</span>
                 </Link>
             </div>
             <Modal
@@ -168,31 +172,15 @@ function CourseSemester() {
                     encType="multipart/form-data"
                     action="/api/user/faculty-sign-up"
                     method="POST"
-                    onSubmit={() => console.log("SUBMIT FORM")}
                 >
                     <ModalContent>
                         {(onClose) => (
                             <>
                                 <ModalHeader className="flex flex-col gap-1 bg-orange-200 text-orange-600">
-                                    Semester Name
+                                    Semester - {semester_number}
                                 </ModalHeader>
                                 <ModalBody className="flex space-y-4 mt-5">
-                                    <div className="relative">
-                                        <select
-                                            name="faculty"
-                                            className={InputClass.input}
-                                        >
-                                            <option value="">jay sir</option>
-                                            <option value="">janvi</option>
-                                            <option value="">ansh</option>
-                                        </select>
-                                        <label
-                                            htmlFor="faculty"
-                                            className={InputClass.label}
-                                        >
-                                            Choose Faculty
-                                        </label>
-                                    </div>
+                                    <FacultyDropDown />
                                     <div className="flex items-center justify-center w-full">
                                         <label
                                             htmlFor="dropzone-file"
@@ -221,13 +209,14 @@ function CourseSemester() {
                                                     </span>
                                                 </p>
                                                 <p className="text-xs text-gray-500 dark:text-gray-400">
-                                                    PNG or JPG
+                                                    PDF
                                                 </p>
                                             </div>
                                             <input
                                                 id="dropzone-file"
                                                 type="file"
                                                 name="syllabus"
+                                                accept="application/pdf"
                                                 className="hidden"
                                             />
                                         </label>
@@ -256,25 +245,55 @@ function CourseSemester() {
 }
 
 export default function CourseDetails() {
+    interface SemesterData {
+        _id: string;
+        faculty_user_name: string;
+        semester_details: {
+            number_of_subject: number;
+            semester_number: number;
+            syllabus_document: string;
+        };
+    }
     const pathName = useParams();
-    const [data, setData] = useState([]);
-    // useEffect(() => {
-    //     fetch(`/api/course/semester-details/${pathName}`)
-    //         .then((response) => {
-    //             if (!response.ok) {
-    //                 throw new Error("Network response was not ok");
-    //             }
-    //             return response.json();
-    //         })
-    //         .then((data) => {
-    //             setData(data);
-    //             console.log(data);
-    //         });
-    // }, [pathName]);
+    const patternValue= pathName.course_details;
+    const pattern = typeof patternValue === 'string' ? patternValue.split('-') : [];
+    console.log(pattern);
+    const courseName = pattern[0];
+    const courseNumber = pattern[1];
+    const [data, setData] = useState<SemesterData[]>([]);
+    useEffect(() => {
+        fetch(`/api/course/semester-details/${courseNumber}`)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                setData(data);
+            })
+            .catch((error) => {
+                console.error("Error fetching faculty data:", error);
+            });
+    }, [courseNumber]);
     return (
-        <>
-            <div className="text-center w-full text-3xl my-5">Course Name</div>
-            <CourseSemester />
-        </>
+        <div className="pb-20">
+            <div className="text-center w-full md:text-4xl text-2xl my-5 ">
+                {courseName.replaceAll('%20',' ')} Details
+            </div>
+            <AddSemester />
+            <div className="grid lg:grid-cols-2 grid-cols-1">
+                {data.map((value, index) => (
+                    <CourseSemesterDetail
+                        key={index}
+                        semester_number={value.semester_details.semester_number}
+                        subject={value.semester_details.number_of_subject}
+                        faculty_name={value.faculty_user_name}
+                        syllabus={value.semester_details.syllabus_document}
+                        semester_id={value._id}
+                    />
+                ))}
+            </div>
+        </div>
     );
 }
