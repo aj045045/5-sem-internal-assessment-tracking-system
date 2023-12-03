@@ -1,3 +1,4 @@
+'use client';
 import {
     HeroHeader,
     WelcomeTag,
@@ -6,30 +7,24 @@ import {
 } from "@/components/1_layout";
 import { DataCardContainer, DataFacultyContainer } from "@/components/2_layout";
 import { Pill } from "@/components/utilities";
-
+import { useState,useEffect } from "react";
 function SignIn() {
-    const dataCard = [
-        {
-            value: "6",
-            type: "Programs",
-        },
-        {
-            value: "10",
-            type: "Faculty",
-        },
-        {
-            value: "24",
-            type: "Semester",
-        },
-        {
-            value: "120",
-            type: "Subject",
-        },
-        {
-            value: "800",
-            type: "Student",
-        },
-    ];
+    const [data, setData] = useState([]);
+    useEffect(() => {
+        fetch('/api/user/data-list')
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                setData(data);
+            })
+            .catch((error) => {
+                console.error("Error fetching faculty data:", error);
+            });
+    },[]);
     const AimsList = [
         {
             id: 1,
@@ -59,7 +54,7 @@ function SignIn() {
             <hr className=" invisible md:mt-[80vh]  mt-[55vh]" />
             <hr className="invisible" id="services" />
             <Pill data="Services" />
-            <DataCardContainer dataList={dataCard} />
+            <DataCardContainer dataList={data} />
             <WelcomeTag />
             <hr className="invisible" id="family" />
             <Pill data="family" />

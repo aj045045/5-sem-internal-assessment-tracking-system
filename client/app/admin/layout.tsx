@@ -31,14 +31,14 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
         <>
             <div className="flex flex-row">
                 <div
-                    className={`flex flex-col h-full py-2  mr-2 bg-orange-200  overflow-x-hidden z-10 transition-width duration-500 delay-75 ease-linear  fixed ${
+                    className={`flex flex-col h-full py-2  mr-2 bg-orange-200  overflow-x-hidden z-10 transition-width duration-500 delay-75 ease-in-out  fixed ${
                         openTab === true
                             ? `w-48 md:w-64 pl-2 border-r-2 border-stone-300 `
                             : `w-0`
                     }`}
                 >
                     <div
-                        className="p-1 mt-2 ml-auto mr-4 text-lg bg-orange-300 rounded md:text-2xl "
+                        className="p-1 mt-2 ml-auto mr-4 text-lg bg-orange-300 rounded md:text-xl shadow-md shadow-stone-500"
                         onClick={() => {
                             handlePanel();
                         }}
@@ -205,11 +205,11 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
                         className={ButtonClass}
                         onClick={() => router.push("/")}
                     >
-                        Logout
+                        Sign out
                     </div>
                 </div>
                 <div
-                    className="p-1 bg-orange-300 m-3 w-7 h-auto text-xl rounded-lg justify-center flex "
+                    className="p-1 bg-orange-300 m-3 w-auto h-auto text-xl rounded-md justify-center flex fixed shadow-md shadow-stone-500"
                     onClick={() => {
                         handlePanel();
                     }}

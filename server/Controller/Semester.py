@@ -1,6 +1,6 @@
 from .Database import Database
 from bson import ObjectId
-
+import os
 class Semester():
     def __init__(self):
         self.__semester_number = ""
@@ -40,7 +40,7 @@ class Semester():
                 "semester_number": sem+1,
                 "syllabus_document": "",
                 "number_of_subject": 0,
-                "faculty_id": ObjectId('6533d96be98aa3e7f3907182'),
+                "faculty_id": ObjectId('6533d96be98aa3e7f3907181'),
                 "course_id": course_id
             }
             json_sem_data.append(data_sem)
@@ -52,12 +52,12 @@ class Semester():
                 "semester_number": "",
                 "syllabus_document": "",
                 "number_of_subject": 0,
-                "faculty_id": ObjectId('6533d96be98aa3e7f3907182'),
+                "faculty_id": ObjectId('6533d96be98aa3e7f3907181'),
                 "course_id": ""
             }
          return Database.collection('semester').insert_one(data_sem)
     
-    def last_semester_id(self,course_id):
+    def last_semester_number(self,course_id):
         pipeline =[
           {"$match":{"course_id":ObjectId(course_id)}},
           {"$sort":{"semester_number":-1}},
@@ -75,32 +75,41 @@ class Semester():
                 "course_id": ObjectId(course_id)
             }
          return Database.collection('semester').insert_one(data_sem)  
-    def update():
-        return
+
+    def update(self,semester_id,subject_location,faculty_id):
+        #TODO - Set value
+        find_pipe = {
+            "_id":ObjectId(semester_id)
+        }
+        update_pipe = {
+            "$set":{
+            "syllabus_document":subject_location,
+            "faculty_id":ObjectId(faculty_id)
+            }
+        }
+        #TODO - Update the values
+        response = Database.collection('semester').update_one(find_pipe,update_pipe)
+        #TODO - Delete the files
+        print('RESPONSE VALUE',response)
+        if response is not False and response['syllabus_document'] !='':
+            value = response['syllabus_document']
+            os.remove(f'../client/public/{value}')
+            return True
+        else: 
+            return False 
 
     def delete():
         return
 
     def view_semester(self, semester_number):
-        pipeline = [
-            {
+      pipeline =[
+       {
                 "$match": {"course_id": ObjectId(semester_number)}
-            },
-  {
-    "$lookup": {
-      "from": "faculty",
-      "localField": "faculty_id",
-      "foreignField": "_id",
-      "as": "faculty_info"
-    }
-  },
-  {
-    "$unwind": "$faculty_info"
-  },
+    },
   {
     "$lookup": {
       "from": "user",
-      "localField": "faculty_info.userId",
+      "localField": "faculty_id",
       "foreignField": "_id",
       "as": "user_info"
     }
@@ -108,35 +117,14 @@ class Semester():
   {
     "$unwind": "$user_info"
   },
-  {
-    "$project": {
-      "semester_details": "$$ROOT",
-      "faculty_user_id": "$faculty_info.userId",
-      "faculty_user_name": "$user_info.user_name"
-    },
-  },
    {
     "$project": {
-      'semester_details._id': 0,
-      'semester_details.faculty_info': 0,
-      'semester_details.user_info': 0,
-      'faculty_user_id':0,
-      'semester_details.faculty_id': 0,
-      'semester_details.course_id': 0,
+      '_id': 1,
+      'semester_number': 1,
+      'syllabus_document': 1,
+      'number_of_subject':1,
+      'user_info.user_name': 1,
     }
   },
     ]
-        
-        pipelineField = [
-  {
-   "$match":{
-     "_id":ObjectId(semester_number),
-   } 
-  },{
-    "$project":{
-      "course_name":1,
-      "_id":0,
-    }
-  }
-]
-        return list(Database.collection('semester').aggregate(pipeline))
+      return list(Database.collection('semester').aggregate(pipeline))

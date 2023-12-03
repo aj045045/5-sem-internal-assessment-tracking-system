@@ -18,7 +18,7 @@ class Database:
             return result.inserted_ids
         else:
             return False
-
+    
     def insert_one(self, data):
         result = self.collection.insert_one(data)
         if result.acknowledged:
@@ -50,7 +50,7 @@ class Database:
     def update_one(self, find, update):
         result = self.collection.find_one_and_update(find, update)
         if result:
-            return result['_id']
+            return result
         else:
             return False
 

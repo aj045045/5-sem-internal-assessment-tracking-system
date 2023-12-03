@@ -16,8 +16,9 @@ import Link from "next/link";
 import { MdLibraryAdd } from "react-icons/md";
 import { FacultyDropDown } from "@/components/1_layout";
 
-function AddSemester() {
+function AddSemester({ course_number }: { course_number: string }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const path = usePathname();
     return (
         <>
             <div
@@ -37,7 +38,7 @@ function AddSemester() {
             >
                 <form
                     encType="multipart/form-data"
-                    action="/api/course/add-semester"
+                    action={`/api/course/add-semester/${course_number}`}
                     method="POST"
                 >
                     <ModalContent>
@@ -47,7 +48,12 @@ function AddSemester() {
                                     Add semester
                                 </ModalHeader>
                                 <ModalBody className="flex space-y-4 mt-5">
-                                    <FacultyDropDown/>
+                                    <FacultyDropDown />
+                                    <input
+                                        type="hidden"
+                                        name="path"
+                                        value={path}
+                                    />
                                     <div className="flex items-center justify-center w-full">
                                         <label
                                             htmlFor="dropzone-file"
@@ -159,7 +165,9 @@ function CourseSemesterDetail({
                     <span className="md:text-base text-sm self-center">
                         Subject
                     </span>
-                    <span className="md:text-base text-sm self-center">{subject}</span>
+                    <span className="md:text-base text-sm self-center">
+                        {subject}
+                    </span>
                 </Link>
             </div>
             <Modal
@@ -170,7 +178,7 @@ function CourseSemesterDetail({
             >
                 <form
                     encType="multipart/form-data"
-                    action="/api/user/faculty-sign-up"
+                    action={`/api/course/update-semester/${semester_id}`}
                     method="POST"
                 >
                     <ModalContent>
@@ -181,6 +189,11 @@ function CourseSemesterDetail({
                                 </ModalHeader>
                                 <ModalBody className="flex space-y-4 mt-5">
                                     <FacultyDropDown />
+                                    <input
+                                        type="hidden"
+                                        name="path"
+                                        value={path}
+                                    />
                                     <div className="flex items-center justify-center w-full">
                                         <label
                                             htmlFor="dropzone-file"
@@ -247,17 +260,17 @@ function CourseSemesterDetail({
 export default function CourseDetails() {
     interface SemesterData {
         _id: string;
-        faculty_user_name: string;
-        semester_details: {
-            number_of_subject: number;
-            semester_number: number;
-            syllabus_document: string;
+        number_of_subject: number;
+        semester_number: number;
+        syllabus_document: string;
+        user_info: {
+            user_name: string;
         };
     }
     const pathName = useParams();
-    const patternValue= pathName.course_details;
-    const pattern = typeof patternValue === 'string' ? patternValue.split('-') : [];
-    console.log(pattern);
+    const patternValue = pathName.course_details;
+    const pattern =
+        typeof patternValue === "string" ? patternValue.split("-") : [];
     const courseName = pattern[0];
     const courseNumber = pattern[1];
     const [data, setData] = useState<SemesterData[]>([]);
@@ -277,19 +290,19 @@ export default function CourseDetails() {
             });
     }, [courseNumber]);
     return (
-        <div className="pb-20">
+        <div className="py-14 gap-y-6 flex flex-col">
             <div className="text-center w-full md:text-4xl text-2xl my-5 ">
-                {courseName.replaceAll('%20',' ')} Details
+                {courseName.replaceAll("%20", " ")} Details
             </div>
-            <AddSemester />
+            <AddSemester course_number={courseNumber} />
             <div className="grid lg:grid-cols-2 grid-cols-1">
                 {data.map((value, index) => (
                     <CourseSemesterDetail
                         key={index}
-                        semester_number={value.semester_details.semester_number}
-                        subject={value.semester_details.number_of_subject}
-                        faculty_name={value.faculty_user_name}
-                        syllabus={value.semester_details.syllabus_document}
+                        semester_number={value.semester_number}
+                        subject={value.number_of_subject}
+                        faculty_name={value.user_info.user_name}
+                        syllabus={value.syllabus_document}
                         semester_id={value._id}
                     />
                 ))}

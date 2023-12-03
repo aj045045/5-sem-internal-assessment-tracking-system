@@ -12,13 +12,15 @@ import {
 } from "@nextui-org/react";
 import { InputClass } from "@/components/utilities";
 import { FacultyDropDown } from "@/components/1_layout";
-import { useParams } from "next/navigation";
-function AddSubject() {
+import { useParams, usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
+function AddSubject({ semester_id }: { semester_id: string }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const pathName = usePathname();
     return (
         <>
             <div
-                className="bg-stone-400 mx-10 my-6 shadow-md shadow-stone-500 font-semibold text-white py-1.5 rounded-md center items-center space-x-3 justify-center text-lg flex flex-row"
+                className="bg-stone-400  mx-auto w-80 my-6 shadow-md shadow-stone-500 font-semibold text-white py-1.5 rounded-md center items-center space-x-3 justify-center text-lg flex flex-row"
                 onClick={() => onOpen()}
             >
                 <span className="text-lg">
@@ -33,8 +35,9 @@ function AddSubject() {
                 onClose={onClose}
             >
                 <form
+                    onSubmit={() => console.log("SUBMIT FORM")}
                     encType="multipart/form-data"
-                    action="/api/course/add-subject"
+                    action={`/api/course/add-subject`}
                     method="POST"
                 >
                     <ModalContent>
@@ -46,13 +49,18 @@ function AddSubject() {
                                 <ModalBody className="flex space-y-4 mt-5">
                                     <input
                                         type="hidden"
-                                        name="id"
-                                        value="id's"
+                                        name="path"
+                                        value={pathName}
+                                    />
+                                    <input
+                                        type="hidden"
+                                        name="semester_id"
+                                        value={semester_id}
                                     />
                                     <div className="relative">
                                         <input
                                             type="text"
-                                            name="subject"
+                                            name="subject_name"
                                             className={InputClass.input}
                                             placeholder=""
                                         />
@@ -60,7 +68,7 @@ function AddSubject() {
                                             htmlFor="subject"
                                             className={InputClass.label}
                                         >
-                                            Subject name :
+                                            Subject name
                                         </label>
                                     </div>
                                     <div className="relative">
@@ -71,15 +79,15 @@ function AddSubject() {
                                             placeholder=""
                                         />
                                         <label
-                                            htmlFor="credit"
+                                            htmlFor="code"
                                             className={InputClass.label}
                                         >
-                                            Code :
+                                            Code
                                         </label>
                                     </div>
                                     <div className="relative">
                                         <input
-                                            type="text"
+                                            type="number"
                                             name="credit"
                                             className={InputClass.input}
                                             placeholder=""
@@ -88,15 +96,16 @@ function AddSubject() {
                                             htmlFor="credit"
                                             className={InputClass.label}
                                         >
-                                            Credit :
+                                            Credit
                                         </label>
                                     </div>
                                     <div className="relative">
                                         <select
                                             name="type"
+                                            defaultValue="theory"
                                             className={InputClass.input}
                                         >
-                                            <option value="theory" selected>
+                                            <option value="theory">
                                                 Theory
                                             </option>
                                             <option value="practical">
@@ -104,7 +113,7 @@ function AddSubject() {
                                             </option>
                                         </select>
                                         <label
-                                            htmlFor="faculty"
+                                            htmlFor="type"
                                             className={InputClass.label}
                                         >
                                             Choose Subject Type
@@ -125,9 +134,9 @@ function AddSubject() {
                                             >
                                                 <path
                                                     stroke="currentColor"
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    stroke-width="2"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth="2"
                                                     d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
                                                 />
                                             </svg>
@@ -173,7 +182,8 @@ function AddSubject() {
     );
 }
 
-function Subject_row() {
+function Subject_row({ subject_name, code, credit, type, plan, faculty_name, subject_id }: { subject_name: string, code: string, credit: string, type: string, plan: string, faculty_name: string, subject_id: string
+}) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     return (
         <>
@@ -183,17 +193,17 @@ function Subject_row() {
                         scope="row"
                         className="px-6 py-4 uppercase text-stone-600 tracking-wide whitespace-nowrap dark:text-white"
                     >
-                        Operating system
+                        {subject_name}
                     </th>
-                    <td className="px-6 py-4">MCS-MMG</td>
-                    <td className="px-6 py-4 ">5</td>
-                    <td className="px-6 py-4">Theory</td>
+                    <td className="px-6 py-4">{code}</td>
+                    <td className="px-6 py-4 ">{credit}</td>
+                    <td className="px-6 py-4 capitalize">{type}</td>
                     <td className="px-6 py-4 text-right">
-                        <a href="#" className="font-medium text-stone-500">
+                        <a href={plan} className="font-medium text-stone-500">
                             <FaDownload />
                         </a>
                     </td>
-                    <td className="px-6 py-4 text-black">Jay Patel</td>
+                    <td className="px-6 py-4 capitalize text-black tracking-wide text-md">{faculty_name}</td>
                     <td className="px-6 py-4 text-md" onClick={() => onOpen()}>
                         <FaEdit />
                     </td>
@@ -220,7 +230,7 @@ function Subject_row() {
                                 <ModalBody className="flex space-y-4 mt-5">
                                     <input
                                         type="hidden"
-                                        name="id"
+                                        name="semester_id"
                                         value="id's"
                                     />
                                     <div className="relative">
@@ -229,7 +239,7 @@ function Subject_row() {
                                             name="subject"
                                             className={InputClass.input}
                                             placeholder=""
-                                            value={"operating system"}
+                                            value={subject_name}
                                         />
                                         <label
                                             htmlFor="subject"
@@ -244,7 +254,7 @@ function Subject_row() {
                                             name="code"
                                             className={InputClass.input}
                                             placeholder=""
-                                            value={"value"}
+                                            value={code}
                                         />
                                         <label
                                             htmlFor="credit"
@@ -259,7 +269,7 @@ function Subject_row() {
                                             name="credit"
                                             className={InputClass.input}
                                             placeholder=""
-                                            value={"credit"}
+                                            value={credit}
                                         />
                                         <label
                                             htmlFor="credit"
@@ -271,9 +281,10 @@ function Subject_row() {
                                     <div className="relative">
                                         <select
                                             name="type"
+                                            defaultValue={type}
                                             className={InputClass.input}
                                         >
-                                            <option value="theory" selected>
+                                            <option value="theory">
                                                 Theory
                                             </option>
                                             <option value="practical">
@@ -349,28 +360,62 @@ function Subject_row() {
         </>
     );
 }
-
 export default function Subject_details() {
-    
+    interface SubjectData {
+        _id: string;
+        subject_name: string;
+        type: string;
+        code: string;
+        credit: string;
+        subject_plan: string;
+        user_info: {
+            user_name: string;
+        };
+    }
     const path = useParams();
-    console.log(path.course_details, " and ", path.subject_details);
-    const pattern = typeof path.course_details === "string"? path.course_details.split("-"): [];
-    const semester = typeof path.subject_details === "string"? path.subject_details.split("-"): [];
+    const pattern =
+        typeof path.course_details === "string"
+            ? path.course_details.split("-")
+            : [];
+    const semester =
+        typeof path.subject_details === "string"
+            ? path.subject_details.split("-")
+            : [];
     const courseName = pattern[0];
     const semesterNumber = semester[0];
     const semesterId = semester[1];
+    const [data, setData] = useState<SubjectData[]>([]);
+    useEffect(() => {
+        fetch(`/api/course/subject-details/${semesterId}`)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                setData(data);
+            })
+            .catch((error) => {
+                console.error("Error fetching faculty data:", error);
+            });
+    }, [semesterId]);
     return (
         <>
-            <div className="md:mx-20 pb-96 space-y-16">
-                <div className="flex space-y-3 items-center mt-10 flex-col">
-                    <div className="text-xl md:text-3xl">{courseName.replaceAll("%20", " ")}</div>
-                    <div className="text-lg md:text-2xl underline underline-offset-4 text-stone-600">Semester - {semesterNumber}</div>
+            <div className="md:mx-20 pb-96 space-y-14">
+                <div className="flex space-y-6 items-center mt-10 flex-col">
+                    <div className="text-xl md:text-3xl">
+                        {courseName.replaceAll("%20", " ")}
+                    </div>
+                    <div className="text-lg md:text-2xl  underline-offset-4 text-stone-600">
+                        Semester - {semesterNumber}
+                    </div>
                 </div>
-                <AddSubject />
+                <AddSubject semester_id={semesterId} />
                 <div>
                     <div className="relative overflow-x-auto shadow-md sm:rounded-lg shadow-stone-400">
                         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                            <thead className="text-sm tracking-wide text-gray-700 uppercase bg-stone-200 border-l-4 border-l-teal-500 border-b-2 border-b-stone-300  dark:bg-gray-700 dark:text-gray-400">
+                            <thead className="text-sm tracking-wide text-gray-700 uppercase bg-stone-200  border-b-2 border-b-stone-300  dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
                                     <th scope="col" className="px-6 py-3">
                                         Subject
@@ -393,7 +438,18 @@ export default function Subject_details() {
                                     <th className="px-6 py-3">EDIT</th>
                                 </tr>
                             </thead>
-                            <Subject_row />
+                                {data.map((value, index) => (
+                                    <Subject_row
+                                        key={index}
+                                        subject_name={value.subject_name}
+                                        code={value.code}
+                                        credit={value.credit}
+                                        type={value.type}
+                                        plan={value.subject_plan}
+                                        faculty_name={value.user_info.user_name}
+                                        subject_id={value._id}
+                                    />
+                                ))}
                         </table>
                     </div>
                 </div>

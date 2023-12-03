@@ -3,7 +3,7 @@ import Link from "next/link";
 import { DataCardContainer,DataFacultyContainer } from "@/components/2_layout";
 function AdminWelcome() {
     return (
-        <div className="flex flex-row md:justify-center justify-around">
+        <div className="flex flex-row md:justify-center justify-around pt-5">
             <div className="flex text-sm md:text-lg text-stone-700 flex-col w-full mx-3 px-5 md:p-10  py-5 bg-orange-100 border-orange-300 border-2 rounded-md p-2">
                 <div className="">
                     Hello&nbsp;

@@ -68,3 +68,28 @@ def faculty_dropdown():
     user = Controller.User()
     data = user.faculty_dropdown()
     return Controller.convert_id(data)
+
+@user_bp.route('/data-list',methods=['GET'])
+def data_list():
+    collection_list = ['course','faculty','paper','result','semester','student','subject','user']
+    send_data = {}
+    for db in collection_list:
+        pipeline = [
+        {
+            "$group": {
+                "_id":None,
+                "count": {"$sum": 1}
+            }
+        },
+        {
+            "$project": {
+                "_id": 0,
+                "count": 1
+            }
+        }
+        ]
+        response_cursor = Controller.Database.collection(db).aggregate(pipeline)
+        response_document = next(response_cursor, None)  # Get the first document or None if there are no documents
+        if response_document is not None:
+            send_data[db] = response_document['count']
+    return jsonify(send_data)

@@ -7,12 +7,12 @@ export function DataCardContainer({
     dataList,
 }: {
     dataList: { value: string; type: string }[];
-}) {
-    return (
-        <div className="z-30 gap-y-5 grid-cols-1 place-items-center sm:grid-cols-3 grid  md:gap-x-5 md:justify-around md:grid-cols-5">
-            {dataList.map((data, index) => (
-                <DataCard key={index} data={data.value} type={data.type} />
-            ))}
+    }) {
+        return (
+            <div className="z-30 gap-y-5 grid-cols-1 place-items-center sm:grid-cols-3 grid  md:gap-x-5 md:justify-around md:grid-cols-5">
+            {Object.entries(dataList).map(([key, value]) => (
+                 <DataCard key={key} data={value} type={key} />
+                ))} 
         </div>
     );
 }
@@ -38,7 +38,6 @@ export function DataFacultyContainer() {
             })
             .then((data) => {
                 setFacultyData(data);
-                console.log(data);
             });
     }, []);
     return (

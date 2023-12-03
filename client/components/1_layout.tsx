@@ -21,7 +21,7 @@ import {
 } from "@nextui-org/react";
 
 //REVIEW - Data card for Pages container
-export function DataCard({ data, type }: { data: string; type: string }) {
+export function DataCard({ data, type }: { data: any; type: string }) {
     return (
         <div className="flex  flex-row items-center justify-center w-40 h-12 space-x-3 bg-white border-t-2 border-l-4 rounded-md shadow-md md:w-44 border-l-teal-500 border-t-stone-200 md:h-14">
             <div className="text-3xl font-semibold md:text-4xl">{data}</div>

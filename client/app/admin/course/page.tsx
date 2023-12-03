@@ -23,11 +23,9 @@ function AddCourse() {
     };
     return (
         <>
-            <Button
-                className="bg-transparent h-fit w-full"
-                onPress={() => handleOpen()}
-            >
-                <div className="flex border-l-4 border-l-teal-500 sm:flex-row flex-col items-center py-4 my-16 bg-white border-t-2 rounded-md shadow-md border-t-stone-200 sm:justify-center  space-x-10 w-4/6 mx-auto sm:h-28 h-36 overflow-hidden">
+                <div className="flex border-l-4 border-l-teal-500 sm:flex-row flex-col items-center hover:bg-stone-100 py-4 my-16 bg-white border-t-2 rounded-md shadow-md border-t-stone-200 sm:justify-center  space-x-10 mx-auto sm:h-28 h-36 overflow-hidden w-96"
+                onClick={() => handleOpen()}
+                >
                     <div className="md:text-4xl text-xl  rounded-full md:p-5 p-2 sm:m-0 mb-2 text-stone-600 border-2 border-stone-200 ">
                         <FaBookMedical />
                     </div>
@@ -40,7 +38,6 @@ function AddCourse() {
                         </div>
                     </div>
                 </div>
-            </Button>
             <Modal
                 className="self-start mt-10"
                 size="md"
@@ -51,7 +48,6 @@ function AddCourse() {
                     encType="multipart/form-data"
                     action="/api/course/add-course"
                     method="POST"
-                    onSubmit={() => console.log("SUBMIT FORM")}
                 >
                     <ModalContent>
                         {(onClose) => (
