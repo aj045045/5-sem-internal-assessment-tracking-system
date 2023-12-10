@@ -16,17 +16,51 @@ import {
 import Image from "next/image";
 import { Accordion, AccordionItem } from "@nextui-org/accordion";
 import { ImBooks } from "react-icons/im";
-import { useState } from "react";
-import Router from "next/router";
+import { useState,useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { ButtonClass } from "@/components/utilities";
 export default function SideNav({ children }: { children: React.ReactNode }) {
+    const router = useRouter();
+    const handleLogout = () => {
+        fetch('/api/user/logout')
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                if (data.redirect === "home") {
+                    router.replace('/');
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching faculty data:", error);
+            });
+    };
+  const pathName = usePathname();
+    useEffect(() => {
+        fetch('/api/user/check-login')
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                if (data.redirect != "admin")
+                {
+                    router.replace('/');   
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching faculty data:", error);
+            });
+    },[router]);
     const [openTab, setOpenTab] = useState(false);
     const handlePanel = () => {
         openTab === true ? setOpenTab(false) : setOpenTab(true);
     };
-    const router = useRouter();
-    const pathName = usePathname();
     return (
         <>
             <div className="flex flex-row">
@@ -45,18 +79,15 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
                     >
                         <LuPanelLeftClose />
                     </div>
-                    <div className="flex flex-row mt-4 space-x-3 ">
+                    <div className="flex flex-row mt-4 space-x-3  mr-5">
                         <Image
-                            className="w-6 rounded-full md:w-12"
+                            className="w-8 rounded-full md:w-14 ml-auto mr-5"
                             src="/icons/user.png"
                             alt="User Image"
                             unoptimized={true}
                             width={1}
                             height={1}
                         />
-                        <span className="self-center text-md md:text-xl">
-                            Ansh Yadav
-                        </span>
                         <span className="content-start px-1 mt-1 text-xs md:text-sm font-semibold text-teal-700 capitalize bg-teal-300 rounded-full shadow-md h-min md:px-2">
                             admin
                         </span>
@@ -143,11 +174,11 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
                                     <div
                                         className="self-center text-sm capitalize md:text-lg"
                                         onClick={() => {
-                                            pathName === "/admin/student"
+                                            pathName === "/admin/course"
                                                 ? router.replace(
-                                                      "/admin/student"
+                                                      "/admin/course"
                                                   )
-                                                : router.push("/admin/student");
+                                                : router.push("/admin/course");
                                         }}
                                     >
                                         Student
@@ -203,7 +234,7 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
                     </div>
                     <div
                         className={ButtonClass}
-                        onClick={() => router.push("/")}
+                        onClick={handleLogout}
                     >
                         Sign out
                     </div>

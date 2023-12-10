@@ -14,6 +14,8 @@ import { InputClass } from "@/components/utilities";
 import { FacultyDropDown } from "@/components/1_layout";
 import { useParams, usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
+import { Pill } from "@/components/utilities";
+import { FaFileCsv } from "react-icons/fa6";
 function AddSubject({ semester_id }: { semester_id: string }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const pathName = usePathname();
@@ -182,7 +184,166 @@ function AddSubject({ semester_id }: { semester_id: string }) {
     );
 }
 
-function Subject_row({ subject_name, code, credit, type, plan, faculty_name, subject_id }: { subject_name: string, code: string, credit: string, type: string, plan: string, faculty_name: string, subject_id: string
+function AddStudent({ semester_id }: { semester_id: string }) {
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const pathName = usePathname();
+    return (
+        <>
+            <div
+                className="bg-stone-400  mx-auto w-80 my-6 shadow-md shadow-stone-500 font-semibold text-white py-1.5 rounded-md center items-center space-x-3 justify-center text-lg flex flex-row"
+                onClick={() => onOpen()}
+            >
+                <span className="text-lg">
+                    <MdLibraryAdd />
+                </span>
+                <div>ADD STUDENT</div>
+            </div>
+            <Modal
+                className="self-start mt-10"
+                size="md"
+                isOpen={isOpen}
+                onClose={onClose}
+            >
+                <form
+                    onSubmit={() => console.log("SUBMIT FORM")}
+                    encType="multipart/form-data"
+                    action={`/api/user/add-student`}
+                    method="POST"
+                >
+                    <ModalContent>
+                        {(onClose) => (
+                            <>
+                                <ModalHeader className="flex flex-col gap-1 bg-orange-200 text-orange-600">
+                                    Add Student
+                                </ModalHeader>
+                                <ModalBody className="flex space-y-4 mt-5">
+                                    <input
+                                        type="hidden"
+                                        name="path"
+                                        value={pathName}
+                                        required
+                                    />
+                                    <input
+                                        type="hidden"
+                                        name="semester_id"
+                                        value={semester_id}
+                                        required
+                                    />
+                                    <div className="relative">
+                                        <input
+                                            type="text"
+                                            name="student_name"
+                                            className={InputClass.input}
+                                            placeholder=""
+                                            required
+                                        />
+                                        <label
+                                            htmlFor="student_name"
+                                            className={InputClass.label}
+                                        >
+                                            Student name
+                                        </label>
+                                    </div>
+                                    <div className="relative">
+                                        <input
+                                            type="email"
+                                            name="email_id"
+                                            className={InputClass.input}
+                                            placeholder=""
+                                            required
+                                        />
+                                        <label
+                                            htmlFor="email_id"
+                                            className={InputClass.label}
+                                        >
+                                            E-mail Id
+                                        </label>
+                                    </div>
+                                    <div className="relative">
+                                        <input
+                                            type="text"
+                                            name="password"
+                                            className={InputClass.input}
+                                            placeholder=""
+                                            required
+                                        />
+                                        <label
+                                            htmlFor="password"
+                                            className={InputClass.label}
+                                        >
+                                            Password
+                                        </label>
+                                    </div>
+                                    <div className="relative">
+                                        <input
+                                            type="number"
+                                            name="roll_no"
+                                            className={InputClass.input}
+                                            placeholder=""
+                                            required
+                                        />
+                                        <label
+                                            htmlFor="roll_no"
+                                            className={InputClass.label}
+                                        >
+                                            Roll no
+                                        </label>
+                                    </div>
+                                    <div className="relative">
+                                        <input
+                                            type="number"
+                                            name="allotment_year"
+                                            className={InputClass.input}
+                                            placeholder=""
+                                            required
+                                        />
+                                        <label
+                                            htmlFor="allotment_year"
+                                            className={InputClass.label}
+                                        >
+                                            Allotment Year
+                                        </label>
+                                    </div>
+                                </ModalBody>
+                                <ModalFooter>
+                                    <Button
+                                        color="danger"
+                                        variant="light"
+                                        onPress={onClose}
+                                    >
+                                        Close
+                                    </Button>
+                                    <input
+                                        type="submit"
+                                        className="bg-orange-500 shadow-lg px-3 rounded-lg shadow-orange-300 text-white font-semibold"
+                                    />
+                                </ModalFooter>
+                            </>
+                        )}
+                    </ModalContent>
+                </form>
+            </Modal>
+        </>
+    );
+}
+function Subject_row({
+    subject_name,
+    code,
+    credit,
+    type,
+    plan,
+    faculty_name,
+    subject_id,
+    semester_id,
+}: {
+    subject_name: string;
+    code: string;
+    credit: string;
+    type: string;
+    plan: string;
+    faculty_name: string;
+    subject_id: string;
+    semester_id: string;
 }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     return (
@@ -203,7 +364,9 @@ function Subject_row({ subject_name, code, credit, type, plan, faculty_name, sub
                             <FaDownload />
                         </a>
                     </td>
-                    <td className="px-6 py-4 capitalize text-black tracking-wide text-md">{faculty_name}</td>
+                    <td className="px-6 py-4 capitalize text-black tracking-wide text-md">
+                        {faculty_name}
+                    </td>
                     <td className="px-6 py-4 text-md" onClick={() => onOpen()}>
                         <FaEdit />
                     </td>
@@ -231,7 +394,12 @@ function Subject_row({ subject_name, code, credit, type, plan, faculty_name, sub
                                     <input
                                         type="hidden"
                                         name="semester_id"
-                                        value="id's"
+                                        value={semester_id}
+                                    />
+                                    <input
+                                        type="hidden"
+                                        name="subject_id"
+                                        value={subject_id}
                                     />
                                     <div className="relative">
                                         <input
@@ -360,6 +528,276 @@ function Subject_row({ subject_name, code, credit, type, plan, faculty_name, sub
         </>
     );
 }
+function Subject({
+    dataValue,
+    semester_id,
+}: {
+    dataValue: {
+        _id: string;
+        subject_name: string;
+        type: string;
+        code: string;
+        credit: string;
+        subject_plan: string;
+        user_info: { user_name: string };
+    }[];
+    semester_id: string;
+}) {
+    return (
+        <div>
+            <Pill data="Subject Details" />
+            <div className="relative overflow-x-auto shadow-md sm:rounded-lg shadow-stone-400">
+                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead className="text-sm tracking-wide text-gray-700 uppercase bg-stone-200  border-b-2 border-b-stone-300  dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" className="px-6 py-3">
+                                Subject
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Code
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Credit
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Type
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Plan
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Faculty
+                            </th>
+                            <th className="px-6 py-3">EDIT</th>
+                        </tr>
+                    </thead>
+                    {dataValue.map((value: any, index: any) => (
+                        <Subject_row
+                            key={index}
+                            subject_name={value.subject_name}
+                            code={value.code}
+                            credit={value.credit}
+                            type={value.type}
+                            plan={value.subject_plan}
+                            faculty_name={value.user_info.user_name}
+                            subject_id={value._id}
+                            semester_id={semester_id}
+                        />
+                    ))}
+                </table>
+            </div>
+        </div>
+    );
+}
+
+function DisplayStudent({
+    dataValue,
+    semester_id,
+}: {
+    dataValue: {
+        allotment_year: number;
+        roll_no: number;
+        user_info: {
+            _id: string;
+            email_id: string;
+            user_name: string;
+        };
+    }[];
+    semester_id: string;
+}) {
+    return (
+        <div>
+            <Pill data="student details" />
+            <div className="text-2xl"><FaFileCsv/></div>
+            <div className="relative overflow-x-auto shadow-md sm:rounded-lg shadow-stone-400">
+                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead className="text-sm tracking-wide text-gray-700 uppercase bg-stone-200  border-b-2 border-b-stone-300  dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" className="px-6 py-3">
+                                Roll.no
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Name
+                            </th>
+                            <th scope="col" className="text-center">
+                                E-mail
+                            </th>
+                            <th scope="col" className="text-center">
+                                Allotment Year
+                            </th>
+                            <th className="px-6 py-3">EDIT</th>
+                        </tr>
+                    </thead>
+                    {dataValue.map((value: any, index: any) => (
+                        <Student_row
+                            key={index}
+                            roll_no={value.roll_no}
+                            name={value.user_info.user_name}
+                            email_id={value.user_info.email_id}
+                            allotment_year={value.allotment_year}
+                            semester_id={semester_id}
+                            user_id={value.user_info._id}
+                        />
+                    ))}
+                </table>
+            </div>
+        </div>
+    );
+}
+function Student_row({
+    roll_no,
+    name,
+    email_id,
+    allotment_year,
+    semester_id,
+    user_id,
+}: {
+    roll_no: number;
+    name: string;
+    email_id: string;
+    allotment_year: string;
+    semester_id: string;
+    user_id: string;
+}) {
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const pathName = usePathname();
+    return (
+        <>
+            <tbody>
+                <tr className="bg-white dark:bg-gray-800 hover:bg-neutral-100  dark:hover:bg-gray-600">
+                    <td className="px-6 py-4 text-base">{roll_no}</td>
+                    <th
+                        scope="row"
+                        className="px-6 py-4 uppercase text-stone-600 tracking-wide whitespace-nowrap dark:text-white"
+                    >
+                        {name}
+                    </th>
+                    <td className="text-center">{email_id}</td>
+                    <td className="text-center ">{allotment_year}</td>
+                    <td className="px-6 py-4 text-md" onClick={() => onOpen()}>
+                        <FaEdit />
+                    </td>
+                </tr>
+            </tbody>
+            <Modal
+                className="self-start mt-10"
+                size="md"
+                isOpen={isOpen}
+                onClose={onClose}
+            >
+                <form
+                    onSubmit={() => console.log("SUBMIT FORM")}
+                    encType="multipart/form-data"
+                    action={`/api/course/add-subject`}
+                    method="POST"
+                >
+                    <ModalContent>
+                        {(onClose) => (
+                            <>
+                                <ModalHeader className="flex flex-col gap-1 bg-orange-200 text-orange-600">
+                                    Add Student
+                                </ModalHeader>
+                                <ModalBody className="flex space-y-4 mt-5">
+                                    <input
+                                        type="hidden"
+                                        name="path"
+                                        value={pathName}
+                                        required
+                                    />
+                                    <input
+                                        type="hidden"
+                                        name="semester_id"
+                                        value={semester_id}
+                                        required
+                                    />
+                                    <input type="hidden" name="user_id" value={user_id} />
+                                    <div className="relative">
+                                        <input
+                                            type="text"
+                                            name="student_name"
+                                            className={InputClass.input}
+                                            placeholder=""
+                                            value={name}
+                                            required
+                                        />
+                                        <label
+                                            htmlFor="student_name"
+                                            className={InputClass.label}
+                                        >
+                                            Student name
+                                        </label>
+                                    </div>
+                                    <div className="relative">
+                                        <input
+                                            type="email"
+                                            name="email_id"
+                                            className={InputClass.input}
+                                            placeholder=""
+                                            value={email_id}
+                                            required
+                                        />
+                                        <label
+                                            htmlFor="email_id"
+                                            className={InputClass.label}
+                                        >
+                                            E-mail Id
+                                        </label>
+                                    </div>
+                                    <div className="relative">
+                                        <input
+                                            type="number"
+                                            name="roll_no"
+                                            className={InputClass.input}
+                                            placeholder=""
+                                            value={roll_no}
+                                            required
+                                        />
+                                        <label
+                                            htmlFor="roll_no"
+                                            className={InputClass.label}
+                                        >
+                                            Roll no
+                                        </label>
+                                    </div>
+                                    <div className="relative">
+                                        <input
+                                            type="number"
+                                            name="allotment_year"
+                                            className={InputClass.input}
+                                            value={allotment_year}
+                                            placeholder=""
+                                            required
+                                        />
+                                        <label
+                                            htmlFor="allotment_year"
+                                            className={InputClass.label}
+                                        >
+                                            Allotment Year
+                                        </label>
+                                    </div>
+                                </ModalBody>
+                                <ModalFooter>
+                                    <Button
+                                        color="danger"
+                                        variant="light"
+                                        onPress={onClose}
+                                    >
+                                        Close
+                                    </Button>
+                                    <input
+                                        type="submit"
+                                        className="bg-orange-500 shadow-lg px-3 rounded-lg shadow-orange-300 text-white font-semibold"
+                                    />
+                                </ModalFooter>
+                            </>
+                        )}
+                    </ModalContent>
+                </form>
+            </Modal>
+        </>
+    );
+}
+
 export default function Subject_details() {
     interface SubjectData {
         _id: string;
@@ -369,6 +807,15 @@ export default function Subject_details() {
         credit: string;
         subject_plan: string;
         user_info: {
+            user_name: string;
+        };
+    }
+    interface StudentDetails {
+        allotment_year: number;
+        roll_no: number;
+        user_info: {
+            _id: string;
+            email_id: string;
             user_name: string;
         };
     }
@@ -384,7 +831,9 @@ export default function Subject_details() {
     const courseName = pattern[0];
     const semesterNumber = semester[0];
     const semesterId = semester[1];
+    const [student, setStudent] = useState<StudentDetails[]>([]);
     const [data, setData] = useState<SubjectData[]>([]);
+    //REVIEW - GET SUBJECT DETAILS
     useEffect(() => {
         fetch(`/api/course/subject-details/${semesterId}`)
             .then((response) => {
@@ -400,9 +849,26 @@ export default function Subject_details() {
                 console.error("Error fetching faculty data:", error);
             });
     }, [semesterId]);
+    //REVIEW - GET STUDENT DETAILS
+    useEffect(() => {
+        fetch(`/api/user/student-details/${semesterId}`)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                console.log('student',data)
+                setStudent(data);
+            })
+            .catch((error) => {
+                console.error("Error fetching faculty data:", error);
+            });
+    }, [semesterId]);
     return (
         <>
-            <div className="md:mx-20 pb-96 space-y-14">
+            <div className="md:mx-20 md:pb-32 pb-16 space-y-14">
                 <div className="flex space-y-6 items-center mt-10 flex-col">
                     <div className="text-xl md:text-3xl">
                         {courseName.replaceAll("%20", " ")}
@@ -411,48 +877,12 @@ export default function Subject_details() {
                         Semester - {semesterNumber}
                     </div>
                 </div>
-                <AddSubject semester_id={semesterId} />
-                <div>
-                    <div className="relative overflow-x-auto shadow-md sm:rounded-lg shadow-stone-400">
-                        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                            <thead className="text-sm tracking-wide text-gray-700 uppercase bg-stone-200  border-b-2 border-b-stone-300  dark:bg-gray-700 dark:text-gray-400">
-                                <tr>
-                                    <th scope="col" className="px-6 py-3">
-                                        Subject
-                                    </th>
-                                    <th scope="col" className="px-6 py-3">
-                                        Code
-                                    </th>
-                                    <th scope="col" className="px-6 py-3">
-                                        Credit
-                                    </th>
-                                    <th scope="col" className="px-6 py-3">
-                                        Type
-                                    </th>
-                                    <th scope="col" className="px-6 py-3">
-                                        Plan
-                                    </th>
-                                    <th scope="col" className="px-6 py-3">
-                                        Faculty
-                                    </th>
-                                    <th className="px-6 py-3">EDIT</th>
-                                </tr>
-                            </thead>
-                                {data.map((value, index) => (
-                                    <Subject_row
-                                        key={index}
-                                        subject_name={value.subject_name}
-                                        code={value.code}
-                                        credit={value.credit}
-                                        type={value.type}
-                                        plan={value.subject_plan}
-                                        faculty_name={value.user_info.user_name}
-                                        subject_id={value._id}
-                                    />
-                                ))}
-                        </table>
-                    </div>
+                <div className="flex md:flex-row flex-col self-center">
+                    <AddSubject semester_id={semesterId} />
+                    <AddStudent semester_id={semesterId} />
                 </div>
+                <Subject dataValue={data} semester_id={semesterId} />
+                <DisplayStudent dataValue={student} semester_id={semesterId} />
             </div>
         </>
     );

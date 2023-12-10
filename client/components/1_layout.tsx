@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useState, useEffect, ChangeEvent } from "react";
+import { useState, useEffect } from "react";
 import { Link, animateScroll as scroll } from "react-scroll";
 import { ErrorTag, InputClass } from "./utilities";
 import {
@@ -19,6 +19,7 @@ import {
     NavbarMenuItem,
     NavbarMenuToggle,
 } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 
 //REVIEW - Data card for Pages container
 export function DataCard({ data, type }: { data: any; type: string }) {
@@ -31,7 +32,7 @@ export function DataCard({ data, type }: { data: any; type: string }) {
         </div>
     );
 }
-
+import { Tabs, Tab, Card, CardBody, CardHeader } from "@nextui-org/react";
 //REVIEW - Hero Image for signIn page
 export function HeroHeader() {
     return (
@@ -70,6 +71,7 @@ export function HeroHeader() {
 
 //REVIEW - Welcome tag for sign in
 export function WelcomeTag() {
+    const Router = useRouter();
     type FormData = {
         emailId: string;
         password: string;
@@ -81,7 +83,8 @@ export function WelcomeTag() {
         emailId: "",
         password: "",
     });
-    const handleFormSubmit = (e: React.FocusEvent) => {
+    const [response, setResponse] = useState<React.ReactNode | null | string>(null);
+    const handleFormSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         fetch("/api/user/login", {
             method: "POST",
@@ -93,22 +96,41 @@ export function WelcomeTag() {
                     <ErrorTag
                         type="warning"
                         data="Connection error try after sometime"
-                    />;
+                    />
                 }
                 return response.json();
             })
             .then((dataValue: any) => {
-                if (dataValue.redirect == "false") {
-                    <ErrorTag
-                        type="alert"
-                        data="Invalid User Name or Password try Again"
-                    />;
+                const data = dataValue.redirect;
+                if (data === "faculty") {
+                    setResponse(<ErrorTag type="success" data={`You have signed as ${dataValue.redirect}`} />)
+                    Router.push('/faculty');
+                }
+                else if(data === "student"){
+                    setResponse(<ErrorTag type="success" data={`You have signed as ${dataValue.redirect}`} />)
+                    Router.push('/student');
+                }
+                else if (data === "admin") {
+                    setResponse(<ErrorTag type="success" data={`You have signed as ${dataValue.redirect}`} />)
+                    Router.push('/admin');
+                }
+                else {
+                    setResponse(<ErrorTag type="alert" data={dataValue.redirect} />)
                 }
             });
     };
+
     const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
+   useEffect(() => {
+    const timeoutId = setTimeout(() => {
+        setResponse(null);
+    }, 3000); 
+
+    return () => clearTimeout(timeoutId);
+}, [response]);
+
     setTimeout(() => {
         if (runModal) {
             onOpen();
@@ -117,6 +139,7 @@ export function WelcomeTag() {
     }, 2000);
     return (
         <>
+            {response}
             <div className="flex flex-col justify-center p-4 mx-5 my-6 border-2 border-teal-400 rounded-md bg-teal-50 md:w-auto md:mx-28 w-fit sm:mx-auto md:my-20">
                 <div className="font-sans text-xl font-extrabold tracking-wider text-center uppercase text-stone-500 md:text-2xl">
                     Welcome to Internal Assessment System
@@ -206,13 +229,12 @@ export function WelcomeTag() {
                                 >
                                     Close
                                 </Button>
-                                <Button
-                                    className="text-lg text-white bg-orange-600 hover:bg-orange-500"
-                                    onPress={onClose}
-                                    onClick={() => handleFormSubmit}
+                                <div
+                                    className="text-lg text-white bg-orange-600 hover:bg-orange-500 text-center px-2.5 py-1.5 rounded-xl "
+                                    onClick={(e) => handleFormSubmit(e)}
                                 >
                                     Submit
-                                </Button>
+                                </div>
                             </ModalFooter>
                         </>
                     )}
@@ -387,3 +409,52 @@ export function FacultyDropDown() {
         </div>
     );
 }
+
+//REVIEW - Students Tabs
+export function HorizontalTabs(){
+  const [selected, setSelected] = useState("photos");
+
+  return (
+    <div className="w-full mx-auto p-8">
+      <Tabs
+        aria-label="Options"
+        selectedKey={selected}
+        onSelectionChange={setSelected}
+        className="bg-gray-200 rounded-lg p-4"
+      >
+        <Tab key="photos" title="Tab 1">
+          <Card>
+            <CardHeader className="text-lg font-semibold">Tab 1</CardHeader>
+            <CardBody>
+              <p className="text-gray-700">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              </p>
+            </CardBody>
+          </Card>
+        </Tab>
+        <Tab key="music" title="Tab 2">
+          <Card>
+            <CardHeader className="text-lg font-semibold">Tab 2</CardHeader>
+            <CardBody>
+              <p className="text-gray-700">
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+              </p>
+            </CardBody>
+          </Card>
+        </Tab>
+        <Tab key="videos" title="Tab 3">
+          <Card>
+            <CardHeader className="text-lg font-semibold">Tab 3</CardHeader>
+            <CardBody>
+              <p className="text-gray-700">
+                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              </p>
+            </CardBody>
+          </Card>
+        </Tab>
+      </Tabs>
+    </div>
+  );
+}
+
+export default HorizontalTabs;

@@ -7,7 +7,7 @@ xdg_pid=""
 
 start_servers() {
     cd client/
-    npm run dev &
+    npm run start &
     client_pid="$!"
 
     sleep 5

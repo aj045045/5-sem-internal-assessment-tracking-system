@@ -108,7 +108,7 @@ export function ErrorTag({ type, data }: { type: string; data: string }) {
                                     {dataToggle.text}
                                 </div>
                                 <div className="text-center text-stone-500 tracking-wide text-sm md:text-md md:font-semibold">
-                                    Invalid userName and password
+                                    {data}
                                 </div>
                             </ModalBody>
                             <ModalFooter>

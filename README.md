@@ -9,6 +9,7 @@ Internal assessment tracking system for Department of Computer Science to Track 
 ```
 pip install flask
 pip install Flask-PyMongo
+pip install cryptography
 ```
 
 ### For **Client** :

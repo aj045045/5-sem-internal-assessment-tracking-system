@@ -1,6 +1,7 @@
 from .User import User
 from .Database import Database
 
+
 class Faculty(User):
 
     def __init__(self, emailId, password):
@@ -8,7 +9,7 @@ class Faculty(User):
         self.__phone_no = 0000000000  # 11
         self.__specialization = ""  # 100
         super().__init__(emailId, password)
-        
+
     @property
     def _designation(self):
         return self.__designation
@@ -39,19 +40,18 @@ class Faculty(User):
             value = value[:100]
         self.__specialization = value
 
-    def add_faculty(self,profile,userName,designation,phoneNo,specialization):
+    def add_faculty(self, profile, userName, designation, phoneNo, specialization):
         self._designation = designation
         self._phone_no = phoneNo
         self._specialization = specialization
-        userId = super().sign_up(profile,userName,"faculty")
+        userId = super().sign_up(profile, userName, "faculty")
         data = {
-            "designation":self._designation,
-            "phone_no":self._phone_no,
-            "specialization":self._specialization,
-            "userId":userId,
+            "designation": self._designation,
+            "phone_no": self._phone_no,
+            "specialization": self._specialization,
+            "userId": userId,
         }
         return Database.collection('faculty').insert_one(data)
-        
 
     def update_faculty(self,):
         return

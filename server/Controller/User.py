@@ -11,9 +11,8 @@ class User():
         self.__password = Password  # 64
         self.__email_id = emailId  # 150
         self.__last_logged_in = ""  # Date
-        self.__user_type = ""
+        self.user_type = ""
         self.__profile = ""
-        session['user_sign_in'] = False
     
     @property
     def _profile(self):
@@ -61,16 +60,14 @@ class User():
     def _last_logged_in(self, value):
         self.__last_logged_in = value
 
-    @property
-    def _user_type(self):
-        return self.__user_type
+    def get_user_type(self):
+        return self.user_type
 
-    @_user_type.setter
-    def _user_type(self, value):
-        self.__user_type = value
+    def set_user_type(self, value):
+        self.user_type = value
 
     def get_logged_in(self):
-        value = session.get('user_sign_in')
+        value = session.get('user_sign_in',None)
         return value
 
     def set_logged_in(self, value):
@@ -94,21 +91,42 @@ class User():
         self._profile = profile
         self._user_name = user_name
         self._password = self.encryptPassword()
-        self._user_type = user_type
+        self.set_user_type(user_type)
         self._last_logged_in = last_logged
+        user_type_result = self.get_user_type()
         data = {
             "profile": self._profile,
             "user_name": self._user_name,
             "password": self._password,
             "email_id": self._email_id,
             "last_logged": self._last_logged_in,
-            "user_type": self._user_type
+            "user_type": user_type_result
         }
         return Database.collection('user').insert_one(data)
-
+    
+    def sign_up_student(self,user_name,user_type):
+        time = datetime.now()
+        last_logged = time.strftime("%d-%m-%Y")
+        self._user_name = user_name
+        self._password = self.encryptPassword()
+        self.set_user_type(user_type)
+        self._last_logged_in = last_logged
+        user_type_result = self.get_user_type()
+        data = {
+            "user_name": self._user_name,
+            "password": self._password,
+            "email_id": self._email_id,
+            "last_logged": self._last_logged_in,
+            "user_type": user_type_result
+        }
+        return Database.collection('user').insert_one(data)
+    
     def logout(self):
         self.set_logged_in(False)
-        return True
+        if self.get_logged_in is False:
+            return True
+        else:
+            return False
 
     def display_user_Access():
         return
@@ -124,10 +142,13 @@ class User():
             "email_id": self._email_id,
             "password": self.encryptPassword()
         }
-        response = Database.collection('user').view_one(data)
-        if response is not False:
-            self.set_logged_in(True)
-        return response
+        response = list(Database.collection('user').view_one(data))
+        if len(response) >=1:
+            if response[0]['email_id'] == self._email_id:
+                self.set_logged_in(True)
+                return response[0]  
+        else:
+            return False
 
     def faculty_dropdown(self):
          pipeline = [
@@ -135,6 +156,7 @@ class User():
         {'$project': {'_id': 1, 'user_name': 1,}}
     ]
          return list(Database.collection('user').aggregate(pipeline))
+     
     def display_faculty_details(self):
         pipeline = [
             {

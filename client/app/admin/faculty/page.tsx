@@ -54,11 +54,10 @@ function AddFaculty() {
 
     return (
         <>
-            <Button
-                className="bg-transparent h-fit"
-                onPress={() => handleOpen()}
-            >
-                <div className="flex border-l-4 border-l-teal-500 flex-row items-center py-4 my-16 bg-white border-t-2 rounded-md shadow-md border-t-stone-200 justify-center space-x-10 w-4/6 mx-auto h-28 ">
+             <div className="flex border-l-4 border-l-teal-500 sm:flex-row flex-col items-center hover:bg-stone-100 py-4 my-16 bg-white border-t-2 rounded-md shadow-md border-t-stone-200 sm:justify-center  space-x-10 mx-auto sm:h-28 h-36 overflow-hidden w-96"
+                onClick={() => handleOpen()}
+                >
+                <div className="flex flex-row items-center justify-center space-x-10 w-4/6 mx-auto h-28 ">
                     <Image
                         src={`/icons/user.svg`}
                         className="w-20 border-2 rounded-full shadow-inner border-stone-200"
@@ -76,7 +75,7 @@ function AddFaculty() {
                         </div>
                     </div>
                 </div>
-            </Button>
+            </div>
             <Modal
                 className="self-start mt-10"
                 size="md"
