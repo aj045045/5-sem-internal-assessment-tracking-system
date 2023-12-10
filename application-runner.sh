@@ -14,7 +14,7 @@ start_servers() {
 
     cd ../server/
     . .venv/bin/activate
-    python run.py &
+    gunicorn -w 5 -b 0.0.0.0:5000 run:app &
     server_pid="$!"
 
     xdg-open http://localhost:3000/admin/course&

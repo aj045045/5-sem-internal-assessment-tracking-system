@@ -1,10 +1,6 @@
-// pages/profile.jsx
 import Head from 'next/head';
-import HorizontalTabs from '@/components/1_layout';
-import {Tabs, Tab} from "@nextui-org/react";
 import Image from 'next/image';
 const Profile = () => {
-  // Static profile data
   const profileData = {
     name: 'Ansh Yadav',
     profileImage: 'https://source.unsplash.com/160x160/?portrait',
@@ -15,7 +11,7 @@ const Profile = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <Head>
-        <title>{profileData && profileData.name}'s Profile</title>
+        <title>{profileData && profileData.name} Profile</title>
       </Head>
 
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-3xl mt-16">
@@ -34,7 +30,6 @@ const Profile = () => {
         <p className="text-gray-600 text-center mb-1">{profileData.email}</p>
         <p className="text-gray-600 text-center mb-1">{profileData.rollno}</p>
 
-        <HorizontalTabs />
       </div>
     </div>
   );

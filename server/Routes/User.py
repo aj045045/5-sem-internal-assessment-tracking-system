@@ -5,7 +5,9 @@ from werkzeug.utils import secure_filename
 from flask import session
 import pickle
 import json
-from bson import ObjectId 
+from bson import ObjectId
+import csv
+import os
 
 @user_bp.route('/submit-form', methods=['POST'])
 def SingIn():
@@ -166,6 +168,27 @@ def add_student():
     return redirect(path)
 
 
+@user_bp.route('/add-student-file/<semester_id>', methods=['POST'])
+def add_student_file(semester_id):
+    # 0 name, 1 email, 2 rollNo, 3 allotment year
+    file = request.files['student_file']
+    path = request.form.get('path')
+    password = request.form.get('password')
+    file_path = 'uploads/'+file.filename
+    file.save(file_path)
+    with open(file_path, 'r') as f:
+        csv_reader = csv.reader(f)
+        row_number = 0
+        for row in csv_reader:
+            if len(row) >= 4 and row_number >=1:
+                print(row)
+                student = Controller.Student(row[1], password)
+                student.sign_up(row[0], row[3], semester_id, row[2])
+            row_number+=1
+    file_path = os.path.join('uploads', file.filename)
+    os.remove(file_path)
+    return redirect(path)
+
 @user_bp.route('/student-details/<semester_id>', methods=['GET'])
 def student_details(semester_id):
     data = [
@@ -183,6 +206,7 @@ def student_details(semester_id):
                 "_id": 0
             }
         },
+        {"$sort": {"roll_no": 1}} 
     ]
     response = Controller.Database.collection('student').aggregate(data)
     formatted_data = []
