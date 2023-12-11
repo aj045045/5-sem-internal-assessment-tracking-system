@@ -10,48 +10,12 @@ import {
     Button,
     useDisclosure,
 } from "@nextui-org/react";
-import { useState } from "react";
 import Image from "next/image";
 function AddFaculty() {
-    type FormData = {
-        userName: string;
-        password: string;
-        emailId: string;
-        designation: string;
-        phoneNo: string;
-        specialization: string;
-    };
-    const [formData, setFormData] = useState<FormData>({
-        userName: "", password: "", emailId: "", designation: "", specialization: "",phoneNo:""
-    });
-
     const { isOpen, onOpen, onClose } = useDisclosure();
     const handleOpen = () => {
         onOpen();
     };
-    // const handleFormSubmit = (e: React.FormEvent) => {
-    //     console.log('SUBMIT FORM');
-    //     e.preventDefault();
-    //     fetch("api/user/faculty-sign-up", {
-    //         method: "POST",
-    //         headers: { "Content-Type": "application/json", },
-    //         body: JSON.stringify(formData),
-    //     }).then((response: Response) => {
-    //         if (response.ok) {
-    //             return response.json();
-    //         }
-    //     }).then((dataValue: any) => {
-    //         if (dataValue.redirect == "true") {
-    //             console.log(dataValue.redirect)
-    //         }
-    //     })
-    //      console.log("finish");
-    // };
-
-    // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        // setFormData({ ...formData, [e.target.name]: e.target.value });
-    // };
-
     return (
         <>
              <div className="flex border-l-4 border-l-teal-500 sm:flex-row flex-col items-center hover:bg-stone-100 py-4 my-16 bg-white border-t-2 rounded-md shadow-md border-t-stone-200 sm:justify-center  space-x-10 mx-auto sm:h-28 h-36 overflow-hidden w-96"
@@ -172,6 +136,7 @@ function AddFaculty() {
                                                 id="dropzone-file"
                                                 type="file"
                                                 name="profile"
+                                                required
                                                 className="hidden"
                                             />
                                         </label>

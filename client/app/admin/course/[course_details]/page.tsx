@@ -152,7 +152,7 @@ function CourseSemesterDetail({
                         {faculty_name}
                     </span>
                     <a
-                        href={syllabus}
+                        href={`/${syllabus}`}
                         className="text-stone-600  md:text-base text-sm border-2 border-orange-200 bg-orange-100 rounded px-3 py-2"
                     >
                         <FaDownload />
