@@ -80,9 +80,11 @@ def Check_login():
 @user_bp.route('/get-user', methods=['GET'])
 def Get_user():
     json_data = session.get('user_data')
+    
     if json_data:
         user_data = json.loads(json_data)
-    return jsonify(user_data)
+        return jsonify(user_data)    
+    return jsonify({'redirect':"false"})
 
 
 """#REVIEW - Faculty Sign In 
