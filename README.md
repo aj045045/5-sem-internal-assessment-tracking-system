@@ -37,6 +37,7 @@ npm install react-icons --save
 ```
     Flask
     Flask-PyMongo
+    pip install flask pycryptodome python-docx
 ```
 
 ## COLORS THEME

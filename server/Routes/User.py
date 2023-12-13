@@ -183,7 +183,6 @@ def add_student_file(semester_id):
         row_number = 0
         for row in csv_reader:
             if len(row) >= 4 and row_number >=1:
-                print(row)
                 student = Controller.Student(row[1], password)
                 student.sign_up(row[0], row[3], semester_id, row[2])
             row_number+=1
