@@ -5,12 +5,6 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 const Profile = () => {
     // Static profile data
-    const profileData = {
-        name: "Ansh Yadav",
-        profileImage: "https://source.unsplash.com/160x160/?portrait",
-        email: "ansh@gmail.com",
-        rollno: "35",
-    };
     interface FacultyData {
         email_id: string;
         last_logged: string;
@@ -64,7 +58,7 @@ const Profile = () => {
                             width={0}
                             height={0}
                             src={"/icons/user.png"}
-                            alt={`${profileData.name}'s Profile`}
+                            alt={`${data.user_name}'s Profile`}
                             className="w-32 h-32 rounded-full"
                         />
                     </div>

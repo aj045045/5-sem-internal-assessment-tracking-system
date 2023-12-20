@@ -79,7 +79,7 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
                     >
                         <LuPanelLeftClose />
                     </div>
-                    <div className="flex flex-row mt-4 space-x-3  mr-5">
+                    <div className="flex flex-row mt-4 space-x-3  mr-5 select-none">
                         <Image
                             className="w-8 rounded-full md:w-14 ml-auto mr-5"
                             src="/icons/user.png"
@@ -92,7 +92,7 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
                             admin
                         </span>
                     </div>
-                    <div className="flex flex-col">
+                    <div className="flex flex-col select-none">
                         <div className="flex flex-row justify-center h-8 mt-4 space-x-4 rounded-md hover:bg-orange-300">
                             <span className="self-center text-lg md:text-xl">
                                 <LuLayoutDashboard />
@@ -100,8 +100,7 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
                             <div
                                 onClick={() => {
                                     pathName === "/admin"
-                                        ? router.replace("/admin")
-                                        : router.push("/admin");
+                                        ? "": router.push("/admin");
                                 }}
                                 className="self-center text-sm capitalize md:text-lg"
                             >
@@ -114,9 +113,7 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
                             </span>
                             <div
                                 onClick={() => {
-                                    pathName === "/admin/assessment"
-                                        ? router.replace("/admin/assessment")
-                                        : router.push("/admin/assessment");
+                                    pathName === "/admin/assessment" ? "" : router.push("/admin/assessment");
                                 }}
                                 className="self-center text-sm capitalize md:text-lg"
                             >
@@ -130,7 +127,7 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
                             <div
                                 onClick={() => {
                                     pathName === "/admin/course"
-                                        ? router.replace("/admin/course")
+                                        ? ""
                                         : router.push("/admin/course");
                                 }}
                                 className="self-center text-sm capitalize md:text-lg"
@@ -157,9 +154,7 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
                                     <div
                                         onClick={() => {
                                             pathName === "/admin/faculty"
-                                                ? router.replace(
-                                                      "/admin/faculty"
-                                                  )
+                                                ? ""
                                                 : router.push("/admin/faculty");
                                         }}
                                         className="self-center text-sm capitalize md:text-lg"
@@ -175,9 +170,7 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
                                         className="self-center text-sm capitalize md:text-lg"
                                         onClick={() => {
                                             pathName === "/admin/course"
-                                                ? router.replace(
-                                                      "/admin/course"
-                                                  )
+                                                ? ""
                                                 : router.push("/admin/course");
                                         }}
                                     >
@@ -193,7 +186,7 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
                             <div
                                 onClick={() => {
                                     pathName === "/admin/paper"
-                                        ? router.replace("/admin/paper")
+                                        ? ""
                                         : router.push("/admin/paper");
                                 }}
                                 className="self-center text-sm capitalize md:text-lg"
@@ -208,7 +201,7 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
                             <div
                                 onClick={() => {
                                     pathName === "/admin/assignment"
-                                        ? router.replace("/admin/assignment")
+                                        ? ""
                                         : router.push("/admin/assignment");
                                 }}
                                 className="self-center text-sm capitalize md:text-lg"
@@ -223,8 +216,7 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
                             <div
                                 onClick={() => {
                                     pathName === "/admin/decrypt-paper"
-                                        ? router.replace("/admin/decrypt-paper")
-                                        : router.push("/admin/decrypt-paper");
+                                        ? "" : router.push("/admin/decrypt-paper");
                                 }}
                                 className="self-center text-sm capitalize md:text-lg"
                             >
@@ -233,7 +225,7 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
                         </div>
                     </div>
                     <div
-                        className={ButtonClass}
+                        className={`${ButtonClass} select-none`}
                         onClick={handleLogout}
                     >
                         Sign out

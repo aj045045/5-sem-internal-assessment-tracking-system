@@ -32,7 +32,7 @@ export function DataCard({ data, type }: { data: any; type: string }) {
         </div>
     );
 }
-import { Tabs, Tab, Card, CardBody, CardHeader } from "@nextui-org/react";
+
 //REVIEW - Hero Image for signIn page
 export function HeroHeader() {
     return (
@@ -47,19 +47,23 @@ export function HeroHeader() {
                         alt="Background blog"
                         width="1"
                         height="1"
+                        unoptimized={true}
                         className="absolute md:drop-shadow-2xl drop-shadow-sm brightness-100  w-80 md:h-auto md:w-[450px] z-10"
                     />
                     <Image
                         src="/icons/completed.svg"
                         alt="Phone Image"
                         className="absolute z-20 w-48 p-3 mt-20 md:mr-36 md:h-auto brightness-100 md:w-48 drop-shadow-xl h-44 saturate-100"
+                        unoptimized={true}
                         width="1"
                         height="1"
                     />
                 </div>
                 <Image
                     src="/icons/pattern.svg"
+                    priority={true}
                     alt="Background-images"
+                    unoptimized={true}
                     className="absolute z-0 w-full h-[120vh] md:h-[10in] contrast-50"
                     width="1"
                     height="1"
@@ -93,26 +97,32 @@ export function WelcomeTag() {
         })
             .then((response: Response) => {
                 if (!response.ok) {
-                    <ErrorTag
+                    setResponse(<ErrorTag
                         type="warning"
                         data="Connection error try after sometime"
-                    />
+                    />);
                 }
                 return response.json();
             })
             .then((dataValue: any) => {
                 const data = dataValue.redirect;
                 if (data === "faculty") {
-                    setResponse(<ErrorTag type="success" data={`You have signed as ${dataValue.redirect}`} />)
-                    Router.push('/faculty');
+                    setResponse(<ErrorTag type="success" data={`You have logged in as an ${dataValue.redirect}`} />)
+                    setTimeout(() => {
+                        Router.push('/faculty');
+                    }, 5000);
                 }
-                else if(data === "student"){
-                    setResponse(<ErrorTag type="success" data={`You have signed as ${dataValue.redirect}`} />)
-                    Router.push('/student');
+                else if (data === "student") {
+                    setResponse(<ErrorTag type="success" data={`You have logged in as an ${dataValue.redirect}`} />)
+                    setTimeout(() => {
+                        Router.push('/student');
+                    }, 5000);
                 }
                 else if (data === "admin") {
-                    setResponse(<ErrorTag type="success" data={`You have signed as ${dataValue.redirect}`} />)
-                    Router.push('/admin');
+                    setResponse(<ErrorTag type="success" data={`You have logged in as an ${dataValue.redirect}`} />)
+                    setTimeout(() => {
+                        Router.push('/admin');
+                    }, 5000);
                 }
                 else {
                     setResponse(<ErrorTag type="alert" data={dataValue.redirect} />)
@@ -123,13 +133,6 @@ export function WelcomeTag() {
     const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
-   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-        setResponse(null);
-    }, 3000); 
-
-    return () => clearTimeout(timeoutId);
-}, [response]);
 
     setTimeout(() => {
         if (runModal) {
@@ -292,7 +295,7 @@ export function NavbarSignIn() {
                             className={`w-full px-4 py-2.5 font-semibold capitalize tracking-widest font-sans ${
                                 item === activeSection
                                     ? " text-teal-700  border-b-2 border-b-teal-500  underline-offset-4   "
-                                    : "hover:bg-orange-200 rounded-full text-stone-600"
+                                    : "hover:bg-orange-200 rounded-full text-stone-600 "
                             }`}
                             size={2}
                         >

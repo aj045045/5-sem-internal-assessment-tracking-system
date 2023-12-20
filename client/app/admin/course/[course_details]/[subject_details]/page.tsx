@@ -934,15 +934,9 @@ export default function Subject_details() {
         };
     }
     const path = useParams();
-    const pattern =
-        typeof path.course_details === "string"
-            ? path.course_details.split("-")
-            : [];
-    const semester =
-        typeof path.subject_details === "string"
-            ? path.subject_details.split("-")
-            : [];
-    const courseName = pattern[0];
+    const semester =    typeof path.subject_details === "string" ? path.subject_details.split("-")         : [];
+    const patternValue = path.course_details;
+    const courseName: string = typeof patternValue === "string" ? patternValue.slice(0, patternValue.lastIndexOf("-")) : "";
     const semesterNumber = semester[0];
     const semesterId = semester[1];
     const [student, setStudent] = useState<StudentDetails[]>([]);

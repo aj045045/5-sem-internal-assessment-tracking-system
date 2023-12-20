@@ -90,7 +90,6 @@ class Semester():
         #TODO - Update the values
         response = Database.collection('semester').update_one(find_pipe,update_pipe)
         #TODO - Delete the files
-        print('RESPONSE VALUE',response)
         if response is not False and response['syllabus_document'] !='':
             value = response['syllabus_document']
             os.remove(f'../client/public/{value}')

@@ -8,5 +8,9 @@ app.register_blueprint(course_bp)
 app.register_blueprint(paper_bp)
 app.register_blueprint(user_bp)
 
+@app.route('/',methods=['GET'])
+def hello_user():
+    return "HELLO USER THIS IS AN INTERNAL SYSTEM FLASK APP"
+
 if __name__ == "__main__":
     app.run(debug=True)

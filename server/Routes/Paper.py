@@ -23,7 +23,7 @@ def download_keys():
         encryption_algorithm=serialization.NoEncryption()
     )
     # Public_key
-    with open('private_key.pem', 'wb') as f:
+    with open('uploads/private_key.pem', 'wb') as f:
         f.write(private_pem)
 
     public_key = private_key.public_key()
@@ -32,18 +32,18 @@ def download_keys():
         format=serialization.PublicFormat.SubjectPublicKeyInfo
     )
 
-    with open('public_key.pem', 'wb') as f:
+    with open('uploads/public_key.pem', 'wb') as f:
         f.write(public_pem)
     # Download files
     date_today = datetime.now()
     date_today = date_today.strftime("%d-%m-%Y-%H:%M:%S")
-    zipName = f'keys-{date_today}.zip'
+    zipName = f'uploads/keys-{date_today}.zip'
     with zipfile.ZipFile(f'{zipName}', 'w') as zips:
-        zips.write('private_key.pem')
-        zips.write('public_key.pem')
+        zips.write('uploads/private_key.pem')
+        zips.write('uploads/public_key.pem')
     response = send_file(f'{zipName}', as_attachment=True)
     # Remove files
-    os.remove('private_key.pem')
-    os.remove('public_key.pem')
+    os.remove('uploads/private_key.pem')
+    os.remove('uploads/public_key.pem')
     os.remove(f'{zipName}')
     return response

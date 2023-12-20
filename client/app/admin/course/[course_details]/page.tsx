@@ -269,10 +269,8 @@ export default function CourseDetails() {
     }
     const pathName = useParams();
     const patternValue = pathName.course_details;
-    const pattern =
-        typeof patternValue === "string" ? patternValue.split("-") : [];
-    const courseName = pattern[0];
-    const courseNumber = pattern[1];
+    const courseName: string = typeof patternValue === "string" ? patternValue.slice(0, patternValue.lastIndexOf("-")) : "";
+    const courseNumber:string = typeof patternValue === "string" ? (patternValue.slice(patternValue.lastIndexOf("-") + 1)) : "";
     const [data, setData] = useState<SemesterData[]>([]);
     useEffect(() => {
         fetch(`/api/course/semester-details/${courseNumber}`)
