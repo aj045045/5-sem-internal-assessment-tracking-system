@@ -11,7 +11,7 @@ import {
 import { useState } from "react";
 export function Pill({ data }: { data: string }) {
     return (
-        <div className="px-3 py-1 mx-3 my-5 mt-20 font-semibold text-orange-700 uppercase bg-orange-200 rounded-full shadow-md md:shadow-lg text-md md:text-xl md:mx-6 md:my-10 w-fit md:mt-28">
+        <div className=" select-none px-3 py-1 mx-3 my-5 mt-20 font-semibold text-orange-700 uppercase bg-orange-200 rounded-full shadow-md md:shadow-lg text-md md:text-xl md:mx-6 md:my-10 w-fit md:mt-28">
             {data}
         </div>
     );

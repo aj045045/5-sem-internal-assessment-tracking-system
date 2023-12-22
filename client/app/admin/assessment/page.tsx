@@ -45,21 +45,23 @@ function ChooseCourse({ setChooseData,setCourse}:CourseType) {
         course_name: string,
     };
     const [courseData, setCourseData] = useState<CourseType[]>([]);
-     useEffect(() => {
-        fetch('/api/assessment/choose-course')
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                return response.json();
-            })
-            .then((data) => {
-                setCourseData(data);
-            })
-            .catch((error) => {
-                console.error("Error fetching faculty data:", error);
-            });
-     }, [setChooseData]);
+    useEffect(() => {
+        if (courseData.length === 0) {
+            fetch('/api/assessment/choose-course')
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    setCourseData(data);
+                })
+                .catch((error) => {
+                    console.error("Error fetching faculty data:", error);
+                });
+        }
+    }, [setChooseData, courseData.length]);
     
     const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         let value = e.target.value; 
@@ -100,20 +102,22 @@ function ChooseSemester({ setChooseData, data,setSemester,course }:SemesterType)
     };
     const [semesterData, setSemesterData] = useState<SemesterType[]>([]);
     useEffect(() => {
+        if (semesterData.length === 0) {
         fetch(`/api/assessment/choose-semester/${course}`)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                return response.json();
-            })
-            .then((data) => {
-                setSemesterData(data);
-            })
-            .catch((error) => {
-                console.error("Error fetching faculty data:", error);
-            });
-     }, [course]);
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    setSemesterData(data);
+                })
+                .catch((error) => {
+                    console.error("Error fetching faculty data:", error);
+                });
+            }
+     }, [course,semesterData.length]);
     
     const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setChooseData(data + 1);
@@ -239,7 +243,9 @@ function AddAssessment({ data,semester }:AddAssessmentType) {
     const [subject, setSubject] = useState<SubjectType[]>([]);
     const [type, setType] = useState<AssessmentType[]>([]);
     useEffect(() => {
-        fetch(`/api/assessment/assessment-subject/${semester}`)
+        if (subject.length === 0) {
+            
+            fetch(`/api/assessment/assessment-subject/${semester}`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Network response was not ok");
@@ -252,23 +258,27 @@ function AddAssessment({ data,semester }:AddAssessmentType) {
             .catch((error) => {
                 console.error("Error fetching faculty data:", error);
             });
-    }, [semester]);
+        }
+    }, [semester,subject.length]);
 
     useEffect(() => {
-        fetch(`/api/assessment/assessment-type`)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                return response.json();
-            })
-            .then((data) => {
-                setType(data);
-            })
-            .catch((error) => {
-                console.error("Error fetching faculty data:", error);
-            });
-     }, [semester]);
+        if (type.length === 0) {
+            
+            fetch(`/api/assessment/assessment-type`)
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    setType(data);
+                })
+                .catch((error) => {
+                    console.error("Error fetching faculty data:", error);
+                });
+        }
+    }, [semester, type.length]);
     return (
         <>
             <div
@@ -403,10 +413,10 @@ function AssessmentDetails({semester,data}:AddAssessmentType) {
                     <div className="capitalize py-0.5 px-2.5 rounded-full bg-stone-200 border-2 border-stone-400">Select semester to view</div>
                 </div>
             ) : (
-                <div className="space-y-10 mt-10">
+                <div className="mt-10 flex-col grid md:grid-cols-2 ">
                     {assessment.map((data, index) => (
                         <>
-                                <Link href={`assessment/${data.subject_name.replace(/\s+/g,'%20')}-${data.assessment_info._id}`} key={index} className="bg-white flex flex-col py-5 space-y-3 mx-auto w-fit items-center px-5 rounded-md border-l-4 border-l-teal-500 shadow-md shadow-stone-300 border-t-2 border-stone-200">
+                                <Link href={`assessment/${data.subject_name.replace(/\s+/g,'%20')}-${data.assessment_info._id}`} key={index} className="bg-white flex flex-col mb-10 py-5 space-y-3 mx-auto items-center px-5 rounded-md border-l-4 border-l-teal-500 shadow-md shadow-stone-300 border-t-2 border-stone-200 h-40 w-96">
                                 <div className="text-xl tracking-wider capitalize">{data.assessment_info?.title}</div>
                                 <div className="capitalize text-stone-600">{data.subject_name} - <span className="font-mono font-semibold">{data.code}</span></div>
                                 <div className="capitalize py-0.5 px-2.5 rounded-full bg-teal-200 border-2 border-teal-400">{data.data_type?.assessment_type}</div>

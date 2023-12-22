@@ -4,6 +4,7 @@ import {
     LuLayoutDashboard,
     LuPanelLeftOpen,
 } from "react-icons/lu";
+import { FaArrowLeftLong } from 'react-icons/fa6';
 import { CgDatabase } from "react-icons/cg";
 import {
     FaTasks,
@@ -14,6 +15,7 @@ import {
     FaUsers,
 } from "react-icons/fa";
 import Image from "next/image";
+import { Tooltip } from "@nextui-org/react";
 import { Accordion, AccordionItem } from "@nextui-org/accordion";
 import { ImBooks } from "react-icons/im";
 import { useState,useEffect } from "react";
@@ -100,7 +102,8 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
                             <div
                                 onClick={() => {
                                     pathName === "/admin"
-                                        ? "": router.push("/admin");
+                                        ? ""
+                                        : router.push("/admin");
                                 }}
                                 className="self-center text-sm capitalize md:text-lg"
                             >
@@ -113,7 +116,9 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
                             </span>
                             <div
                                 onClick={() => {
-                                    pathName === "/admin/assessment" ? "" : router.push("/admin/assessment");
+                                    pathName === "/admin/assessment"
+                                        ? ""
+                                        : router.push("/admin/assessment");
                                 }}
                                 className="self-center text-sm capitalize md:text-lg"
                             >
@@ -216,7 +221,8 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
                             <div
                                 onClick={() => {
                                     pathName === "/admin/decrypt-paper"
-                                        ? "" : router.push("/admin/decrypt-paper");
+                                        ? ""
+                                        : router.push("/admin/decrypt-paper");
                                 }}
                                 className="self-center text-sm capitalize md:text-lg"
                             >
@@ -241,12 +247,22 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
                 </div>
             </div>
             <div
-                className={`${ 
+                className={`${
                     openTab === true
                         ? `md:w-4/5 w-3/4 bg-orange-50 float-right pl-3 overflow-hidden transition-width duration-700 delay-75 flex flex-col ease-linear`
-                        : `w-full`
+                        : `w-full py-10`
                 }`}
             >
+                <Tooltip showArrow={true} content="Click to go Back">
+                    <div
+                        className={`fixed text-xl text-teal-800 z-20 bg-orange-100  shadow-stone-400 shadow-md border-t-2 border-t-ne-200  w-fit px-4 py-0.5 rounded-full ${
+                            openTab === true ? `mt-5 ml-5` : ` ml-14`
+                        }`}
+                        onClick={() => router.back()}
+                    >
+                        <FaArrowLeftLong />
+                    </div>
+                </Tooltip>
                 {children}
             </div>
         </>

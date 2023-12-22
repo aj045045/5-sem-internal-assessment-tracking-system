@@ -9,7 +9,7 @@ export function DataCardContainer({
     dataList: { value: string; type: string }[];
     }) {
         return (
-            <div className="z-30 gap-y-5 grid-cols-1 place-items-center sm:grid-cols-3 grid  md:gap-x-5 md:justify-around md:grid-cols-5">
+            <div className="z-30 grid grid-cols-1 gap-y-5 place-items-center sm:grid-cols-3 md:gap-x-5 md:justify-around md:grid-cols-5">
             {Object.entries(dataList).map(([key, value]) => (
                  <DataCard key={key} data={value} type={key} />
                 ))} 
@@ -29,7 +29,9 @@ export function DataFacultyContainer() {
     };
     const [facultyData, setFacultyData] = useState<FacultyType[]>([]);
     useEffect(() => {
-        fetch("/api/user/faculty-display-all")
+        if (facultyData.length === 0) {
+            
+            fetch("/api/user/faculty-display-all")
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Network response was not ok");
@@ -39,9 +41,10 @@ export function DataFacultyContainer() {
             .then((data) => {
                 setFacultyData(data);
             });
-    }, []);
+        }
+        }, [facultyData.length]);
     return (
-        <div className="gap-y-5 grid-cols-1 py-5 place-items-center sm:grid-cols-2 grid  md:gap-x-5 md:justify-around lg:grid-cols-3">
+        <div className="grid grid-cols-1 py-5 gap-y-5 place-items-center sm:grid-cols-2 md:gap-x-5 md:justify-around lg:grid-cols-3">
             {facultyData.map((value, index) => (
                 <DataFaculty
                     image={value.profile}

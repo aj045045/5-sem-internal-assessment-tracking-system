@@ -51,6 +51,7 @@ def Login():
 @user_bp.route('/logout', methods=['GET'])
 def logOut():
     session.clear()
+    print(session)
     return jsonify({'redirect': 'home'})
 
 

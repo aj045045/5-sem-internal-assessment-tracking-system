@@ -24,7 +24,7 @@ import { useRouter } from "next/navigation";
 //REVIEW - Data card for Pages container
 export function DataCard({ data, type }: { data: any; type: string }) {
     return (
-        <div className="flex  flex-row items-center justify-center w-40 h-12 space-x-3 bg-white border-t-2 border-l-4 rounded-md shadow-md md:w-44 border-l-teal-500 border-t-stone-200 md:h-14">
+        <div className="flex flex-row items-center justify-center w-40 h-12 space-x-3 bg-white border-t-2 border-l-4 rounded-md shadow-md md:w-44 border-l-teal-500 border-t-stone-200 md:h-14">
             <div className="text-3xl font-semibold md:text-4xl">{data}</div>
             <div className="mt-3 font-sans uppercase text-md md:text-lg">
                 {type}
@@ -37,10 +37,10 @@ export function DataCard({ data, type }: { data: any; type: string }) {
 export function HeroHeader() {
     return (
         <>
-            <div className="absolute z-10 mx-5 mt-10 font-sans text-3xl font-extrabold leading-10 tracking-wider text-center text-white uppercase md:w-2/6 md:text-justify drop-shadow-md md:text-5xl lg:text-6xl">
+            <div className="absolute z-10 mx-5 mt-10 font-sans text-3xl font-extrabold leading-10 tracking-wider text-center text-white uppercase select-none md:w-2/6 md:text-justify drop-shadow-md md:text-5xl lg:text-6xl">
                 knowledge is an investment that will never lose
             </div>
-            <div className="relative flex flex-col-reverse items-center justify-center md:flex-row md:justify-end">
+            <div className="relative flex flex-col-reverse items-center justify-center select-none md:flex-row md:justify-end">
                 <div className="flex justify-center mt-44 md:mt-0 md:justify-end">
                     <Image
                         src="/icons/blob.svg"
@@ -96,6 +96,7 @@ export function WelcomeTag() {
             body: JSON.stringify(formData),
         })
             .then((response: Response) => {
+                setResponse(null);
                 if (!response.ok) {
                     setResponse(<ErrorTag
                         type="warning"
@@ -107,19 +108,19 @@ export function WelcomeTag() {
             .then((dataValue: any) => {
                 const data = dataValue.redirect;
                 if (data === "faculty") {
-                    setResponse(<ErrorTag type="success" data={`You have logged in as an ${dataValue.redirect}`} />)
+                    setResponse(<ErrorTag type="success" data={`You have logged in as  ${dataValue.redirect}`} />)
                     setTimeout(() => {
                         Router.push('/faculty');
                     }, 5000);
                 }
                 else if (data === "student") {
-                    setResponse(<ErrorTag type="success" data={`You have logged in as an ${dataValue.redirect}`} />)
+                    setResponse(<ErrorTag type="success" data={`You have logged in as ${dataValue.redirect}`} />)
                     setTimeout(() => {
                         Router.push('/student');
                     }, 5000);
                 }
                 else if (data === "admin") {
-                    setResponse(<ErrorTag type="success" data={`You have logged in as an ${dataValue.redirect}`} />)
+                    setResponse(<ErrorTag type="success" data={`You have logged in as ${dataValue.redirect}`} />)
                     setTimeout(() => {
                         Router.push('/admin');
                     }, 5000);
@@ -170,7 +171,7 @@ export function WelcomeTag() {
                 <ModalContent>
                     {(onClose) => (
                         <>
-                            <ModalHeader className="flex flex-col gap-1 font-sans bg-teal-100 text-teal-600">
+                            <ModalHeader className="flex flex-col gap-1 font-sans text-teal-600 bg-teal-100">
                                 Sign in to your account
                             </ModalHeader>
                             <ModalBody>
@@ -208,7 +209,7 @@ export function WelcomeTag() {
                                         Password
                                     </label>
                                 </div>
-                                <div className="flex flex-row text-xl gap-x-4 mt-3">
+                                <div className="flex flex-row mt-3 text-xl gap-x-4">
                                     <input
                                         type="checkbox"
                                         className="w-5"
@@ -267,7 +268,7 @@ export function NavbarSignIn() {
     return (
         <Navbar
             onMenuOpenChange={setIsMenuOpen}
-            className="py-1 bg-orange-100 shadow-md shadow-stone-300"
+            className="py-1 bg-orange-100 shadow-md select-none shadow-stone-300"
         >
             <NavbarContent>
                 <NavbarBrand>
@@ -292,7 +293,7 @@ export function NavbarSignIn() {
                             smooth={true}
                             offset={-50}
                             duration={500}
-                            className={`w-full px-4 py-2.5 font-semibold capitalize tracking-widest font-sans ${
+                            className={`w-full px-4 py-2.5 font-semibold capitalize tracking-widest select-none font-sans ${
                                 item === activeSection
                                     ? " text-teal-700  border-b-2 border-b-teal-500  underline-offset-4   "
                                     : "hover:bg-orange-200 rounded-full text-stone-600 "
@@ -310,7 +311,7 @@ export function NavbarSignIn() {
                     className="sm:hidden"
                 />
             </NavbarContent>
-            <NavbarMenu>
+            <NavbarMenu className="pt-8 space-y-1">
                 {menuItems.map((item, index) => (
                     <NavbarMenuItem key={`${item}-${index}`}>
                         <Link
@@ -321,7 +322,7 @@ export function NavbarSignIn() {
                             smooth={true}
                             offset={-100}
                             duration={500}
-                            className={`w-full capitalize px-4 py-2.5 font-semibold tracking-widest font-sans ${
+                            className={`w-full capitalize px-4 py-1 font-semibold select-none tracking-widest font-sans ${
                                 item === activeSection
                                     ? " text-teal-700  border-b-2 border-b-teal-500  underline-offset-4   "
                                     : "hover:bg-orange-200 rounded-full text-stone-600"
@@ -351,7 +352,7 @@ export function DataFaculty({
 }) {
     return (
         <>
-            <div className="flex   border-l-4 border-l-teal-500 flex-row items-center py-4 mx-auto bg-white border-t-2 rounded-md shadow-md border-t-stone-200 justify-evenly w-80">
+            <div className="flex flex-row items-center py-4 mx-auto bg-white border-t-2 border-l-4 rounded-md shadow-md select-none border-l-teal-500 border-t-stone-200 justify-evenly w-80">
                 <Image
                     src={`/${image}`}
                     className="w-20 h-20 border-2 border-orange-200 rounded-full p-0.5"
@@ -360,7 +361,7 @@ export function DataFaculty({
                     width={1}
                     height={1}
                 />
-                <div className="flex flex-col w-40 gap-y-1 max-h-28">
+                <div className="flex flex-col w-40 select-none gap-y-1 max-h-28">
                     <div className="text-lg font-semibold capitalize">
                         {name}
                     </div>

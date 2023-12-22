@@ -209,7 +209,9 @@ function Course() {
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        fetch("/api/course/display-course")
+        if (data.length === 0) {
+            
+            fetch("/api/course/display-course")
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Network response was not ok");
@@ -219,7 +221,8 @@ function Course() {
             .then((data) => {
                 setData(data);
             });
-    }, []);
+        }
+    }, [data.length]);
     return (
         <div className="pb-10">
             <AddCourse />
