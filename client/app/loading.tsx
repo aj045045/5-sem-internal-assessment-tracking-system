@@ -1,7 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
 export default function Temp() {
-    const [isLoading, setIsLoading] = useState(true);
     return (
         <>
             <div className="box">

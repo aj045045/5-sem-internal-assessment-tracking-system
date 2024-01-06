@@ -33,7 +33,7 @@ export default function FacultyProfile(){
     return (
         <>
             <div className="flex items-center justify-center min-h-screen">
-                <div className="w-full max-w-3xl p-8 mt-4 bg-white rounded-lg shadow-md">
+                <div className="w-full max-w-3xl p-8 bg-white rounded-lg shadow-md">
                     <div className="flex items-center justify-center mb-6">
                         <Image
                             unoptimized={true}
@@ -41,17 +41,17 @@ export default function FacultyProfile(){
                             height={0}
                             src={`/${data.profile}`}
                             alt={`${data.user_name}'s Profile`}
-                            className="w-32 h-32 rounded-full shadow-md border-t-3 border-t-stone-300 shadow-stone-400"
+                            className="w-32 h-32  rounded-full shadow-md border-t-3 border-t-stone-300 shadow-stone-400"
                         />
                     </div>
                     <h1 className="mb-1 text-2xl font-bold text-center">
                         {data.user_name}
                     </h1>
-                    <p className="mb-1 text-lg text-center text-gray-600">
-                        {data.email_id}
+                    <p className="mb-1 text-lg text-center text-sky-600 underline underline-offset-4 decoration-1">
+                        @&nbsp;{data.email_id}
                     </p>
                     <p className="mb-1 text-lg text-center text-gray-600">
-                        Last logged in :   <span className="font-semibold">{data.last_logged}</span>
+                        You have last visited the website on&nbsp;&nbsp;<span className="font-semibold">{data.last_logged}</span>
                     </p>
                 </div>
             </div>

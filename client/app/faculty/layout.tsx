@@ -2,7 +2,7 @@
 import { useState,useEffect } from "react";
 import { useRouter,usePathname } from "next/navigation";
 import Image from "next/image";
-import { Modal, ModalBody, ModalFooter,ModalHeader,Button, useDisclosure,ModalContent, Select,SelectItem } from "@nextui-org/react";
+import { Modal, ModalBody, ModalFooter,ModalHeader,Button, useDisclosure,ModalContent, Navbar,NavbarBrand,NavbarContent,NavbarItem,NavbarMenu,NavbarMenuItem,NavbarMenuToggle,} from "@nextui-org/react";
 import { InputClass } from "@/components/utilities";
 
 export default function Faculty({ children }: { children: React.ReactNode }) {
@@ -27,15 +27,15 @@ export default function Faculty({ children }: { children: React.ReactNode }) {
     },[router]);
     return (
         <>
-            <Navbar />
-            <div className="py-20">
+            <NavbarPage />
+            <div className="py-5">
                 {children}
             </div>
         </>
     );
 }
 
-function Navbar() {
+function NavbarPage() {
     const router = useRouter();
     const [chooseData, setChooseData] = useState<number>(0);
     const [course, setCourse] = useState<string>("");
@@ -58,32 +58,83 @@ function Navbar() {
             });
     }
     const path = usePathname();
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [activeSection, setActiveSection] = useState<string>("");
     const linkData = [
-        { link: "", display: "Home" },
-        { link: "assessment", display: "Assessment" },
-        { link: "courses", display: "Courses" },
-        { link: "assignment", display: "Assignment" },
+        { linkValue: "", display: "Home" },
+        { linkValue: "assessment", display: "Assignment" },
+        { linkValue: "subjects", display: "Subjects" },
     ];
         const { isOpen, onOpen, onClose } = useDisclosure();
         const handleOpen = () => {
             onOpen();
         };
+    const handleClick = (value: string) => {
+        setActiveSection(value)
+        if (path !== `/faculty/${value}`) {
+            router.push(`/faculty/${value}`)
+        }
+    }
     return (
-        <nav className="w-full p-4 bg-orange-100 shadow-md shadow-stone-300 fixed">
-            <div className="container flex items-center justify-between mx-auto">
-                <div className="flex items-center flex-grow space-x-4">
-                    {linkData.map((value, index) => (
-    
-                        <div key={index} onClick={() => path === `/faculty/${value.link}` ? "" : router.push(`/faculty/${value.link}`)}>
-                            <div className="px-4 py-2 font-semibold transition duration-300 rounded-md cursor-pointer text-stone-600 hover:bg-orange-200 select-none">
-                                {value.display}
+        <>
+            <Navbar
+                onMenuOpenChange={setIsMenuOpen}
+                className="py-1 bg-orange-100 shadow-md select-none shadow-stone-300"
+            >
+                <NavbarContent>
+                    <NavbarBrand>
+                        <Image
+                            src="/icons/dcs-logo-remove-bg.png"
+                            className="w-16 rounded-full"
+                            alt="brand-icons"
+                            width={2}
+                            height={2}
+                            unoptimized={true}
+                        />
+                    </NavbarBrand>
+                </NavbarContent>
+                <NavbarContent className="hidden gap-4 sm:flex" justify="start">
+                    {linkData.map((item, index) => (
+                        <NavbarItem key={index}>
+                            <div
+                                onClick={() => handleClick(item.linkValue)}
+                                className={`w-full px-4 py-2.5 font-semibold capitalize tracking-widest select-none font-sans ${item.linkValue === activeSection
+                                        ? " text-teal-700  border-b-2 border-b-teal-500  underline-offset-4   "
+                                        : "hover:bg-orange-200 rounded-md text-stone-600 "
+                                    }`}
+                            >
+                                {item.display}
                             </div>
-                        </div>
+                        </NavbarItem>
                     ))}
                     <div onClick={handleOpen} className="px-4 py-2 font-semibold transition duration-300 rounded-md cursor-pointer text-stone-600 hover:bg-orange-200 select-none">
                         Paper
                     </div>
-                </div>
+                </NavbarContent>
+                <NavbarContent justify="end">
+                    <NavbarMenuToggle
+                        aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+                        className="sm:hidden"
+                    />
+                </NavbarContent>
+                <NavbarMenu className="pt-8 space-y-1">
+                    {linkData.map((item, index) => (
+                        <NavbarMenuItem key={index}>
+                            <div
+                                onClick={() => handleClick(item.linkValue)}
+                                className={`w-full capitalize px-4 py-1 font-semibold select-none tracking-widest font-sans ${item.linkValue === activeSection
+                                        ? " text-teal-700  border-b-2 border-b-teal-500  underline-offset-4   "
+                                        : "hover:bg-orange-200 rounded-md text-stone-600"
+                                    }`}
+                            >
+                                {item.display}
+                            </div>
+                        </NavbarMenuItem>
+                    ))}
+                            <div onClick={handleOpen} className="px-4 py-2 font-semibold transition duration-300 rounded-md cursor-pointer text-stone-600 hover:bg-orange-200 select-none">
+                                Paper
+                            </div>
+                </NavbarMenu>
                 <div className="flex items-center">
                     <Image
                         unoptimized={true}
@@ -97,7 +148,7 @@ function Navbar() {
                         Logout
                     </button>
                 </div>
-            </div>
+            </Navbar>
             <Modal
                 className="self-start mt-10"
                 size="md"
@@ -105,8 +156,9 @@ function Navbar() {
                 onClose={onClose}
             >
                 <form
-                    action="/api/assessment/add-assessment-type"
+                    action="/api/paper/encrypt-paper"
                     method="POST"
+                    encType="multipart/form-data"
                 >
                     <ModalContent>
                         {(onClose) => (
@@ -115,15 +167,16 @@ function Navbar() {
                                     Add Question Paper
                                 </ModalHeader>
                                 <ModalBody className="flex space-y-4 mt-5">
+                                    <input type="hidden" name="path" value={path} />
                                     <div className="relative">
                                         <input
                                             type="text"
-                                            name="paper_title"
+                                            name="title"
                                             className={InputClass.input}
                                             placeholder="Paper Title"
                                         />
                                         <label
-                                            htmlFor="paper_title"
+                                            htmlFor="title"
                                             className={InputClass.label}
                                         >
                                             Paper title
@@ -131,8 +184,8 @@ function Navbar() {
                                     </div>
                                     <ChooseCourse setChooseData={setChooseData} setCourse={setCourse} />
                                     <ChooseSemester data={chooseData} setChooseData={setChooseData} course={course} setSemester={setSemester} />
-                                    <ChooseSubject data={chooseData} semester={semester}  />
-                                      <div className="flex items-center justify-center w-full">
+                                    <ChooseSubject data={chooseData} semester={semester} />
+                                    <div className="flex items-center justify-center w-full">
                                         <label
                                             htmlFor="question_paper_file"
                                             className="flex flex-col items-center justify-center w-full h-40 border-2 border-orange-300 border-dashed rounded-lg cursor-pointer bg-orange-50 hover:bg-orange-100"
@@ -159,7 +212,7 @@ function Navbar() {
                                                     </span>
                                                 </p>
                                                 <p className="text-xs text-gray-500 dark:text-gray-400">
-                                                  DOCX 
+                                                    DOCX
                                                 </p>
                                             </div>
                                             <input
@@ -199,7 +252,7 @@ function Navbar() {
                                                     </span>
                                                 </p>
                                                 <p className="text-xs text-gray-500 dark:text-gray-400">
-                                                  PEM 
+                                                    PEM
                                                 </p>
                                             </div>
                                             <input
@@ -231,7 +284,7 @@ function Navbar() {
                     </ModalContent>
                 </form>
             </Modal>
-        </nav>
+        </>
     );
 }
 
@@ -396,7 +449,7 @@ function ChooseSubject({ data, semester }: { data: number; semester:string}) {
     return (
         <div className="w-full">
             <select
-                name="semester"
+                name="subject"
                 disabled={isButtonDisabled()}
                 defaultValue={'Subject'}
                 className={`${InputClass.input} disabled:bg-stone-300 disabled:border-2 disabled:border-stone-500`}

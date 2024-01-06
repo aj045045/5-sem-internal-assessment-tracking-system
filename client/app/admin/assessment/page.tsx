@@ -416,7 +416,7 @@ function AssessmentDetails({semester,data}:AddAssessmentType) {
                 <div className="mt-10 flex-col grid md:grid-cols-2 ">
                     {assessment.map((data, index) => (
                         <>
-                                <Link href={`assessment/${data.subject_name.replace(/\s+/g,'%20')}-${data.assessment_info._id}`} key={index} className="bg-white flex flex-col mb-10 py-5 space-y-3 mx-auto items-center px-5 rounded-md border-l-4 border-l-teal-500 shadow-md shadow-stone-300 border-t-2 border-stone-200 h-40 w-96">
+                                <Link href={`assessment/${data.subject_name.replace(/\s+/g,'%20')}-${data.assessment_info._id}`} key={index} className="bg-white flex flex-col mb-10 py-5 space-y-3 mx-auto items-center px-5 rounded-md border-l-4 border-l-teal-500 shadow-md shadow-stone-300 border-t-2 border-stone-200 h-40 w-fit">
                                 <div className="text-xl tracking-wider capitalize">{data.assessment_info?.title}</div>
                                 <div className="capitalize text-stone-600">{data.subject_name} - <span className="font-mono font-semibold">{data.code}</span></div>
                                 <div className="capitalize py-0.5 px-2.5 rounded-full bg-teal-200 border-2 border-teal-400">{data.data_type?.assessment_type}</div>

@@ -11,7 +11,6 @@ import {
     FaUserTie,
     FaUserGraduate,
     FaPaperclip,
-    FaFilePdf,
     FaUsers,
 } from "react-icons/fa";
 import Image from "next/image";
@@ -40,6 +39,7 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
                 console.error("Error fetching faculty data:", error);
             });
     };
+  
   const pathName = usePathname();
     useEffect(() => {
         fetch('/api/user/check-login')
@@ -122,7 +122,7 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
                                 }}
                                 className="self-center text-sm capitalize md:text-lg"
                             >
-                                Assessment
+                                Assignment
                             </div>
                         </div>
                         <div className="flex flex-row justify-center h-8 mt-4 space-x-4 rounded-md hover:bg-orange-300">
@@ -199,36 +199,6 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
                                 Papers
                             </div>
                         </div>{" "}
-                        <div className="flex flex-row justify-center h-8 mt-4 space-x-4 rounded-md hover:bg-orange-300">
-                            <span className="self-center text-lg md:text-xl">
-                                <FaFilePdf />
-                            </span>
-                            <div
-                                onClick={() => {
-                                    pathName === "/admin/assignment"
-                                        ? ""
-                                        : router.push("/admin/assignment");
-                                }}
-                                className="self-center text-sm capitalize md:text-lg"
-                            >
-                                Assignment
-                            </div>
-                        </div>
-                        <div className="flex flex-row justify-center h-8 mt-4 space-x-4 rounded-md hover:bg-orange-300">
-                            <span className="self-center text-lg md:text-xl">
-                                <CgDatabase />
-                            </span>
-                            <div
-                                onClick={() => {
-                                    pathName === "/admin/decrypt-paper"
-                                        ? ""
-                                        : router.push("/admin/decrypt-paper");
-                                }}
-                                className="self-center text-sm capitalize md:text-lg"
-                            >
-                                Decrypt Papers
-                            </div>
-                        </div>
                     </div>
                     <div
                         className={`${ButtonClass} select-none`}

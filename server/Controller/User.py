@@ -13,7 +13,7 @@ class User():
         self.__last_logged_in = ""  # Date
         self.user_type = ""
         self.__profile = ""
-    
+
     @property
     def _profile(self):
         return self.__profile
@@ -67,7 +67,7 @@ class User():
         self.user_type = value
 
     def get_logged_in(self):
-        value = session.get('user_sign_in',None)
+        value = session.get('user_sign_in', None)
         return value
 
     def set_logged_in(self, value):
@@ -103,8 +103,8 @@ class User():
             "user_type": user_type_result
         }
         return Database.collection('user').insert_one(data)
-    
-    def sign_up_student(self,user_name,user_type):
+
+    def sign_up_student(self, user_name, user_type):
         time = datetime.now()
         last_logged = time.strftime("%d-%m-%Y")
         self._user_name = user_name
@@ -120,7 +120,7 @@ class User():
             "user_type": user_type_result
         }
         return Database.collection('user').insert_one(data)
-    
+
     def logout(self):
         self.set_logged_in(False)
         if self.get_logged_in is False:
@@ -143,20 +143,27 @@ class User():
             "password": self.encryptPassword()
         }
         response = list(Database.collection('user').view_one(data))
-        if len(response) >=1:
+        if len(response) >= 1:
             if response[0]['email_id'] == self._email_id:
                 self.set_logged_in(True)
-                return response[0]  
+                # First Swap
+                swap_response = list(Database.collection('user').update_one({"_id": response[0]['_id']}, {"$set": {"last_visit": response[0]["last_logged"]}}))
+                # Update date in last visited
+                if swap_response is not False:
+                    time = datetime.now()
+                    last_logged = time.strftime("%d-%m-%Y %H:%M:%S")
+                    data = list(Database.collection('user').update_one({"_id": response[0]['_id']}, {"$set": {"last_logged": last_logged}}))
+                return response[0]
         else:
             return False
 
     def faculty_dropdown(self):
-         pipeline = [
-        {'$match': {'user_type': 'faculty'}},
-        {'$project': {'_id': 1, 'user_name': 1,}}
-    ]
-         return list(Database.collection('user').aggregate(pipeline))
-     
+        pipeline = [
+            {'$match': {'user_type': 'faculty'}},
+            {'$project': {'_id': 1, 'user_name': 1, }}
+        ]
+        return list(Database.collection('user').aggregate(pipeline))
+
     def display_faculty_details(self):
         pipeline = [
             {

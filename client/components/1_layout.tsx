@@ -111,19 +111,19 @@ export function WelcomeTag() {
                     setResponse(<ErrorTag type="success" data={`You have logged in as  ${dataValue.redirect}`} />)
                     setTimeout(() => {
                         Router.push('/faculty');
-                    }, 5000);
+                    }, 3000);
                 }
                 else if (data === "student") {
                     setResponse(<ErrorTag type="success" data={`You have logged in as ${dataValue.redirect}`} />)
                     setTimeout(() => {
                         Router.push('/student');
-                    }, 5000);
+                    }, 3000);
                 }
                 else if (data === "admin") {
                     setResponse(<ErrorTag type="success" data={`You have logged in as ${dataValue.redirect}`} />)
                     setTimeout(() => {
                         Router.push('/admin');
-                    }, 5000);
+                    }, 3000);
                 }
                 else {
                     setResponse(<ErrorTag type="alert" data={dataValue.redirect} />)

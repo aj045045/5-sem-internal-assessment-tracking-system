@@ -1,8 +1,7 @@
-from flask import request, jsonify, redirect
+from flask import request, jsonify, redirect,session
 from . import user_bp
 import Controller
 from werkzeug.utils import secure_filename
-from flask import session
 import pickle
 import json
 from bson import ObjectId
@@ -51,7 +50,6 @@ def Login():
 @user_bp.route('/logout', methods=['GET'])
 def logOut():
     session.clear()
-    print(session)
     return jsonify({'redirect': 'home'})
 
 
@@ -67,7 +65,7 @@ def Check_login():
     serialized_object = session.get('user_object')
     if serialized_object:
         my_object = pickle.loads(serialized_object)
-        my_json = json.loads(json_data)
+        my_json = json.loads(json_data) 
         user_type = my_json['user_type']
         response = my_object.get_logged_in()
         if response is True:
@@ -216,6 +214,7 @@ def student_details(semester_id):
         document['user_info']['_id'] = str(document['user_info']['_id'])
         formatted_data.append(document)
     return jsonify(formatted_data)
+
 
 # {
 #   "profile": "icons/user.png",

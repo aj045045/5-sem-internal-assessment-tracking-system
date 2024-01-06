@@ -107,7 +107,7 @@ export function ErrorTag({ type, data }: { type: string; data: string }) {
                                 >
                                     {dataToggle.text}
                                 </div>
-                                <div className="text-center text-stone-500 tracking-wide text-sm md:text-md md:font-semibold">
+                                <div className="text-center text-stone-500 tracking-wide md:text-lg text-base md:font-semibold">
                                     {data}
                                 </div>
                             </ModalBody>

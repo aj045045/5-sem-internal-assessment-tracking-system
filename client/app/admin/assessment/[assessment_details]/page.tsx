@@ -1,8 +1,9 @@
 "use client";
 import { useParams } from "next/navigation";
-import { Checkbox,cn } from "@nextui-org/react";
-import React,{ useState,useEffect } from "react";
+import { Checkbox,Tooltip,cn } from "@nextui-org/react";
+import { useState,useEffect } from "react";
 import { ErrorTag } from "@/components/utilities";
+import { IoReloadCircleSharp } from "react-icons/io5";
 
 export default function StudentAssessment() {
     const path = useParams();
@@ -15,18 +16,18 @@ export default function StudentAssessment() {
         patternValue.lastIndexOf("-") + 1
     );
     interface AssessmentType {
-    "_id": string,
-    "last_changed": string,
-    "status": boolean,
-    "student_info": {
-      "roll_no": number
-    },
-    "user_info": {
-      "user_name": string
-    }
+        "_id": string,
+        "last_changed": string,
+        "status": boolean,
+        "student_info": {
+            "roll_no": number
+        },
+        "user_info": {
+            "user_name": string
+        }
     };
     const [assessmentData, setAssessmentData] = useState<AssessmentType[]>([]);
-     useEffect(() => {
+    useEffect(() => {
         fetch(`/api/assessment/get-assessment-record/${assessmentNumber}`)
             .then((response) => {
                 if (!response.ok) {
@@ -40,18 +41,23 @@ export default function StudentAssessment() {
             .catch((error) => {
                 console.error("Error fetching faculty data:", error);
             });
-     }, [assessmentNumber]);
+    }, [assessmentNumber]);
     return (
         <>
-            <div className="w-full mx-auto text-sm text-center md:w-10/12 ">
+            <div className="w-full mb-10 mx-auto text-sm text-center md:w-10/12 ">
                 <div className="pt-20 mb-10 md:text-xl lg:text-2xl text-lg  tracking-wide [word-spacing:1rem]">
                     {decodeURIComponent(assessmentName)}
                 </div>
                 <TableHeader />
-                <div className="flex flex-col space-y-8 mt-12 pb-12">
-                    {assessmentData.map((value,index) => ( 
+                <div className="flex flex-col mt-12 space-y-8">
+                    {assessmentData.map((value, index) => (
                         <CheckBox key={index} name={value.user_info.user_name} roll_no={value.student_info.roll_no} status={value.status} assessment_record_id={value._id} date={value.last_changed} />
                     ))}
+                    <Tooltip showArrow={true} content="Click to reload">
+                        <div className="z-10 text-3xl fixed self-end p-3" onClick={() => window.location.reload()}>
+                            <span><IoReloadCircleSharp /></span>
+                        </div>
+                    </Tooltip>
                 </div>
             </div>
         </>
@@ -60,7 +66,7 @@ export default function StudentAssessment() {
 
 function TableHeader() {
     return (
-        <div className="flex flex-row items-center mb-4 text-sm tracking-wide text-gray-700 shadow-md shadow-stone-300 uppercase border-b-2 bg-stone-300 border-b-stone-400 rounded-xl ">
+        <div className="flex flex-row items-center mb-4 text-sm tracking-wide text-gray-700 uppercase border-b-2 shadow-md shadow-stone-300 bg-stone-300 border-b-stone-400 rounded-xl ">
             <div className="py-3 pl-10 sm:pl-16 md:pl-26 lg:pl-32">Choose</div>
             <div className="py-3 pl-10 sm:pl-16 md:pl-26 lg:pl-32">Roll No</div>
             <div className="py-3 pl-10 sm:pl-16 md:pl-26 lg:pl-32">Name</div>
@@ -130,14 +136,14 @@ function CheckBox({ name, assessment_record_id, roll_no, date, status }: { name:
                 onChange={handleChangeStatus}
             >
                 <div className="flex flex-row w-full gap-2">
-                    <div className="flex flex-row w-full items-center">
-                        <div className="py-3 ml-12 lg:text-lg md:text-base text-sm font-semibold sm:ml-20 lg:ml-36">
+                    <div className="flex flex-row items-center w-full">
+                        <div className="py-3 ml-12 text-sm font-semibold lg:text-lg md:text-base sm:ml-20 lg:ml-36">
                             {roll_no}
                         </div>
-                        <div className="py-3 ml-12 capitalize text-center text-sm sm:text-sm  md:text-base lg:text-lg w-20 sm:ml-20 lg:ml-36 sm:w-24 md:w-40">
+                        <div className="w-20 py-3 ml-12 text-sm text-center capitalize sm:text-sm md:text-base lg:text-lg sm:ml-20 lg:ml-36 sm:w-24 md:w-40">
                             {name}
                         </div>
-                        <div className="px-4 my-3 ml-12 text-teal-800 bg-teal-200 border-2 text-xs border-teal-400 rounded-full sm:ml-20 sm:text-sm lg:text-base">
+                        <div className="px-4 my-3 ml-12 text-xs text-teal-800 bg-teal-200 border-2 border-teal-400 rounded-full sm:ml-20 sm:text-sm lg:text-base">
                             {date}
                         </div>
                     </div>

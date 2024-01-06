@@ -1,84 +1,70 @@
+from bson import ObjectId
 from .Database import Database
+from Crypto.Cipher import PKCS1_OAEP, AES
+from Crypto.Random import get_random_bytes
+import os
+import shutil
+from datetime import datetime
 
 class Paper():
-    def __init__(self,paper_title=None):
-        super().__init__('paper')
-        self.__paper_title = paper_title
-        self.__question_document = ""
-        self.__question_allotment_date = ""
-        self.__result_document = ""
-        self.__result_allotment_date ="" 
-        self.__exam_type = ""
-        self.__subject_id = ""
+    @classmethod
+    def encrypt_paper(self,title, subject, paper, key):
+        # Generate a random AES key
+        session_key = get_random_bytes(16)
 
-    @property
-    def _paper_title(self):
-        return self.__paper_title
+        # Encrypt the file with AES
+        cipher_aes = AES.new(session_key, AES.MODE_EAX)
+        with open(paper, "rb") as f:
+            plaintext = f.read()
+        ciphertext, tag = cipher_aes.encrypt_and_digest(plaintext)
 
-    @_paper_title.setter
-    def _paper_title(self, value):
-        if value > 50:
-            value = value[:50]
-        self.__paper_title = value
+        # Encrypt the AES key with RSA
+        cipher_rsa = PKCS1_OAEP.new(key)
+        enc_session_key = cipher_rsa.encrypt(session_key)
 
-    @property
-    def _question_document(self):
-        return self.__question_document
+        # Save the encrypted file and encrypted AES key
+        encrypted_filename = paper + ".enc"
+        with open(encrypted_filename, "wb") as f:
+            [f.write(x) for x in (enc_session_key, cipher_aes.nonce, tag, ciphertext)]
 
-    @_question_document.setter
-    def _question_document(self, value):
-        if value > 100:
-            value = value[:100]
-        self.__question_document = value
+        # Rename the file before moving
+        temp_name = os.path.basename(paper)
+        date_today = datetime.now().strftime("%d-%m-%Y-%H:%M:%S")
+        new_encrypted_filename = os.path.join(os.path.dirname(paper), f'{temp_name}_{date_today}.enc')
+        os.rename(encrypted_filename, new_encrypted_filename)
 
-    @property
-    def _question_allotment_date(self):
-        return self.__question_allotment_date
+        # Move the file to the new location
+        destination_directory = '../client/public/papers/'
+        new_location = os.path.join(destination_directory, os.path.basename(new_encrypted_filename))
+        shutil.move(new_encrypted_filename, new_location)
 
-    @_question_allotment_date.setter
-    def _question_allotment_date(self, value):
-        self.__question_allotment_date = value
+        # Update the data with the new file path
+        data = {
+            "title": title,
+            "subject":ObjectId(subject),
+            "paper": f'papers/{os.path.basename(new_location)}'
+        }
+        return Database.collection('paper').insert_one(data)
 
-    @property
-    def _result_document(self):
-        return self.__result_document
-
-    @_result_document.setter
-    def _result_document(self, value):
-        if value > 100:
-            value = value[:100]
-        self.__result_document = value
-
-    @property
-    def _result_allotment_date(self):
-        return self.__result_allotment_date
-
-    @_result_allotment_date.setter
-    def _result_allotment_date(self, value):
-        self.__result_allotment_date = value
-
-    @property
-    def _exam_type(self):
-        return self.__exam_type
-
-    @_exam_type.setter
-    def _exam_type(self, value):
-        self.__exam_type = value
-
-    @property
-    def _subject_id(self):
-        return self.__subject_id
-
-    @_subject_id.setter
-    def _subject_id(self, value):
-        self.__subject_id = value
-
-
-    def add_paper():
-        return
-
-    def update_paper():
-        return
+    def decrypt_file(self,file_path, private_key):
+        output_directory = 'uploads/'
+        # Read the encrypted file and encrypted AES key
+        with open(file_path, "rb") as f:
+            enc_session_key, nonce, tag, ciphertext = [
+                f.read(x) for x in (private_key.size_in_bytes(), 16, 16, -1)]
+        # Decrypt the AES key with RSA
+        cipher_rsa = PKCS1_OAEP.new(private_key)
+        session_key = cipher_rsa.decrypt(enc_session_key)
+        # Decrypt the file with AES
+        cipher_aes = AES.new(session_key, AES.MODE_EAX, nonce=nonce)
+        decrypted_data = cipher_aes.decrypt_and_verify(ciphertext, tag)
+        
+    # Construct the output file path in the specified output directory
+        output_file_name = os.path.basename(file_path)[:-29] + "-decrypt.docx"
+        output_file_path = os.path.join(output_directory, output_file_name)
+        with open(output_file_path, "wb") as f:
+            f.write(decrypted_data)
+        return output_file_path
 
     def delete_paper():
         return

@@ -1,8 +1,8 @@
 from . import course_bp
-from flask import request, redirect, jsonify
+from flask import request, redirect, jsonify,session
 import Controller
 from bson import ObjectId
-
+import json
 # //REVIEW - Add course to system
 
 
@@ -42,8 +42,6 @@ def semester_details(course_data_id):
     return Controller.convert_id(data)
 
 # REVIEW - Add semester using course id
-
-
 @course_bp.route('/add-semester/<course_id>', methods=['POST'])
 def add_semester(course_id):
     faculty = request.form.get('faculty_dropdown')
@@ -64,16 +62,12 @@ def add_semester(course_id):
     return redirect(path)
 
 # REVIEW - Update semester of a semester_id
-
-
 @course_bp.route('/update-semester/<semester_id>', methods=['POST'])
 def update_semester(semester_id):
     faculty_id = request.form.get('faculty_dropdown')
     subject_plan = request.files.get('syllabus')
     semester = Controller.Semester()
     path = request.form.get('path')
-    print(
-        f'Path {path} and semester {semester_id} and subject {subject_plan.filename}')
     if subject_plan is not None and subject_plan.filename != '':
         fileName = f"{ObjectId()}_subject_plan.pdf"
         subject_plan.save('../client/public/subject_plan/' + fileName)
@@ -118,6 +112,50 @@ def display_subject(semester_id):
     response = subject.display_subject(semester_id)
     return Controller.convert_id(response)
 
+@course_bp.route('/get-faculty-subject',methods=['GET'])
+def get_faculty_subject():
+    json_data = session.get('user_data')
+    my_json = json.loads(json_data) 
+    user_id = my_json['_id']
+    pipeline = [
+    {
+        '$match': {
+            'faculty_id': ObjectId(user_id)
+        }
+    },
+    {
+        '$lookup': {
+            'from': 'semester',
+            'localField': 'semester_id',
+            'foreignField': '_id',
+            'as': 'semesterDetail'
+        }
+    },
+    { "$unwind": "$semesterDetail" },
+    {
+        '$lookup': {
+            'from': 'course',
+            'localField': 'semesterDetail.course_id',
+            'foreignField': '_id',
+            'as': 'courseDetail'
+        }
+    },
+    {
+        '$project': {
+            '_id': 0,
+            "subject_name": 1,
+            "type": 1,
+            "code": 1,
+            "credit": 1,
+            "subject_plan": 1,
+            "semesterDetail.semester_number": 1,
+            "courseDetail.course_name": 1,
+            "courseDetail.code": 1,
+        }
+    }
+    ]
+    data = list(Controller.Database.collection('subject').aggregate(pipeline))
+    return jsonify(data)
 
 @course_bp.route('/update-subject/<subject_id>', methods=['POST'])
 def update_subject(subject_id):

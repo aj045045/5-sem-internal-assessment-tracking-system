@@ -1,6 +1,6 @@
 "use client";
-import { useState,useEffect } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import {useEffect } from "react";
+import { useRouter} from "next/navigation";
 export default function SideNav({ children }: { children: React.ReactNode }) {
   const router = useRouter();
     useEffect(() => {

@@ -8,7 +8,6 @@ import zipfile
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP, AES
 from Crypto.Random import get_random_bytes
-from docx import Document
 import os
 
 app = Flask(__name__)
@@ -94,15 +93,15 @@ def decrypt_file(file_path, private_key):
 
 @app.route("/encrypt", methods=["GET"])
 def encrypt_endpoint():
-    with open("public_key.pem", "rb") as f:
+    with open("uploads/public_key.pem", "rb") as f:
         public_key = RSA.import_key(f.read())
-    file_path = os.path.join(os.getcwd(), 'uploads/JAVA-NOES.docx')
+    file_path = os.path.join(os.getcwd(), 'JAVA-NOES.docx')
     encrypt_file(file_path, public_key)
     return jsonify({"message": "File encrypted successfully"})
 
 @app.route("/decrypt", methods=["GET"])
 def decrypt_endpoint():
-    with open("private_key.pem", "rb") as f:
+    with open("uploads/private_key.pem", "rb") as f:
         private_key = RSA.import_key(f.read())
     file_path = os.path.join(os.getcwd(), 'uploads/JAVA-NOES.docx.enc')
     decrypt_file(file_path, private_key)
@@ -124,5 +123,6 @@ def decrypt_endpoint():
 #     print("Pinged your deployment. You successfully connected to MongoDB!")
 # except Exception as e:
 #     print(e)
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True,port=5002)
