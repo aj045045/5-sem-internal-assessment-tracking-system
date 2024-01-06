@@ -1,0 +1,9 @@
+_id,subject_name,type,code,credit,subject_plan,semester_id,faculty_id
+6575f13b2a9cb035fe3ac710,Operating System,theory,MCSCC311,4,,6575ef842a9cb035fe3ac6f4,6575eb7e2a9cb035fe3ac6bb
+6575f15f2a9cb035fe3ac716,Java Programming,theory,MCSCC312,4,,6575ef842a9cb035fe3ac6f4,6575eda62a9cb035fe3ac6cf
+6575f18b2a9cb035fe3ac71c,Advance Networking,theory,MCSCC313,4,,6575ef842a9cb035fe3ac6f4,6534a5065369c61563d43ab5
+6575f1ab2a9cb035fe3ac722,Java Programming - Practical,practical,MCSCC314,2,,6575ef842a9cb035fe3ac6f4,6575eda62a9cb035fe3ac6cf
+6575f1d72a9cb035fe3ac728,Advance Networking - Practical,practical,MCSCC315,2,,6575ef842a9cb035fe3ac6f4,6534a5065369c61563d43ab5
+6582ac101ab9f230ec792dd0,Project - 3,practical,MCSSE311,4,,6575ef842a9cb035fe3ac6f4,6533d96be98aa3e7f3907181
+6582ac331ab9f230ec792dd3,Critical Thinking,theory,MCSAE311,2,,6575ef842a9cb035fe3ac6f4,6534a5065369c61563d43ab5
+6582ac4fa7b22e7298fff651,Cyber Secruity,theory,MCSGE311,2,,6575ef842a9cb035fe3ac6f4,6533d96be98aa3e7f3907181

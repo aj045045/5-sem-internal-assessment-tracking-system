@@ -1,0 +1,27 @@
+_id,profile,user_name,password,email_id,last_logged,user_type,last_visit
+6533d96be98aa3e7f3907181,faculty/Prof._Jyoti_Pareek.webp,Dr. Jyoti Pareek,3dbd9cd5e1fb3e4f78542d53040b60990a9b4acfd6ab0b01133c5b8eeec45031,jyoti_pareek@gmail.com,21-10-2023,faculty,00-00-0000
+6533db02e98aa3e7f3907188,faculty/Prof._Hiren_Joshi.webp,Dr. Hiren Joshi,3dbd9cd5e1fb3e4f78542d53040b60990a9b4acfd6ab0b01133c5b8eeec45031,hiren_joshi@gmail.com,21-10-2023,faculty,00-00-0000
+6533db60e98aa3e7f390718d,faculty/Kamaljit_Lakhtaria.webp,Dr. Kamaljit Lakhtaria,3dbd9cd5e1fb3e4f78542d53040b60990a9b4acfd6ab0b01133c5b8eeec45031,kamaljit_lakhtaria@gmail.com,21-10-2023,faculty,00-00-0000
+6534a5065369c61563d43ab5,faculty/Dr._Hardik_Joshi.webp,Dr. Hardik Joshi,3dbd9cd5e1fb3e4f78542d53040b60990a9b4acfd6ab0b01133c5b8eeec45031,hardik_joshi@gmail.com,06-01-2024 11:10:55,faculty,06-01-2024 10:56:23
+65742127e993f671d144a905,icons/user.png,Ansh Yadav,f470213d9ae659187a19b9cb2169b4b400544f4d3f59250eda657154700da616,admin-user@gmail.com,06-01-2024 11:20:19,admin,06-01-2024 10:57:30
+6575eb7e2a9cb035fe3ac6bb,faculty/Mr._Jaykumar_Patel.webp,Mr. Jaykumar Patel,8b819b79a0bfd7e04fc930fb55dbc13a2366ce7357af1e85f85a3ecf68c04b3f,jaypatel@gmail.com,10-12-2023,faculty,00-00-0000
+6575ec612a9cb035fe3ac6c0,faculty/Dr._Siddhant_Trivedi.jpg,Dr. Siddhant Trivedi,16ae4488e077c1486c29e0f2d18d6b2633ec1bea481f91ce55cb557d76ae3e90,siddhant_trivedi@gmail.com,10-12-2023,faculty,00-00-0000
+6575ece72a9cb035fe3ac6c5,faculty/Dr._Maitri_Jhaveri.jpg,Dr. Maitri Jhaveri,2f3c2e1c6562aad5ceadff75aa6cb335c3b0b0d3b620fd9a7d3e217b25cb92b5,maitri_jhaveri@gmail.com,10-12-2023,faculty,00-00-0000
+6575ed382a9cb035fe3ac6ca,faculty/Dr._Suchit_Purohit.webp,Dr. Suchit Purohit,e4d8486591936fa2cb0a99f31fb22c4d2c27c7e7220791f808471dc777be7873,suchit_purohit@gmail.com,10-12-2023,faculty,00-00-0000
+6575eda62a9cb035fe3ac6cf,faculty/Dr._Bhumika_Shah.webp,Dr. Bhumika Shah,c465563547d69b442950069df2d985fbd1665971ed134bb477b4e3c0fa05c72f,bhumika_shah@gmail.com,10-12-2023,faculty,00-00-0000
+6575ede92a9cb035fe3ac6d4,faculty/Dr._Jigna_Satani.webp,Dr. Jigna Satani,1ea7be38f1fd390040c456f24e73480f138fc59126c43c8c6b39f1b5ab5fc8a5,jigna_satani@gmail.com,10-12-2023,faculty,00-00-0000
+6575f25e2a9cb035fe3ac72d,,Agja Ekta narendrakumar,04214ebabb8573a5ebe4ed78e5bd315b384337bedc9afdd50d0405523e8ced6b,ekta_agja@gmail.com,06-01-2024 11:09:43,student,06-01-2024 10:55:30
+6575f28d2a9cb035fe3ac734,,Arya Samrendra ganotra,7467772e9031999562b377dfd72f6461ddae5914d48b3cd67a7d629ab75402ac,arya_ganotra@gmail.com,10-12-2023,student,00-00-0000
+6575f2ba2a9cb035fe3ac73a,,Chauhan Janvi harshad,f0a8ee0c656439b2dd32132b01584e99a8de838cafb6addf3f6b995966b0875e,janvi_chauhan@gmail.com,10-12-2023,student,00-00-0000
+6575f2e22a9cb035fe3ac740,,chavda nidhi harshad,ebf56b1bfc0f5e240cdcf2cb31624cab6eddbcde1a9be21bd7b4d2bc0500f281,nidhi_chavda@gmail.com,10-12-2023,student,00-00-0000
+6575f30b2a9cb035fe3ac746,,dave vedant jaymin,33e8ecea4248b59f82891d6d12164b1aba9491529666fa43e6c3beb0cbc5e5c2,vedant_dave@gmail.com,10-12-2023,student,00-00-0000
+65771032bee8873af811e357,,Harsh Dedakiya,264c8c381bf16c982a4e59b0dd4c6f7808c51a05f64c35db42cc78a2a72875bb,harsh@gmail.com,11-12-2023,student,00-00-0000
+65771032bee8873af811e35b,,Tej Doshi,264c8c381bf16c982a4e59b0dd4c6f7808c51a05f64c35db42cc78a2a72875bb,tej@gmail.com,11-12-2023,student,00-00-0000
+65771032bee8873af811e35f,,Krupanshi Gandhi,264c8c381bf16c982a4e59b0dd4c6f7808c51a05f64c35db42cc78a2a72875bb,krupanshi@gmail.com,11-12-2023,student,00-00-0000
+65771032bee8873af811e363,,Aryan Hirpara,264c8c381bf16c982a4e59b0dd4c6f7808c51a05f64c35db42cc78a2a72875bb,aryan@gmail.com,11-12-2023,student,00-00-0000
+65771032bee8873af811e367,,Kashish Jobaliya,264c8c381bf16c982a4e59b0dd4c6f7808c51a05f64c35db42cc78a2a72875bb,kashish@gmail.com,11-12-2023,student,00-00-0000
+65771032bee8873af811e36b,,Trupal Lathiya,264c8c381bf16c982a4e59b0dd4c6f7808c51a05f64c35db42cc78a2a72875bb,trupal@gmail.com,11-12-2023,student,00-00-0000
+65771032bee8873af811e36f,,Devansh Makwana,264c8c381bf16c982a4e59b0dd4c6f7808c51a05f64c35db42cc78a2a72875bb,devansh@gmail.com,11-12-2023,student,00-00-0000
+65771032bee8873af811e373,,Twinkle Manke,264c8c381bf16c982a4e59b0dd4c6f7808c51a05f64c35db42cc78a2a72875bb,twinkle@gmail.com,11-12-2023,student,00-00-0000
+65771032bee8873af811e377,,Tirth Mehta,264c8c381bf16c982a4e59b0dd4c6f7808c51a05f64c35db42cc78a2a72875bb,tirth@gmail.com,11-12-2023,student,00-00-0000
+65771032bee8873af811e37b,,Hem Shah,264c8c381bf16c982a4e59b0dd4c6f7808c51a05f64c35db42cc78a2a72875bb,hem@gmail.com,11-12-2023,student,00-00-0000
