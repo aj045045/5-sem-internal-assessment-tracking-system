@@ -31,6 +31,8 @@ npm install react-icons --save
     Typescript
 
 ```
+**ENV &nbsp; VARIABLE (.env)**
+```FLASK_API_PATH=http://127.0.0.1:5000/assessment-system/:path*```
 
 **SERVER**:
 
@@ -54,4 +56,3 @@ npm install react-icons --save
 ## AUTHOR :
 
 -   ANSH YADAV
--   JANVI CHAUHAN
