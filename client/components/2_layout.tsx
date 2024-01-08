@@ -49,10 +49,10 @@ export function DataFacultyContainer() {
                 <DataFaculty
                     image={value.profile}
                     name={value.user_name}
-                    designation={value.faculty_data[0].designation}
-                    specialization={value.faculty_data[0].specialization}
+                    designation={value.faculty_data[0]?.designation}
+                    specialization={value.faculty_data[0]?.specialization}
                     key={index}
-                />
+                    />
             ))}
         </div>
     );

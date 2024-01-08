@@ -1,12 +1,11 @@
 from pymongo import MongoClient
-from urllib.parse import quote_plus
 class Database:
     def __init__(self):
-        url = MongoClient('mongodb://localhost:27017/')
-        self.client = url['assessment_system']
+        # url = MongoClient('mongodb://localhost:27017/')
+        # self.client = url['assessment_system']
         #REVIEW - Cloud database connection
-        # url = MongoClient("mongodb+srv://aj045045:aj045045clusterdepartment@department.ywm3ege.mongodb.net/?retryWrites=true&w=majority")
-        # self.client = url['assessment-system']
+        url = MongoClient("mongodb+srv://aj045045:aj045045clusterdepartment@department.ywm3ege.mongodb.net/?retryWrites=true&w=majority")
+        self.client = url['assessment-system']
         self.collection = None
         
     @classmethod
