@@ -7,6 +7,7 @@ Internal assessment tracking system for Department of Computer Science to Track 
 ### For **Server** ( .venv virtual environment):
 
 ```
+pip install flask pycryptodome python-docx
 pip install flask
 pip install Flask-PyMongo
 pip install cryptography
@@ -39,7 +40,6 @@ npm install react-icons --save
 ```
     Flask
     Flask-PyMongo
-    pip install flask pycryptodome python-docx
 ```
 
 ## COLORS THEME
